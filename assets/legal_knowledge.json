@@ -1,0 +1,67 @@
+{
+  "categories": [
+    {
+      "id": "labor",
+      "name": "Labor Rights",
+      "icon": "work",
+      "topics": [
+        {
+          "id": "min_wage",
+          "title": "Minimum Wage",
+          "content": "Minimum wage in India varies by state. Every state sets its own minimum wage rates.",
+          "keyPoints": [
+            "Minimum wage differs across states",
+            "Covers skilled and unskilled workers",
+            "Non-payment is punishable",
+            "Contact state labor department for rates"
+          ]
+        },
+        {
+          "id": "overtime",
+          "title": "Overtime Pay",
+          "content": "Workers are entitled to overtime pay at double the normal rate for work beyond standard hours.",
+          "keyPoints": [
+            "Standard: 8 hours/day, 48 hours/week",
+            "Overtime: 2x normal wage",
+            "Cannot be forced without consent",
+            "Must be paid within 7 days"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "property",
+      "name": "Property Rights",
+      "icon": "home",
+      "topics": [
+        {
+          "id": "rent",
+          "title": "Rent Agreements",
+          "content": "A rent agreement is a legal contract between landlord and tenant.",
+          "keyPoints": [
+            "Must include property details",
+            "Registration needed if >11 months",
+            "Security deposit terms",
+            "Maintenance responsibilities"
+          ]
+        }
+      ]
+    }
+  ],
+  "emergencyContacts": [
+    {"name": "Police", "number": "100"},
+    {"name": "Women Helpline", "number": "1091"},
+    {"name": "Child Helpline", "number": "1098"},
+    {"name": "Legal Services", "number": "1800-11-4001"}
+  ],
+  "faqs": [
+    {
+      "question": "How to file an FIR?",
+      "answer": "You can file an FIR at any police station regardless of jurisdiction. Police cannot refuse to register an FIR."
+    },
+    {
+      "question": "What is the minimum wage?",
+      "answer": "Minimum wage varies by state. Contact your state labor department for current rates."
+    }
+  ]
+}
