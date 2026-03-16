@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 
-const Color primaryColor = Color(0xFF1F77D3);
-const Color primaryDarkColor = Color(0xFF1560B0);
-const Color accentColor = Color(0xFFFF6B6B);
-const Color successColor = Color(0xFF2ECC71);
-const Color warningColor = Color(0xFFFFA500);
-const Color dangerColor = Color(0xFFE74C3C);
-const Color infoColor = Color(0xFF3498DB);
+// Primary Colors - Blue theme (Jobee style)
+const Color primaryColor = Color(0xFF3B82F6);
+const Color primaryDarkColor = Color(0xFF2563EB);
+const Color accentColor = Color(0xFF60A5FA);
+const Color successColor = Color(0xFF10B981);
+const Color warningColor = Color(0xFFF59E0B);
+const Color dangerColor = Color(0xFFEF4444);
+const Color infoColor = Color(0xFF3B82F6);
 
-const Color backgroundColor = Color(0xFFF5F6FA);
+// Background & Surface
+const Color backgroundColor = Color(0xFFFAFAFA);
 const Color surfaceColor = Color(0xFFFFFFFF);
-const Color textPrimaryColor = Color(0xFF2C3E50);
-const Color textSecondaryColor = Color(0xFF7F8C8D);
-const Color dividerColor = Color(0xFFECF0F1);
-const Color borderColor = Color(0xFFBDC3C7);
+const Color textPrimaryColor = Color(0xFF111827);
+const Color textSecondaryColor = Color(0xFF6B7280);
+const Color dividerColor = Color(0xFFE5E7EB);
+const Color borderColor = Color(0xFFD1D5DB);
 
 const Color emergencySosColor = Color(0xFFE74C3C);
 const Color successGreenColor = Color(0xFF27AE60);

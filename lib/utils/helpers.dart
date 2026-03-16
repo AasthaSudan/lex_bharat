@@ -1,57 +1,64 @@
-import 'package:intl/intl.dart';
+import 'dart:math';
 
 class Helpers {
   // Format date
   static String formatDate(DateTime date) {
     final now = DateTime.now();
-    final difference = now.difference(date);
+    final diff = now.difference(date);
 
-    if (difference.inDays == 0) {
+    if (diff.inDays == 0) {
       return 'Today';
-    } else if (difference.inDays == 1) {
+    } else if (diff.inDays == 1) {
       return 'Yesterday';
-    } else if (difference.inDays < 7) {
-      return DateFormat('EEEE').format(date);
+    } else if (diff.inDays < 7) {
+      return '${diff.inDays} days ago';
     } else {
-      return DateFormat('MMM dd, yyyy').format(date);
+      return '${date.day}/${date.month}/${date.year}';
     }
   }
 
   // Format time
   static String formatTime(DateTime time) {
-    return DateFormat('HH:mm').format(time);
-  }
-
-  // Format timestamp
-  static String formatTimestamp(DateTime timestamp) {
-    return '${formatDate(timestamp)} at ${formatTime(timestamp)}';
-  }
-
-  // Validate phone number
-  static bool isValidPhone(String phone) {
-    return RegExp(r'^[0-9]{10}$').hasMatch(phone);
-  }
-
-  // Validate email
-  static bool isValidEmail(String email) {
-    return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
-  }
-
-  // Get greeting based on time
-  static String getGreeting() {
-    final hour = DateTime.now().hour;
-    if (hour < 12) {
-      return 'Good Morning';
-    } else if (hour < 17) {
-      return 'Good Afternoon';
-    } else {
-      return 'Good Evening';
-    }
+    final hour = time.hour;
+    final minute = time.minute.toString().padLeft(2, '0');
+    final period = hour >= 12 ? 'PM' : 'AM';
+    final displayHour = hour > 12 ? hour - 12 : (hour == 0 ? 12 : hour);
+    return '$displayHour:$minute $period';
   }
 
   // Truncate text
   static String truncate(String text, int maxLength) {
     if (text.length <= maxLength) return text;
     return '${text.substring(0, maxLength)}...';
+  }
+
+  // Format file size
+  static String formatBytes(int bytes) {
+    if (bytes < 1024) return '$bytes B';
+    if (bytes < 1024 * 1024) {
+      return '${(bytes / 1024).toStringAsFixed(1)} KB';
+    }
+    return '${(bytes / (1024 * 1024)).toStringAsFixed(1)} MB';
+  }
+
+  // Generate random ID
+  static String generateId() {
+    final random = Random();
+    return DateTime.now().millisecondsSinceEpoch.toString() +
+        random.nextInt(9999).toString();
+  }
+
+  // Capitalize first letter
+  static String capitalize(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1);
+  }
+
+  // Get greeting
+  static String getGreeting() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) return 'Good Morning';
+    if (hour < 17) return 'Good Afternoon';
+    return 'Good Evening';
   }
 }
