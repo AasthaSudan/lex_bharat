@@ -3,8 +3,8 @@ class ComplaintReport {
   final String userId;
   final String title;
   final String description;
-  final String violationType; // harassment, labor_violation, property_dispute, etc.
-  final String status; // draft, submitted, under_review, resolved
+  final String violationType;
+  final String status;
   final List<String> evidenceUrls;
   final List<String> witnesses;
   final DateTime incidentDate;
@@ -13,7 +13,7 @@ class ComplaintReport {
   final String? assignedOfficer;
   final String? caseNumber;
   final bool isAnonymous;
-  final double severity; // 1-5 scale
+  final double severity;
 
   ComplaintReport({
     required this.id,
