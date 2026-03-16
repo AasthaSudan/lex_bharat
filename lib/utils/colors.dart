@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Primary Colors - Blue theme like Jobee
-  static const Color primary = Color(0xFF3B82F6); // Bright Blue
+  static const Color primary = Color(0xFF3B82F6);
   static const Color primaryDark = Color(0xFF2563EB);
   static const Color primaryLight = Color(0xFF60A5FA);
   static const Color primaryLighter = Color(0xFFDCEDFF);
 
-  // Accent Colors
   static const Color accent = Color(0xFF3B82F6);
   static const Color accentLight = Color(0xFF93C5FD);
 
-  // Background - Clean white
   static const Color background = Color(0xFFFAFAFA);
   static const Color surface = Colors.white;
   static const Color surfaceLight = Color(0xFFF8F9FA);
 
-  // Status Colors
   static const Color success = Color(0xFF10B981);
   static const Color successLight = Color(0xFFD1FAE5);
   static const Color warning = Color(0xFFF59E0B);
@@ -26,13 +22,11 @@ class AppColors {
   static const Color info = Color(0xFF3B82F6);
   static const Color infoLight = Color(0xFFDCEDFF);
 
-  // Text Colors
   static const Color textPrimary = Color(0xFF111827);
   static const Color textSecondary = Color(0xFF6B7280);
   static const Color textHint = Color(0xFF9CA3AF);
   static const Color textDisabled = Color(0xFFD1D5DB);
 
-  // Neutral Colors
   static const Color gray50 = Color(0xFFF9FAFB);
   static const Color gray100 = Color(0xFFF3F4F6);
   static const Color gray200 = Color(0xFFE5E7EB);
@@ -44,7 +38,6 @@ class AppColors {
   static const Color gray800 = Color(0xFF1F2937);
   static const Color gray900 = Color(0xFF111827);
 
-  // Gradients
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [Color(0xFF3B82F6), Color(0xFF2563EB)],
     begin: Alignment.topLeft,
