@@ -13,7 +13,6 @@ class LegalRightsApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
 
-        // Color Scheme
         primaryColor: AppColors.primary,
         scaffoldBackgroundColor: AppColors.background,
         colorScheme: ColorScheme.light(
@@ -29,7 +28,6 @@ class LegalRightsApp extends StatelessWidget {
           onError: Colors.white,
         ),
 
-        // Text Theme
         textTheme: GoogleFonts.interTextTheme().copyWith(
           displayLarge: GoogleFonts.inter(
             fontSize: 32,
@@ -83,7 +81,6 @@ class LegalRightsApp extends StatelessWidget {
           ),
         ),
 
-        // AppBar Theme
         appBarTheme: AppBarTheme(
           elevation: 0,
           centerTitle: false,
@@ -107,7 +104,6 @@ class LegalRightsApp extends StatelessWidget {
           ),
         ),
 
-        // Card Theme
         cardTheme: CardThemeData(
           elevation: 0,
           color: Colors.white,
@@ -123,7 +119,6 @@ class LegalRightsApp extends StatelessWidget {
           clipBehavior: Clip.antiAlias,
         ),
 
-        // Elevated Button Theme
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
@@ -142,7 +137,6 @@ class LegalRightsApp extends StatelessWidget {
           ),
         ),
 
-        // Outlined Button Theme
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.primary,
@@ -162,7 +156,6 @@ class LegalRightsApp extends StatelessWidget {
           ),
         ),
 
-        // Text Button Theme
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             foregroundColor: AppColors.primary,
@@ -174,7 +167,6 @@ class LegalRightsApp extends StatelessWidget {
           ),
         ),
 
-        // Input Decoration Theme
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: AppColors.gray50,
@@ -226,7 +218,6 @@ class LegalRightsApp extends StatelessWidget {
           ),
         ),
 
-        // Bottom Navigation Bar Theme
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
           selectedItemColor: AppColors.primary,
@@ -243,7 +234,6 @@ class LegalRightsApp extends StatelessWidget {
           elevation: 8,
         ),
 
-        // Chip Theme
         chipTheme: ChipThemeData(
           backgroundColor: AppColors.gray100,
           selectedColor: AppColors.primaryLighter,
@@ -257,19 +247,16 @@ class LegalRightsApp extends StatelessWidget {
           ),
         ),
 
-        // Divider Theme
         dividerTheme: DividerThemeData(
           color: AppColors.gray200,
           thickness: 1,
           space: 1,
         ),
 
-        // Progress Indicator Theme
         progressIndicatorTheme: ProgressIndicatorThemeData(
           color: AppColors.primary,
         ),
 
-        // Floating Action Button Theme
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: AppColors.primary,
           foregroundColor: Colors.white,
