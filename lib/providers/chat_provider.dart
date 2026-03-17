@@ -1,12 +1,12 @@
+// chat_provider.dart
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/message.dart';
 import '../services/ai_service.dart';
 
 final aiServiceProvider = Provider((ref) => AIService());
 
-final chatProvider = StateNotifierProvider<ChatNotifier, ChatState>(
-      (ref) => ChatNotifier(ref.read(aiServiceProvider)),
-);
+final chatProvider =
+NotifierProvider<ChatNotifier, ChatState>(ChatNotifier.new);
 
 class ChatState {
   final List<Message> messages;
@@ -32,10 +32,9 @@ class ChatState {
   }
 }
 
-class ChatNotifier extends StateNotifier<ChatState> {
-  final AIService _aiService;
-
-  ChatNotifier(this._aiService) : super(ChatState());
+class ChatNotifier extends Notifier<ChatState> {
+  @override
+  ChatState build() => ChatState();
 
   Future<void> sendMessage(String text) async {
     final userMsg = Message(
@@ -52,7 +51,8 @@ class ChatNotifier extends StateNotifier<ChatState> {
     );
 
     try {
-      final response = await _aiService.getLegalAdvice(text);
+      final response =
+      await ref.read(aiServiceProvider).getLegalAdvice(text);
 
       final aiMsg = Message(
         id: DateTime.now().toString(),

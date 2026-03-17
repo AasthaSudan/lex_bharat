@@ -1,9 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/document.dart';
 
-final documentsProvider = StateNotifierProvider<DocumentsNotifier, DocumentsState>(
-      (ref) => DocumentsNotifier(),
-);
+final documentsProvider =
+NotifierProvider<DocumentsNotifier, DocumentsState>(DocumentsNotifier.new);
 
 class DocumentsState {
   final List<LegalDocument> documents;
@@ -29,15 +28,16 @@ class DocumentsState {
   }
 }
 
-class DocumentsNotifier extends StateNotifier<DocumentsState> {
-  DocumentsNotifier() : super(DocumentsState()) {
+class DocumentsNotifier extends Notifier<DocumentsState> {
+  @override
+  DocumentsState build() {
     _loadDocuments();
+    return DocumentsState();
   }
 
   Future<void> _loadDocuments() async {
     state = state.copyWith(isLoading: true);
-    // Load from storage
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(const Duration(seconds: 1));
     state = state.copyWith(isLoading: false);
   }
 

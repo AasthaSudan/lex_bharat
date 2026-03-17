@@ -2,13 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/user.dart';
 
-final userProvider = StateNotifierProvider<UserNotifier, User?>(
-      (ref) => UserNotifier(),
-);
+final userProvider =
+NotifierProvider<UserNotifier, User?>(UserNotifier.new);
 
-class UserNotifier extends StateNotifier<User?> {
-  UserNotifier() : super(null) {
+class UserNotifier extends Notifier<User?> {
+  @override
+  User? build() {
     _loadUser();
+    return null;
   }
 
   Future<void> _loadUser() async {

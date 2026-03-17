@@ -1,14 +1,16 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// Language Provider
-final languageProvider = StateNotifierProvider<LanguageNotifier, String>(
-      (ref) => LanguageNotifier(),
-);
+// ── Language Provider ─────────────────────────────────────────────────────────
 
-class LanguageNotifier extends StateNotifier<String> {
-  LanguageNotifier() : super('en') {
+final languageProvider =
+NotifierProvider<LanguageNotifier, String>(LanguageNotifier.new);
+
+class LanguageNotifier extends Notifier<String> {
+  @override
+  String build() {
     _loadLanguage();
+    return 'en';
   }
 
   Future<void> _loadLanguage() async {
@@ -23,14 +25,16 @@ class LanguageNotifier extends StateNotifier<String> {
   }
 }
 
-// Theme Provider
-final themeProvider = StateNotifierProvider<ThemeNotifier, bool>(
-      (ref) => ThemeNotifier(),
-);
+// ── Theme Provider ────────────────────────────────────────────────────────────
 
-class ThemeNotifier extends StateNotifier<bool> {
-  ThemeNotifier() : super(false) {
+final themeProvider =
+NotifierProvider<ThemeNotifier, bool>(ThemeNotifier.new);
+
+class ThemeNotifier extends Notifier<bool> {
+  @override
+  bool build() {
     _loadTheme();
+    return false;
   }
 
   Future<void> _loadTheme() async {
@@ -45,7 +49,8 @@ class ThemeNotifier extends StateNotifier<bool> {
   }
 }
 
-// First Time User Provider
+// ── First Time Provider ───────────────────────────────────────────────────────
+
 final firstTimeProvider = FutureProvider<bool>((ref) async {
   final prefs = await SharedPreferences.getInstance();
   return prefs.getBool('first_time') ?? true;

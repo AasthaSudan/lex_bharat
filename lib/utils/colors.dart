@@ -38,6 +38,15 @@ class AppColors {
   static const Color gray800 = Color(0xFF1F2937);
   static const Color gray900 = Color(0xFF111827);
 
+  // ── Category colors (used by SampleData & feature cards) ──
+  static const Color categoryBlue   = Color(0xFF3B82F6);
+  static const Color categoryGreen  = Color(0xFF10B981);
+  static const Color categoryOrange = Color(0xFFF59E0B);
+  static const Color categoryPink   = Color(0xFFEC4899);
+  static const Color categoryPurple = Color(0xFF8B5CF6);
+  static const Color categoryRed    = Color(0xFFEF4444);
+  static const Color categoryTeal   = Color(0xFF14B8A6);
+
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [Color(0xFF3B82F6), Color(0xFF2563EB)],
     begin: Alignment.topLeft,
@@ -50,7 +59,6 @@ class AppColors {
     end: Alignment.bottomCenter,
   );
 
-  // Shadows
   static List<BoxShadow> softShadow = [
     BoxShadow(
       color: Color(0xFF3B82F6).withOpacity(0.08),

@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/form.dart';
+import '../models/legal_form.dart';
 
-final formsProvider = StateNotifierProvider<FormsNotifier, FormsState>(
-      (ref) => FormsNotifier(),
-);
+final formsProvider =
+NotifierProvider<FormsNotifier, FormsState>(FormsNotifier.new);
 
 class FormsState {
   final List<LegalForm> forms;
@@ -33,8 +33,9 @@ class FormsState {
   }
 }
 
-class FormsNotifier extends StateNotifier<FormsState> {
-  FormsNotifier() : super(FormsState());
+class FormsNotifier extends Notifier<FormsState> {
+  @override
+  FormsState build() => FormsState();
 
   void saveDraft(String formId, Map<String, dynamic> data) {
     final newDrafts = Map<String, Map<String, dynamic>>.from(state.drafts);
