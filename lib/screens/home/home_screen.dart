@@ -31,11 +31,9 @@ class HomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Top Bar
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Logo
                         Container(
                           width: 50,
                           height: 50,
@@ -57,7 +55,6 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ),
 
-                        // Profile/Menu
                         Row(
                           children: [
                             Container(
@@ -101,7 +98,6 @@ class HomeScreen extends StatelessWidget {
 
                     SizedBox(height: 24),
 
-                    // Welcome text
                     Text(
                       'Hello! 👋',
                       style: TextStyle(
@@ -123,7 +119,6 @@ class HomeScreen extends StatelessWidget {
 
                     SizedBox(height: 20),
 
-                    // Search/Voice bar
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -188,7 +183,6 @@ class HomeScreen extends StatelessWidget {
 
               SizedBox(height: 24),
 
-              // Emergency SOS Card
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: GestureDetector(
@@ -263,7 +257,6 @@ class HomeScreen extends StatelessWidget {
 
               SizedBox(height: 32),
 
-              // Section Title
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
@@ -279,7 +272,6 @@ class HomeScreen extends StatelessWidget {
 
               SizedBox(height: 16),
 
-              // Feature Cards Grid
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: GridView.count(
@@ -348,7 +340,6 @@ class HomeScreen extends StatelessWidget {
 
               SizedBox(height: 32),
 
-              // Legal Tip Card
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
