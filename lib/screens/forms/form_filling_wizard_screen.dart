@@ -114,7 +114,6 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
               ),
             ),
 
-            // Buttons
             Container(
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(

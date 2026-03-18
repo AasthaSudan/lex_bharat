@@ -134,7 +134,6 @@ class FormListScreen extends StatelessWidget {
 
             const SizedBox(height: 28),
 
-            // Popular Forms
             const Text(
               'Popular forms',
               style: TextStyle(
@@ -163,7 +162,6 @@ class FormListScreen extends StatelessWidget {
 
             const SizedBox(height: 32),
 
-            // All Forms
             const Text(
               'All forms',
               style: TextStyle(
@@ -200,8 +198,6 @@ class FormListScreen extends StatelessWidget {
     );
   }
 }
-
-// ─── Popular Form Card (horizontal scroll) ───────────────────────────────────
 
 class _PopularFormCard extends StatelessWidget {
   final Map<String, dynamic> form;
@@ -266,8 +262,6 @@ class _PopularFormCard extends StatelessWidget {
   }
 }
 
-// ─── Full-width Form List Tile ────────────────────────────────────────────────
-
 class _FormListTile extends StatelessWidget {
   final Map<String, dynamic> form;
   final VoidCallback onTap;
@@ -302,7 +296,6 @@ class _FormListTile extends StatelessWidget {
 
             const SizedBox(width: 16),
 
-            // Info
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
