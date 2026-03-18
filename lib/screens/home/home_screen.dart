@@ -4,7 +4,7 @@ import '../chat/chat_screen.dart';
 import '../forms/form_list_screen.dart';
 import '../learn/categories_screen.dart';
 import '../../utils/constants.dart';
-import '../resources_screen.dart';
+import '../resources/resources_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);

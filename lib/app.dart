@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'utils/colors.dart';
-import 'routes/app_routes.dart';
+import 'screens/splash_screen.dart';
 
 class LegalRightsApp extends StatelessWidget {
+  const LegalRightsApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Legal Rights Assistant',
+      title: 'Lex Bharat',
       debugShowCheckedModeBanner: false,
+      home: SplashScreen(),
       theme: ThemeData(
         useMaterial3: true,
 
@@ -19,12 +22,10 @@ class LegalRightsApp extends StatelessWidget {
           primary: AppColors.primary,
           secondary: AppColors.accent,
           surface: AppColors.surface,
-          background: AppColors.background,
           error: AppColors.error,
           onPrimary: Colors.white,
           onSecondary: Colors.white,
           onSurface: AppColors.textPrimary,
-          onBackground: AppColors.textPrimary,
           onError: Colors.white,
         ),
 
@@ -87,7 +88,7 @@ class LegalRightsApp extends StatelessWidget {
           backgroundColor: Colors.white,
           foregroundColor: AppColors.textPrimary,
           surfaceTintColor: Colors.transparent,
-          systemOverlayStyle: SystemUiOverlayStyle(
+          systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
             statusBarIconBrightness: Brightness.dark,
             statusBarBrightness: Brightness.light,
@@ -98,7 +99,7 @@ class LegalRightsApp extends StatelessWidget {
             fontWeight: FontWeight.w600,
             letterSpacing: -0.3,
           ),
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: AppColors.textPrimary,
             size: 24,
           ),
@@ -110,7 +111,7 @@ class LegalRightsApp extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
-            side: BorderSide(
+            side: const BorderSide(
               color: AppColors.gray200,
               width: 1,
             ),
@@ -125,7 +126,7 @@ class LegalRightsApp extends StatelessWidget {
             foregroundColor: Colors.white,
             elevation: 0,
             shadowColor: Colors.transparent,
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
@@ -140,8 +141,8 @@ class LegalRightsApp extends StatelessWidget {
         outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
             foregroundColor: AppColors.primary,
-            padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-            side: BorderSide(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            side: const BorderSide(
               color: AppColors.gray300,
               width: 1.5,
             ),
@@ -159,7 +160,7 @@ class LegalRightsApp extends StatelessWidget {
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             foregroundColor: AppColors.primary,
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             textStyle: GoogleFonts.inter(
               fontSize: 14,
               fontWeight: FontWeight.w600,
@@ -172,40 +173,26 @@ class LegalRightsApp extends StatelessWidget {
           fillColor: AppColors.gray50,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: AppColors.gray300,
-              width: 1,
-            ),
+            borderSide: const BorderSide(color: AppColors.gray300, width: 1),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: AppColors.gray300,
-              width: 1,
-            ),
+            borderSide: const BorderSide(color: AppColors.gray300, width: 1),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: AppColors.primary,
-              width: 2,
-            ),
+            borderSide: const BorderSide(color: AppColors.primary, width: 2),
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: AppColors.error,
-              width: 1,
-            ),
+            borderSide: const BorderSide(color: AppColors.error, width: 1),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(
-              color: AppColors.error,
-              width: 2,
-            ),
+            borderSide: const BorderSide(color: AppColors.error, width: 2),
           ),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          contentPadding:
+          const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           hintStyle: GoogleFonts.inter(
             color: AppColors.textHint,
             fontSize: 14,
@@ -241,19 +228,19 @@ class LegalRightsApp extends StatelessWidget {
             fontSize: 13,
             fontWeight: FontWeight.w500,
           ),
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
         ),
 
-        dividerTheme: DividerThemeData(
+        dividerTheme: const DividerThemeData(
           color: AppColors.gray200,
           thickness: 1,
           space: 1,
         ),
 
-        progressIndicatorTheme: ProgressIndicatorThemeData(
+        progressIndicatorTheme: const ProgressIndicatorThemeData(
           color: AppColors.primary,
         ),
 
@@ -266,8 +253,6 @@ class LegalRightsApp extends StatelessWidget {
           ),
         ),
       ),
-      onGenerateRoute: AppRoutes.generateRoute,
-      initialRoute: AppRoutes.splash,
     );
   }
 }
