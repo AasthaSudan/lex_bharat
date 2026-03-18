@@ -7,7 +7,6 @@ class StorageService {
   static const String _completedTopicsKey = 'completed_topics';
   static const String _savedFormsKey = 'saved_forms';
 
-  // Chat History
   Future<void> saveChatHistory(List<Map<String, dynamic>> messages) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_chatHistoryKey, jsonEncode(messages));
@@ -25,7 +24,6 @@ class StorageService {
     await prefs.remove(_chatHistoryKey);
   }
 
-  // Bookmarks
   Future<void> saveBookmark(String topicId) async {
     final prefs = await SharedPreferences.getInstance();
     List<String> bookmarks = prefs.getStringList(_bookmarksKey) ?? [];
@@ -47,7 +45,6 @@ class StorageService {
     return prefs.getStringList(_bookmarksKey) ?? [];
   }
 
-  // Completed Topics
   Future<void> markTopicCompleted(String topicId) async {
     final prefs = await SharedPreferences.getInstance();
     List<String> completed = prefs.getStringList(_completedTopicsKey) ?? [];
@@ -62,7 +59,6 @@ class StorageService {
     return prefs.getStringList(_completedTopicsKey) ?? [];
   }
 
-  // Form Drafts
   Future<void> saveFormDraft(String formId, Map<String, dynamic> data) async {
     final prefs = await SharedPreferences.getInstance();
     Map<String, dynamic> allForms = {};
@@ -85,7 +81,6 @@ class StorageService {
     return allForms[formId];
   }
 
-  // Clear All
   Future<void> clearAll() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();

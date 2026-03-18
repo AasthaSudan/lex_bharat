@@ -80,7 +80,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo with gradient background
                 Container(
                   width: 120,
                   height: 120,
@@ -121,7 +120,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
                 SizedBox(height: 48),
 
-                // Loading indicator
                 SizedBox(
                   width: 40,
                   height: 40,

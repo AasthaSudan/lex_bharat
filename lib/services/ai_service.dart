@@ -1,6 +1,5 @@
 class AIService {
   Future<String> getLegalAdvice(String question) async {
-    // Simulate API delay
     await Future.delayed(Duration(seconds: 2));
 
     return _getMockResponse(question);

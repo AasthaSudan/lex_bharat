@@ -62,7 +62,6 @@ class _ResourcesHomeScreenState extends State<ResourcesHomeScreen> {
       ),
       body: Column(
         children: [
-          // Filter Chips
           SizedBox(
             height: 50,
             child: ListView.builder(
@@ -84,7 +83,6 @@ class _ResourcesHomeScreenState extends State<ResourcesHomeScreen> {
             ),
           ),
 
-          // Resources List
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16),

@@ -57,7 +57,6 @@ class _LanguageSelectionScreenState
 
               const SizedBox(height: 32),
 
-              // Title
               const Text(
                 'Choose your\nlanguage',
                 style: TextStyle(
@@ -82,7 +81,6 @@ class _LanguageSelectionScreenState
 
               const SizedBox(height: 40),
 
-              // Language Options
               ...languages.map((lang) {
                 final isSelected = selectedLanguage == lang['code'];
                 return Padding(
@@ -111,7 +109,6 @@ class _LanguageSelectionScreenState
                       ),
                       child: Row(
                         children: [
-                          // Flag circle
                           Container(
                             width: 48,
                             height: 48,
@@ -131,7 +128,6 @@ class _LanguageSelectionScreenState
 
                           const SizedBox(width: 16),
 
-                          // Language name
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,7 +155,6 @@ class _LanguageSelectionScreenState
                             ),
                           ),
 
-                          // Check indicator
                           AnimatedSwitcher(
                             duration: const Duration(milliseconds: 200),
                             child: isSelected
@@ -199,7 +194,6 @@ class _LanguageSelectionScreenState
 
               const Spacer(),
 
-              // Continue Button
               SizedBox(
                 width: double.infinity,
                 height: 56,

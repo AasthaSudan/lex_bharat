@@ -75,7 +75,6 @@ class CategoriesScreen extends StatelessWidget {
   }
 }
 
-// Placeholder for TopicsListScreen navigation
 class TopicsListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
