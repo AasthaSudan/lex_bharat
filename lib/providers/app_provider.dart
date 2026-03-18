@@ -1,8 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// ── Language Provider ─────────────────────────────────────────────────────────
-
 final languageProvider =
 NotifierProvider<LanguageNotifier, String>(LanguageNotifier.new);
 
@@ -25,8 +23,6 @@ class LanguageNotifier extends Notifier<String> {
   }
 }
 
-// ── Theme Provider ────────────────────────────────────────────────────────────
-
 final themeProvider =
 NotifierProvider<ThemeNotifier, bool>(ThemeNotifier.new);
 
@@ -48,8 +44,6 @@ class ThemeNotifier extends Notifier<bool> {
     await prefs.setBool('dark_mode', state);
   }
 }
-
-// ── First Time Provider ───────────────────────────────────────────────────────
 
 final firstTimeProvider = FutureProvider<bool>((ref) async {
   final prefs = await SharedPreferences.getInstance();
