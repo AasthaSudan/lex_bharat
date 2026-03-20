@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/app_provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/colors.dart';
-import 'onboarding/language_selection_screen.dart';
+import 'auth/login_screen.dart';
 import 'home/home_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
+  const SplashScreen({super.key});
+
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen>
@@ -21,22 +23,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     super.initState();
 
     _controller = AnimationController(
-      duration: Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1200),
       vsync: this,
     );
 
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Interval(0.0, 0.5, curve: Curves.easeIn),
-      ),
+      CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
 
-    _scaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
-      CurvedAnimation(
-        parent: _controller,
-        curve: Interval(0.0, 0.5, curve: Curves.easeOut),
-      ),
+    _scaleAnimation = Tween<double>(begin: 0.85, end: 1.0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
     );
 
     _controller.forward();
@@ -44,20 +40,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   }
 
   Future<void> _navigateToNext() async {
-    await Future.delayed(Duration(seconds: 2));
-
-    final isFirstTime = await ref.read(firstTimeProvider.future);
-
+    await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
+
+    final user = Supabase.instance.client.auth.currentUser;
+    final destination =
+    user != null ? const HomeScreen() : const LoginScreen();
 
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-        isFirstTime ? LanguageSelectionScreen() : HomeScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          return FadeTransition(opacity: animation, child: child);
-        },
-        transitionDuration: Duration(milliseconds: 500),
+        pageBuilder: (_, __, ___) => destination,
+        transitionsBuilder: (_, animation, __, child) =>
+            FadeTransition(opacity: animation, child: child),
+        transitionDuration: const Duration(milliseconds: 400),
       ),
     );
   }
@@ -81,53 +76,50 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 120,
-                  height: 120,
+                  width: 100,
+                  height: 100,
                   decoration: BoxDecoration(
                     gradient: AppColors.primaryGradient,
-                    borderRadius: BorderRadius.circular(30),
-                    boxShadow: AppColors.elevatedShadow,
+                    borderRadius: BorderRadius.circular(26),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 20,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.gavel_rounded,
-                    size: 60,
+                    size: 52,
                     color: Colors.white,
                   ),
                 ),
-
-                SizedBox(height: 32),
-
-                Text(
-                  'Legal Rights',
+                const SizedBox(height: 28),
+                const Text(
+                  'Lex Bharat',
                   style: TextStyle(
-                    fontSize: 32,
+                    fontSize: 30,
                     fontWeight: FontWeight.bold,
                     color: AppColors.textPrimary,
                     letterSpacing: -0.5,
                   ),
                 ),
-
-                SizedBox(height: 8),
-
-                Text(
-                  'Your Voice, Your Rights',
+                const SizedBox(height: 8),
+                const Text(
+                  'Your legal rights, in your language',
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: 15,
                     color: AppColors.textSecondary,
-                    fontWeight: FontWeight.w500,
                   ),
                 ),
-
-                SizedBox(height: 48),
-
+                const SizedBox(height: 48),
                 SizedBox(
-                  width: 40,
-                  height: 40,
+                  width: 28,
+                  height: 28,
                   child: CircularProgressIndicator(
-                    strokeWidth: 3,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.primary,
-                    ),
+                    strokeWidth: 2.5,
+                    color: AppColors.primary,
                   ),
                 ),
               ],
