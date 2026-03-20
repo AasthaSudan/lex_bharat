@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/splash_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+
+  await Supabase.initialize(
+    url: 'YOUR_SUPABASE_URL',
+    anonKey: 'YOUR_SUPABASE_ANON_KEY',
+  );
+
   runApp(
     const ProviderScope(
       child: LegalRightsApp(),
@@ -17,30 +30,35 @@ class LegalRightsApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Legal Rights Assistant - Lex Bharat',
+      title: 'Lex Bharat',
       debugShowCheckedModeBanner: false,
+      home: const SplashScreen(), // ← splash decides where to go
       theme: ThemeData(
         useMaterial3: true,
-        primaryColor: const Color(0xFF1F77D3),
-        scaffoldBackgroundColor: const Color(0xFFF5F6FA),
+        primaryColor: const Color(0xFF3B82F6),
+        scaffoldBackgroundColor: const Color(0xFFFAFAFA),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF1F77D3),
-          primary: const Color(0xFF1F77D3),
+          seedColor: const Color(0xFF3B82F6),
+          primary: const Color(0xFF3B82F6),
         ),
         textTheme: GoogleFonts.poppinsTextTheme(),
         appBarTheme: const AppBarTheme(
           elevation: 0,
-          backgroundColor: Color(0xFF1F77D3),
-          iconTheme: IconThemeData(color: Colors.white),
+          backgroundColor: Colors.white,
+          foregroundColor: Color(0xFF111827),
+          iconTheme: IconThemeData(color: Color(0xFF111827)),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF1F77D3),
+            backgroundColor: const Color(0xFF3B82F6),
             foregroundColor: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
         ),
       ),
-      home: const HomeNavigation(),
     );
   }
 }
