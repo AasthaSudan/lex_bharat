@@ -15,7 +15,6 @@ class AuthNotifier extends Notifier<User?> {
     return supabase.auth.currentUser;
   }
 
-  // ── Phone OTP ─────────────────────────────────────────────
   Future<void> sendOtp(String phone) async {
     await supabase.auth.signInWithOtp(phone: phone);
   }
@@ -29,7 +28,6 @@ class AuthNotifier extends Notifier<User?> {
     state = supabase.auth.currentUser;
   }
 
-  // ── Google ────────────────────────────────────────────────
   Future<void> signInWithGoogle() async {
     final googleSignIn = GoogleSignIn();
     final googleUser = await googleSignIn.signIn();
