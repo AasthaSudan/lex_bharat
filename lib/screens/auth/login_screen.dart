@@ -339,244 +339,244 @@
 //   }
 // }
 
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import '../../providers/auth_provider.dart';
-// import '../../utils/colors.dart';
-//
-// class LoginScreen extends ConsumerStatefulWidget {
-//   const LoginScreen({super.key});
-//
-//   @override
-//   ConsumerState<LoginScreen> createState() => _LoginScreenState();
-// }
-//
-// class _LoginScreenState extends ConsumerState<LoginScreen> {
-//   bool _isLoading = false;
-//   String? _error;
-//
-//   Future<void> _googleSignIn() async {
-//     setState(() {
-//       _isLoading = true;
-//       _error = null;
-//     });
-//
-//     try {
-//       await ref.read(authProvider.notifier).signInWithGoogle();
-//     } catch (e) {
-//       setState(() => _error = 'Sign-in failed. Try again.');
-//     } finally {
-//       if (mounted) setState(() => _isLoading = false);
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: SafeArea(
-//         child: Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 24),
-//           child: Column(
-//             children: [
-//               const Spacer(),
-//
-//               // Logo
-//               Container(
-//                 width: 80,
-//                 height: 80,
-//                 decoration: BoxDecoration(
-//                   gradient: AppColors.primaryGradient,
-//                   borderRadius: BorderRadius.circular(22),
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: AppColors.primary.withValues(alpha: 0.3),
-//                       blurRadius: 16,
-//                       offset: const Offset(0, 6),
-//                     ),
-//                   ],
-//                 ),
-//                 child: const Icon(
-//                   Icons.gavel_rounded,
-//                   color: Colors.white,
-//                   size: 42,
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 32),
-//
-//               const Text(
-//                 'Welcome to\nLex Bharat',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: 32,
-//                   fontWeight: FontWeight.bold,
-//                   color: AppColors.textPrimary,
-//                   letterSpacing: -0.5,
-//                   height: 1.2,
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 12),
-//
-//               const Text(
-//                 'Your legal rights, in your language',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: 16,
-//                   color: AppColors.textSecondary,
-//                 ),
-//               ),
-//
-//               const Spacer(),
-//
-//               // Feature pills
-//               Wrap(
-//                 spacing: 8,
-//                 runSpacing: 8,
-//                 alignment: WrapAlignment.center,
-//                 children: const [
-//                   _FeaturePill(icon: Icons.mic_rounded, label: 'Voice-first'),
-//                   _FeaturePill(icon: Icons.gavel_rounded, label: 'Legal Q&A'),
-//                   _FeaturePill(icon: Icons.description_rounded, label: 'Forms'),
-//                   _FeaturePill(
-//                       icon: Icons.location_on_rounded, label: 'Find aid'),
-//                 ],
-//               ),
-//
-//               const SizedBox(height: 48),
-//
-//               // Error
-//               if (_error != null) ...[
-//                 Container(
-//                   padding:
-//                   const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-//                   decoration: BoxDecoration(
-//                     color: AppColors.errorLight,
-//                     borderRadius: BorderRadius.circular(10),
-//                   ),
-//                   child: Row(
-//                     children: [
-//                       const Icon(Icons.error_outline,
-//                           color: AppColors.error, size: 18),
-//                       const SizedBox(width: 8),
-//                       Expanded(
-//                         child: Text(
-//                           _error!,
-//                           style: const TextStyle(
-//                               fontSize: 13, color: AppColors.error),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//                 const SizedBox(height: 16),
-//               ],
-//
-//               // Google button
-//               SizedBox(
-//                 width: double.infinity,
-//                 height: 56,
-//                 child: OutlinedButton(
-//                   onPressed: _isLoading ? null : _googleSignIn,
-//                   style: OutlinedButton.styleFrom(
-//                     side: const BorderSide(color: AppColors.gray300, width: 1),
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(14),
-//                     ),
-//                     backgroundColor: Colors.white,
-//                   ),
-//                   child: _isLoading
-//                       ? const SizedBox(
-//                     width: 22,
-//                     height: 22,
-//                     child: CircularProgressIndicator(strokeWidth: 2.5),
-//                   )
-//                       : Row(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       // Google G icon
-//                       Container(
-//                         width: 24,
-//                         height: 24,
-//                         decoration: BoxDecoration(
-//                           borderRadius: BorderRadius.circular(4),
-//                         ),
-//                         child: const Text(
-//                           'G',
-//                           textAlign: TextAlign.center,
-//                           style: TextStyle(
-//                             fontSize: 18,
-//                             fontWeight: FontWeight.bold,
-//                             color: Color(0xFF4285F4),
-//                           ),
-//                         ),
-//                       ),
-//                       const SizedBox(width: 12),
-//                       const Text(
-//                         'Continue with Google',
-//                         style: TextStyle(
-//                           fontSize: 16,
-//                           fontWeight: FontWeight.w600,
-//                           color: AppColors.textPrimary,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 16),
-//
-//               // Disclaimer
-//               const Text(
-//                 'This app provides legal information, not legal advice.',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: 11,
-//                   color: AppColors.textHint,
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 32),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// class _FeaturePill extends StatelessWidget {
-//   final IconData icon;
-//   final String label;
-//
-//   const _FeaturePill({required this.icon, required this.label});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-//       decoration: BoxDecoration(
-//         color: AppColors.gray100,
-//         borderRadius: BorderRadius.circular(20),
-//         border: Border.all(color: AppColors.gray200),
-//       ),
-//       child: Row(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           Icon(icon, size: 15, color: AppColors.primary),
-//           const SizedBox(width: 6),
-//           Text(
-//             label,
-//             style: const TextStyle(
-//               fontSize: 13,
-//               fontWeight: FontWeight.w500,
-//               color: AppColors.textPrimary,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../providers/auth_provider.dart';
+import '../../utils/colors.dart';
+
+class LoginScreen extends ConsumerStatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  bool _isLoading = false;
+  String? _error;
+
+  Future<void> _googleSignIn() async {
+    setState(() {
+      _isLoading = true;
+      _error = null;
+    });
+
+    try {
+      await ref.read(authProvider.notifier).signInWithGoogle();
+    } catch (e) {
+      setState(() => _error = 'Sign-in failed. Try again.');
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              const Spacer(),
+
+              // Logo
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  gradient: AppColors.primaryGradient,
+                  borderRadius: BorderRadius.circular(22),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.3),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: const Icon(
+                  Icons.gavel_rounded,
+                  color: Colors.white,
+                  size: 42,
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              const Text(
+                'Welcome to\nLex Bharat',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimary,
+                  letterSpacing: -0.5,
+                  height: 1.2,
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              const Text(
+                'Your legal rights, in your language',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                  color: AppColors.textSecondary,
+                ),
+              ),
+
+              const Spacer(),
+
+              // Feature pills
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                alignment: WrapAlignment.center,
+                children: const [
+                  _FeaturePill(icon: Icons.mic_rounded, label: 'Voice-first'),
+                  _FeaturePill(icon: Icons.gavel_rounded, label: 'Legal Q&A'),
+                  _FeaturePill(icon: Icons.description_rounded, label: 'Forms'),
+                  _FeaturePill(
+                      icon: Icons.location_on_rounded, label: 'Find aid'),
+                ],
+              ),
+
+              const SizedBox(height: 48),
+
+              // Error
+              if (_error != null) ...[
+                Container(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: AppColors.errorLight,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.error_outline,
+                          color: AppColors.error, size: 18),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          _error!,
+                          style: const TextStyle(
+                              fontSize: 13, color: AppColors.error),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+              ],
+
+              // Google button
+              SizedBox(
+                width: double.infinity,
+                height: 56,
+                child: OutlinedButton(
+                  onPressed: _isLoading ? null : _googleSignIn,
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppColors.gray300, width: 1),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    backgroundColor: Colors.white,
+                  ),
+                  child: _isLoading
+                      ? const SizedBox(
+                    width: 22,
+                    height: 22,
+                    child: CircularProgressIndicator(strokeWidth: 2.5),
+                  )
+                      : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Google G icon
+                      Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: const Text(
+                          'G',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF4285F4),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      const Text(
+                        'Continue with Google',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Disclaimer
+              const Text(
+                'This app provides legal information, not legal advice.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 11,
+                  color: AppColors.textHint,
+                ),
+              ),
+
+              const SizedBox(height: 32),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FeaturePill extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _FeaturePill({required this.icon, required this.label});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      decoration: BoxDecoration(
+        color: AppColors.gray100,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.gray200),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 15, color: AppColors.primary),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textPrimary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
