@@ -48,51 +48,51 @@
 //     state = null;
 //   }
 // }
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
-final supabase = Supabase.instance.client;
-
-final authProvider = NotifierProvider<AuthNotifier, User?>(AuthNotifier.new);
-
-class AuthNotifier extends Notifier<User?> {
-  @override
-  User? build() {
-    supabase.auth.onAuthStateChange.listen((data) {
-      state = data.session?.user;
-    });
-    return supabase.auth.currentUser;
-  }
-
-  Future<void> signInWithGoogle() async {
-    try {
-      final googleSignIn = GoogleSignIn(
-        clientId: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
-      );
-
-      final googleUser = await googleSignIn.signIn();
-      print('Google user: $googleUser'); // ← add this
-
-      if (googleUser == null) {
-        print('User cancelled sign in');
-        return;
-      }
-
-      final googleAuth = await googleUser.authentication;
-      print('idToken: ${googleAuth.idToken}'); // ← add this
-
-      await supabase.auth.signInWithIdToken(
-        provider: OAuthProvider.google,
-        idToken: googleAuth.idToken!,
-        accessToken: googleAuth.accessToken,
-      );
-      state = supabase.auth.currentUser;
-      print('Supabase user: $state'); // ← add this
-    } catch (e) {
-      print('Google sign in error: $e'); // ← add this
-      rethrow;
-    }
-  }
-}
+//
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
+// import 'package:supabase_flutter/supabase_flutter.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
+//
+// final supabase = Supabase.instance.client;
+//
+// final authProvider = NotifierProvider<AuthNotifier, User?>(AuthNotifier.new);
+//
+// class AuthNotifier extends Notifier<User?> {
+//   @override
+//   User? build() {
+//     supabase.auth.onAuthStateChange.listen((data) {
+//       state = data.session?.user;
+//     });
+//     return supabase.auth.currentUser;
+//   }
+//
+//   Future<void> signInWithGoogle() async {
+//     try {
+//       final googleSignIn = GoogleSignIn(
+//         clientId: 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com',
+//       );
+//
+//       final googleUser = await googleSignIn.signIn();
+//       print('Google user: $googleUser'); // ← add this
+//
+//       if (googleUser == null) {
+//         print('User cancelled sign in');
+//         return;
+//       }
+//
+//       final googleAuth = await googleUser.authentication;
+//       print('idToken: ${googleAuth.idToken}'); // ← add this
+//
+//       await supabase.auth.signInWithIdToken(
+//         provider: OAuthProvider.google,
+//         idToken: googleAuth.idToken!,
+//         accessToken: googleAuth.accessToken,
+//       );
+//       state = supabase.auth.currentUser;
+//       print('Supabase user: $state'); // ← add this
+//     } catch (e) {
+//       print('Google sign in error: $e'); // ← add this
+//       rethrow;
+//     }
+//   }
+// }
