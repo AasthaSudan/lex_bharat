@@ -13,8 +13,8 @@ void main() async {
   ]);
 
   await Supabase.initialize(
-    url: 'YOUR_SUPABASE_URL',
-    anonKey: 'YOUR_SUPABASE_ANON_KEY',
+    url: 'REDACTED_URL',
+    anonKey: 'REDACTED_KEY',
   );
 
   runApp(
