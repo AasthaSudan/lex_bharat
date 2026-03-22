@@ -381,7 +381,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             children: [
               const Spacer(),
 
-              // Logo
               Container(
                 width: 80,
                 height: 80,
@@ -430,7 +429,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
               const Spacer(),
 
-              // Feature pills
               Wrap(
                 spacing: 8,
                 runSpacing: 8,
@@ -446,7 +444,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
               const SizedBox(height: 48),
 
-              // Error
               if (_error != null) ...[
                 Container(
                   padding:
@@ -473,7 +470,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 const SizedBox(height: 16),
               ],
 
-              // Google button
               SizedBox(
                 width: double.infinity,
                 height: 56,
@@ -495,7 +491,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Google G icon
                       Container(
                         width: 24,
                         height: 24,
@@ -528,7 +523,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
               const SizedBox(height: 16),
 
-              // Disclaimer
               const Text(
                 'This app provides legal information, not legal advice.',
                 textAlign: TextAlign.center,
