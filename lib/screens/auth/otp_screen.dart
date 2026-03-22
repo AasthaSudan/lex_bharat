@@ -59,7 +59,7 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
     if (value.isEmpty && index > 0) {
       _focusNodes[index - 1].requestFocus();
     }
-    // Auto-verify when all 6 digits entered
+
     if (_otp.length == 6) _verifyOtp();
   }
 
@@ -84,7 +84,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
       );
     } catch (e) {
       setState(() => _error = 'Invalid OTP. Please try again.');
-      // Clear fields on error
       for (final c in _controllers) {
         c.clear();
       }
@@ -169,7 +168,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
               const SizedBox(height: 40),
 
-              // OTP boxes
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List.generate(6, (index) {
@@ -223,7 +221,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
                 }),
               ),
 
-              // Error
               if (_error != null) ...[
                 const SizedBox(height: 16),
                 Row(
@@ -247,7 +244,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
               const SizedBox(height: 32),
 
-              // Verify button
               SizedBox(
                 width: double.infinity,
                 height: 54,
@@ -283,7 +279,6 @@ class _OtpScreenState extends ConsumerState<OtpScreen> {
 
               const SizedBox(height: 24),
 
-              // Resend
               Center(
                 child: _resendSeconds > 0
                     ? Text(
