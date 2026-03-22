@@ -74,7 +74,7 @@ class AuthNotifier extends Notifier<User?> {
       );
 
       final googleUser = await googleSignIn.signIn();
-      print('Google user: $googleUser'); // ← add this
+      print('Google user: $googleUser');
 
       if (googleUser == null) {
         print('User cancelled sign in');
@@ -82,7 +82,7 @@ class AuthNotifier extends Notifier<User?> {
       }
 
       final googleAuth = await googleUser.authentication;
-      print('idToken: ${googleAuth.idToken}'); // ← add this
+      print('idToken: ${googleAuth.idToken}');
 
       await supabase.auth.signInWithIdToken(
         provider: OAuthProvider.google,
@@ -90,9 +90,9 @@ class AuthNotifier extends Notifier<User?> {
         accessToken: googleAuth.accessToken,
       );
       state = supabase.auth.currentUser;
-      print('Supabase user: $state'); // ← add this
+      print('Supabase user: $state');
     } catch (e) {
-      print('Google sign in error: $e'); // ← add this
+      print('Google sign in error: $e');
       rethrow;
     }
   }
