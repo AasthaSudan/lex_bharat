@@ -24,7 +24,6 @@ class ProfileScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(24),
         child: Column(
           children: [
-            // User Info
             Container(
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
@@ -82,7 +81,6 @@ class ProfileScreen extends ConsumerWidget {
 
             const SizedBox(height: 24),
 
-            // Settings Section
             _buildSection(
               title: 'Settings',
               children: [
@@ -115,7 +113,6 @@ class ProfileScreen extends ConsumerWidget {
 
             const SizedBox(height: 24),
 
-            // Help & Support Section
             _buildSection(
               title: 'Help & Support',
               children: [
@@ -130,7 +127,6 @@ class ProfileScreen extends ConsumerWidget {
                   icon: Icons.info_outline,
                   title: 'About Lex Bharat',
                   onTap: () {
-                    // Show about dialog
                   },
                 ),
                 _buildListTile(
@@ -143,7 +139,6 @@ class ProfileScreen extends ConsumerWidget {
 
             const SizedBox(height: 24),
 
-            // Logout
             SizedBox(
               width: double.infinity,
               child: OutlinedButton.icon(
