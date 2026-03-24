@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/colors.dart';
 import 'auth/login_screen.dart';
-import 'home/home_screen.dart';
+import '../main.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -45,7 +45,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     final user = Supabase.instance.client.auth.currentUser;
     final destination =
-    user != null ? const HomeScreen() : const LoginScreen();
+    user != null ? const HomeNavigation() : const LoginScreen();
 
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(

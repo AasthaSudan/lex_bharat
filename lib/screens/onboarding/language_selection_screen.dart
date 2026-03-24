@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/colors.dart';
-import '../home/home_screen.dart';
+import '../../main.dart';
 
 class LanguageSelectionScreen extends ConsumerStatefulWidget {
   const LanguageSelectionScreen({Key? key}) : super(key: key);
@@ -209,7 +209,7 @@ class _LanguageSelectionScreenState
 
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (_) => const HomeScreen(),
+                        builder: (_) => const HomeNavigation(),
                       ),
                     );
                   }

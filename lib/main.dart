@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'screens/splash_screen.dart';
+import 'screens/home/home_screen.dart';
+import 'screens/learn/categories_screen.dart';
+import 'screens/chat/chat_screen.dart';
+import 'screens/forms/form_list_screen.dart';
+import 'screens/profile/profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,9 +18,11 @@ void main() async {
     DeviceOrientation.portraitUp,
   ]);
 
+  await dotenv.load(fileName: ".env");
+
   await Supabase.initialize(
-    url: 'REDACTED_URL',
-    anonKey: 'REDACTED_KEY',
+    url: dotenv.env['SUPABASE_URL'] ?? '',
+    anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
   );
 
   runApp(
@@ -32,7 +40,7 @@ class LegalRightsApp extends StatelessWidget {
     return MaterialApp(
       title: 'Lex Bharat',
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(), // ← splash decides where to go
+      home: const SplashScreen(),
       theme: ThemeData(
         useMaterial3: true,
         primaryColor: const Color(0xFF3B82F6),
@@ -115,25 +123,17 @@ class _HomeNavigationState extends State<HomeNavigation> {
   Widget _buildBody() {
     switch (_selectedIndex) {
       case 0:
-        return SplashScreen();
+        return const HomeScreen();
       case 1:
-        return const Scaffold(
-          body: Center(child: Text('Learn Rights')),
-        );
+        return const CategoriesScreen();
       case 2:
-        return const Scaffold(
-          body: Center(child: Text('Legal Advisor Chat')),
-        );
+        return const ChatScreen();
       case 3:
-        return const Scaffold(
-          body: Center(child: Text('Form Assistant')),
-        );
+        return const FormListScreen();
       case 4:
-        return const Scaffold(
-          body: Center(child: Text('Profile')),
-        );
+        return const ProfileScreen();
       default:
-        return SplashScreen();
+        return const HomeScreen();
     }
   }
 }

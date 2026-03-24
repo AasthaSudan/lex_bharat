@@ -18,28 +18,74 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
 
-  final List<FormStepData> _steps = [
-    FormStepData(
-      title: 'Personal Information',
-      fields: [
-        FormFieldData(key: 'name', label: 'Full Name', hint: 'Enter your name'),
-        FormFieldData(
-            key: 'phone', label: 'Phone Number', hint: '10-digit number'),
-        FormFieldData(key: 'email', label: 'Email', hint: 'your@email.com'),
-      ],
-    ),
-    FormStepData(
-      title: 'Details',
-      fields: [
-        FormFieldData(key: 'address', label: 'Address', hint: 'Full address', maxLines: 3),
-        FormFieldData(
-            key: 'description',
-            label: 'Description',
-            hint: 'Describe the issue',
-            maxLines: 5),
-      ],
-    ),
-  ];
+  late List<FormStepData> _steps;
+
+  @override
+  void initState() {
+    super.initState();
+    _steps = _getStepsForForm(widget.formTitle);
+  }
+
+  List<FormStepData> _getStepsForForm(String title) {
+    if (title.contains('FIR')) {
+      return [
+        FormStepData(
+          title: 'Personal Information',
+          fields: [
+            FormFieldData(key: 'name', label: 'Full Name', hint: 'Enter your name'),
+            FormFieldData(key: 'phone', label: 'Phone Number', hint: '10-digit number'),
+            FormFieldData(key: 'address', label: 'Address', hint: 'Full address', maxLines: 2),
+          ],
+        ),
+        FormStepData(
+          title: 'Incident Details',
+          fields: [
+            FormFieldData(key: 'date', label: 'Date of Incident', hint: 'DD/MM/YYYY'),
+            FormFieldData(key: 'time', label: 'Time of Incident', hint: 'HH:MM AM/PM'),
+            FormFieldData(key: 'location', label: 'Location', hint: 'Where did it happen?'),
+            FormFieldData(key: 'description', label: 'Description', hint: 'Describe the incident in detail', maxLines: 5),
+          ],
+        ),
+      ];
+    } else if (title.contains('Consumer')) {
+      return [
+        FormStepData(
+          title: 'Personal Information',
+          fields: [
+            FormFieldData(key: 'name', label: 'Full Name', hint: 'Enter your name'),
+            FormFieldData(key: 'phone', label: 'Phone Number', hint: '10-digit number'),
+          ],
+        ),
+        FormStepData(
+          title: 'Complaint Details',
+          fields: [
+            FormFieldData(key: 'seller', label: 'Seller/Company Name', hint: 'Name of the business'),
+            FormFieldData(key: 'product', label: 'Product/Service', hint: 'What did you purchase?'),
+            FormFieldData(key: 'issue', label: 'Issue Description', hint: 'Describe the defect or problem', maxLines: 5),
+          ],
+        ),
+      ];
+    } else {
+      // Default / General
+      return [
+        FormStepData(
+          title: 'Personal Information',
+          fields: [
+            FormFieldData(key: 'name', label: 'Full Name', hint: 'Enter your name'),
+            FormFieldData(key: 'phone', label: 'Phone Number', hint: '10-digit number'),
+            FormFieldData(key: 'email', label: 'Email', hint: 'your@email.com'),
+          ],
+        ),
+        FormStepData(
+          title: 'Details',
+          fields: [
+            FormFieldData(key: 'address', label: 'Address', hint: 'Full address', maxLines: 3),
+            FormFieldData(key: 'description', label: 'Description', hint: 'Describe the issue', maxLines: 5),
+          ],
+        ),
+      ];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

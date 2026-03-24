@@ -1,10 +1,12 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AppConstants {
   static const String appName = 'Legal Rights Assistant';
   static const String appVersion = '1.0.0';
   static const String appTagline = 'Your Voice, Your Rights';
 
-  static const String claudeApiKey = 'YOUR_CLAUDE_API_KEY';
-  static const String openAiApiKey = 'YOUR_OPENAI_API_KEY';
+  static String get claudeApiKey => dotenv.env['CLAUDE_API_KEY'] ?? 'YOUR_CLAUDE_API_KEY';
+  static String get openAiApiKey => dotenv.env['OPENAI_API_KEY'] ?? 'YOUR_OPENAI_API_KEY';
 
   static const String claudeApiUrl = 'https://api.anthropic.com/v1/messages';
   static const String openAiApiUrl = 'https://api.openai.com/v1/chat/completions';

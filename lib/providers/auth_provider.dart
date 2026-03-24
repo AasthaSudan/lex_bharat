@@ -96,4 +96,9 @@ class AuthNotifier extends Notifier<User?> {
       rethrow;
     }
   }
+
+  Future<void> signOut() async {
+    await supabase.auth.signOut();
+    state = null;
+  }
 }

@@ -1,163 +1,236 @@
 import 'package:flutter/material.dart';
+import '../../utils/colors.dart';
+import '../../utils/sample_data.dart';
 
-class ResourcesScreen extends StatelessWidget {
-  final List<LegalResource> resources = [
-    LegalResource(
-      name: 'National Legal Services Authority',
-      type: 'Legal Aid Organization',
-      phone: '1800-11-4001',
-      address: 'Sector 12, Dwarka, New Delhi',
-      distance: 2.5,
-    ),
-    LegalResource(
-      name: 'District Legal Services Authority',
-      type: 'Government Office',
-      phone: '011-2345-6789',
-      address: 'Court Complex, Delhi',
-      distance: 5.2,
-    ),
-    LegalResource(
-      name: 'Women Legal Aid Center',
-      type: 'NGO',
-      phone: '1800-22-5757',
-      address: 'Karol Bagh, New Delhi',
-      distance: 3.8,
-    ),
-  ];
+class ResourcesScreen extends StatefulWidget {
+  const ResourcesScreen({super.key});
+
+  @override
+  State<ResourcesScreen> createState() => _ResourcesScreenState();
+}
+
+class _ResourcesScreenState extends State<ResourcesScreen> {
+  final List<String> _filters = ['All', 'Legal Aid', 'Government', 'NGO', 'Consumer'];
+  String _selectedFilter = 'All';
 
   @override
   Widget build(BuildContext context) {
+    final allResources = SampleData.getLegalResources();
+    final resources = _selectedFilter == 'All'
+        ? allResources
+        : allResources.where((r) {
+            final type = r['type']?.toString().toLowerCase() ?? '';
+            final filter = _selectedFilter.toLowerCase();
+            return type.contains(filter) ||
+                (filter == 'legal aid' && type.contains('legal aid')) ||
+                (filter == 'ngo' && type.contains('ngo'));
+          }).toList();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Find Legal Help'),
+        title: const Text('Find Help'),
+        backgroundColor: Colors.white,
       ),
-      body: ListView.builder(
-        padding: EdgeInsets.all(16),
-        itemCount: resources.length,
-        itemBuilder: (context, index) {
-          final resource = resources[index];
-          return Card(
-            margin: EdgeInsets.only(bottom: 16),
-            elevation: 2,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Padding(
-              padding: EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.blue.shade50,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Icon(Icons.business, color: Colors.blue),
+      body: Column(
+        children: [
+          // Filter Chips
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: _filters.map((filter) {
+                final isSelected = _selectedFilter == filter;
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: FilterChip(
+                    label: Text(filter),
+                    selected: isSelected,
+                    onSelected: (selected) {
+                      setState(() {
+                        _selectedFilter = filter;
+                      });
+                    },
+                    backgroundColor: Colors.white,
+                    selectedColor: AppColors.primary.withOpacity(0.1),
+                    checkmarkColor: AppColors.primary,
+                    labelStyle: TextStyle(
+                      color: isSelected ? AppColors.primary : AppColors.textSecondary,
+                      fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                      side: BorderSide(
+                        color: isSelected ? AppColors.primary : AppColors.gray200,
                       ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
+                    ),
+                  ),
+                );
+              }).toList(),
+            ),
+          ),
+          
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(16),
+              itemCount: resources.length,
+              itemBuilder: (context, index) {
+                final resource = resources[index];
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    side: const BorderSide(color: AppColors.gray200),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              resource.name,
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withOpacity(0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.business,
+                                color: AppColors.primary,
                               ),
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              resource.type,
-                              style: TextStyle(color: Colors.grey),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    resource['name'] as String,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.textPrimary,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    resource['type'] as String,
+                                    style: const TextStyle(
+                                      fontSize: 13,
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: AppColors.gray100,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(Icons.location_on, size: 14, color: AppColors.textSecondary),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    '${resource['distance']} km',
+                                    style: const TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.textSecondary,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ],
                         ),
-                      ),
-                      Column(
-                        children: [
-                          Icon(Icons.location_on, color: Colors.green, size: 20),
-                          Text('${resource.distance} km'),
-                        ],
-                      ),
-                    ],
-                  ),
-
-                  Divider(height: 24),
-
-                  Row(
-                    children: [
-                      Icon(Icons.phone, size: 18, color: Colors.grey),
-                      SizedBox(width: 8),
-                      Text(resource.phone),
-                    ],
-                  ),
-
-                  SizedBox(height: 8),
-
-                  Row(
-                    children: [
-                      Icon(Icons.location_on, size: 18, color: Colors.grey),
-                      SizedBox(width: 8),
-                      Expanded(child: Text(resource.address)),
-                    ],
-                  ),
-
-                  SizedBox(height: 16),
-
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          icon: Icon(Icons.call, size: 18),
-                          label: Text('Call'),
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Calling ${resource.phone}')),
-                            );
-                          },
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            const Icon(Icons.phone_outlined, size: 16, color: AppColors.textSecondary),
+                            const SizedBox(width: 8),
+                            Text(
+                              resource['phone'] as String,
+                              style: const TextStyle(
+                                color: AppColors.textSecondary,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          icon: Icon(Icons.directions, size: 18),
-                          label: Text('Directions'),
-                          onPressed: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Opening maps...')),
-                            );
-                          },
+                        const SizedBox(height: 8),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Icon(Icons.map_outlined, size: 16, color: AppColors.textSecondary),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                resource['address'] as String,
+                                style: const TextStyle(
+                                  color: AppColors.textSecondary,
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text('Calling ${resource['phone']}...')),
+                                  );
+                                },
+                                icon: const Icon(Icons.call),
+                                label: const Text('Call Now'),
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: AppColors.primary,
+                                  side: const BorderSide(color: AppColors.primary),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Opening Maps...')),
+                                  );
+                                },
+                                icon: const Icon(Icons.directions),
+                                label: const Text('Directions'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                  foregroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }
-}
-
-class LegalResource {
-  final String name;
-  final String type;
-  final String phone;
-  final String address;
-  final double distance;
-
-  LegalResource({
-    required this.name,
-    required this.type,
-    required this.phone,
-    required this.address,
-    required this.distance,
-  });
 }
