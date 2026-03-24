@@ -51,13 +51,32 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       return;
     }
 
-    final transcript =
-    await ref.read(voiceStateProvider.notifier).startListening();
+    final transcript = await ref.read(voiceStateProvider.notifier).startListening();
 
     if (transcript != null && transcript.trim().isNotEmpty) {
       await ref.read(chatProvider.notifier).sendMessage(transcript);
       _scrollToBottom();
     }
+  }
+
+  Widget _buildBotIcon() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: AppColors.primary,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      alignment: Alignment.center,
+      child: Container(
+        width: 18,
+        height: 18,
+        decoration: BoxDecoration(
+          color: AppColors.accentLight,
+          borderRadius: BorderRadius.circular(6),
+        ),
+      ),
+    );
   }
 
   @override
@@ -71,39 +90,27 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        titleSpacing: 0,
         title: Row(
           children: [
-            Container(
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                gradient: AppColors.primaryGradient,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: const Icon(Icons.gavel_rounded,
-                  color: Colors.white, size: 20),
-            ),
-            const SizedBox(width: 10),
+            _buildBotIcon(),
+            const SizedBox(width: 12),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
                   'Legal Assistant',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textPrimary,
-                  ),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary, letterSpacing: -0.5),
                 ),
                 Text(
                   chatState.isTyping ? 'Thinking...' : 'Powered by Groq AI',
                   style: TextStyle(
-                    fontSize: 11,
-                    color: chatState.isTyping
-                        ? AppColors.primary
-                        : AppColors.textHint,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    color: chatState.isTyping ? AppColors.accent : AppColors.textHint,
                   ),
                 ),
               ],
@@ -111,36 +118,35 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           ],
         ),
         actions: [
-          if (chatState.messages.isNotEmpty)
-            IconButton(
-              icon: const Icon(Icons.delete_outline_rounded,
-                  color: AppColors.textSecondary),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16)),
-                    title: const Text('Clear chat?'),
-                    content: const Text('This will clear your chat history.'),
-                    actions: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: const Text('Cancel'),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          ref.read(chatProvider.notifier).clearChat();
-                          Navigator.pop(context);
-                        },
-                        child: const Text('Clear',
-                            style: TextStyle(color: AppColors.error)),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+          IconButton(
+            icon: const Icon(Icons.more_horiz_rounded, color: AppColors.textSecondary),
+            onPressed: () {
+              if (chatState.messages.isEmpty) return;
+              showDialog(
+                context: context,
+                builder: (_) => AlertDialog(
+                  backgroundColor: AppColors.surface,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                  title: const Text('Clear conversation?', style: TextStyle(fontWeight: FontWeight.bold)),
+                  content: const Text('This will clear your chat history with the AI assistant.'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        ref.read(chatProvider.notifier).clearChat();
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Clear', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.error)),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          const SizedBox(width: 8),
         ],
       ),
       body: Column(
@@ -150,53 +156,49 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             child: chatState.messages.isEmpty
                 ? _buildEmptyState()
                 : ListView.builder(
-              controller: _scrollController,
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 16, vertical: 12),
-              itemCount: chatState.messages.length +
-                  (chatState.isTyping ? 1 : 0),
-              itemBuilder: (context, index) {
-                if (index == chatState.messages.length &&
-                    chatState.isTyping) {
-                  return _buildTypingIndicator();
-                }
-                return MessageBubble(
-                  message: chatState.messages[index],
-                  onSpeak: chatState.messages[index].isUser ? null : () {
-                    ref.read(voiceStateProvider.notifier).speakResponse(chatState.messages[index].text);
-                  },
-                );
-              },
-            ),
+                    controller: _scrollController,
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+                    itemCount: chatState.messages.length + (chatState.isTyping ? 1 : 0),
+                    itemBuilder: (context, index) {
+                      if (index == chatState.messages.length && chatState.isTyping) {
+                        return _buildTypingIndicator();
+                      }
+                      return MessageBubble(
+                        message: chatState.messages[index],
+                        onSpeak: chatState.messages[index].isUser
+                            ? null
+                            : () {
+                                ref.read(voiceStateProvider.notifier).speakResponse(chatState.messages[index].text);
+                              },
+                      );
+                    },
+                  ),
           ),
 
           // Live transcript banner
           if (voiceState.isListening)
             Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 16, vertical: 12),
-              color: AppColors.primary.withValues(alpha: 0.08),
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: AppColors.primaryLighter,
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Row(
                 children: [
                   Container(
-                    width: 8,
-                    height: 8,
+                    width: 10,
+                    height: 10,
                     decoration: const BoxDecoration(
                       color: AppColors.error,
                       shape: BoxShape.circle,
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      voiceState.liveTranscript.isEmpty
-                          ? 'Listening...'
-                          : voiceState.liveTranscript,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textPrimary,
-                      ),
+                      voiceState.liveTranscript.isEmpty ? 'Listening...' : voiceState.liveTranscript,
+                      style: const TextStyle(fontSize: 14, color: AppColors.primary, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ],
@@ -206,129 +208,98 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           // Error banner
           if (chatState.error != null)
             Container(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 16, vertical: 10),
-              color: AppColors.errorLight,
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                color: AppColors.errorTint,
+                borderRadius: BorderRadius.circular(16),
+              ),
               child: Row(
                 children: [
-                  const Icon(Icons.error_outline,
-                      color: AppColors.error, size: 16),
-                  const SizedBox(width: 8),
+                  const Icon(Icons.error_outline_rounded, color: AppColors.error, size: 20),
+                  const SizedBox(width: 12),
                   Expanded(
                     child: Text(
                       chatState.error!,
-                      style: const TextStyle(
-                          fontSize: 12, color: AppColors.error),
+                      style: const TextStyle(fontSize: 13, color: AppColors.error, fontWeight: FontWeight.w500),
                     ),
                   ),
                 ],
               ),
             ),
 
-          // Input bar
-          Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 12, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border(
-                top: BorderSide(
-                    color: AppColors.gray200, width: 0.5),
+          // Floating Input bar
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16, top: 4),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: Row(
+                  children: [
+                    // Voice button
+                    GestureDetector(
+                      onTap: _handleVoiceButton,
+                      child: Container(
+                        width: 44,
+                        height: 44,
+                        decoration: const BoxDecoration(
+                          color: AppColors.primary,
+                          shape: BoxShape.circle,
+                        ),
+                        alignment: Alignment.center,
+                        child: Container(
+                            width: 12,
+                            height: 20,
+                            decoration: BoxDecoration(
+                                color: voiceState.isListening ? AppColors.error : AppColors.surfaceDim,
+                                borderRadius: BorderRadius.circular(6)
+                            ),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(width: 16),
+
+                    // Text input
+                    Expanded(
+                      child: TextField(
+                        controller: _controller,
+                        minLines: 1,
+                        maxLines: 4,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: const InputDecoration(
+                          hintText: 'Ask anything...',
+                          hintStyle: TextStyle(fontSize: 16, color: AppColors.textHint, fontWeight: FontWeight.w500),
+                          border: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.zero,
+                        ),
+                        onSubmitted: (_) => _sendMessage(),
+                      ),
+                    ),
+
+                    const SizedBox(width: 12),
+
+                    // Send button
+                    GestureDetector(
+                      onTap: chatState.isTyping ? null : _sendMessage,
+                      child: Container(
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                          color: AppColors.accent,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            child: Row(
-              children: [
-                // Voice button
-                GestureDetector(
-                  onTap: _handleVoiceButton,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: voiceState.isListening
-                          ? AppColors.error
-                          : AppColors.primary.withValues(alpha: 0.1),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      voiceState.isListening
-                          ? Icons.stop_rounded
-                          : Icons.mic_rounded,
-                      color: voiceState.isListening
-                          ? Colors.white
-                          : AppColors.primary,
-                      size: 22,
-                    ),
-                  ),
-                ),
-
-                const SizedBox(width: 10),
-
-                // Text input
-                Expanded(
-                  child: TextField(
-                    controller: _controller,
-                    minLines: 1,
-                    maxLines: 4,
-                    textCapitalization: TextCapitalization.sentences,
-                    decoration: InputDecoration(
-                      hintText: 'Ask a legal question...',
-                      hintStyle: const TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textHint,
-                      ),
-                      filled: true,
-                      fillColor: AppColors.gray50,
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 12),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: const BorderSide(
-                            color: AppColors.gray200),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: const BorderSide(
-                            color: AppColors.gray200),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: const BorderSide(
-                            color: AppColors.primary, width: 1.5),
-                      ),
-                    ),
-                    onSubmitted: (_) => _sendMessage(),
-                  ),
-                ),
-
-                const SizedBox(width: 10),
-
-                // Send button
-                GestureDetector(
-                  onTap: chatState.isTyping ? null : _sendMessage,
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: chatState.isTyping
-                          ? AppColors.gray200
-                          : AppColors.primary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(
-                      chatState.isTyping
-                          ? Icons.hourglass_top_rounded
-                          : Icons.send_rounded,
-                      color: chatState.isTyping
-                          ? AppColors.textHint
-                          : Colors.white,
-                      size: 20,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ),
         ],
@@ -338,73 +309,39 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
   Widget _buildEmptyState() {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
       child: Column(
         children: [
-          const SizedBox(height: 32),
-          Container(
-            width: 72,
-            height: 72,
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.08),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(Icons.gavel_rounded,
-                color: AppColors.primary, size: 36),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'Ask me anything about\nyour legal rights',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: AppColors.textPrimary,
-              height: 1.3,
-            ),
-          ),
-          const SizedBox(height: 8),
-          const Text(
-            'Type or tap the mic to speak',
-            style: TextStyle(fontSize: 13, color: AppColors.textHint),
-          ),
-          const SizedBox(height: 32),
-          // Suggestion chips
+          // Suggestion chips designed as stacked pills
           Wrap(
-            spacing: 8,
-            runSpacing: 8,
+            spacing: 12,
+            runSpacing: 16,
             alignment: WrapAlignment.center,
             children: [
-              'How to file an FIR?',
-              'What is minimum wage?',
-              'Landlord evicting me',
-              'Consumer complaint process',
-              'Workplace harassment rights',
-              'Free legal aid near me',
-            ]
-                .map((q) => GestureDetector(
-              onTap: () {
-                _controller.text = q;
-                _sendMessage();
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 14, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.gray200),
-                ),
-                child: Text(
-                  q,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    color: AppColors.textPrimary,
+              'File an FIR?',
+              'Minimum wage',
+              'Eviction rules',
+              'Consumer complaint',
+              'Workplace harassment',
+              'Free legal aid',
+            ].map((q) => GestureDetector(
+                  onTap: () {
+                    _controller.text = q;
+                    _sendMessage();
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(100),
+                      border: Border.all(color: AppColors.border, width: 1.5),
+                    ),
+                    child: Text(
+                      q,
+                      style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                    ),
                   ),
-                ),
-              ),
-            ))
-                .toList(),
+                )).toList(),
           ),
         ],
       ),
@@ -417,55 +354,14 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       child: Row(
         children: [
           Container(
-            width: 36,
-            height: 36,
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
             decoration: BoxDecoration(
-              gradient: AppColors.primaryGradient,
-              shape: BoxShape.circle,
+              color: AppColors.accentLight,
+              borderRadius: BorderRadius.circular(100),
             ),
-            child: const Icon(Icons.gavel_rounded,
-                color: Colors.white, size: 18),
-          ),
-          const SizedBox(width: 10),
-          Container(
-            padding: const EdgeInsets.symmetric(
-                horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
-              border: Border.all(color: AppColors.gray200),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _dot(0),
-                const SizedBox(width: 4),
-                _dot(150),
-                const SizedBox(width: 4),
-                _dot(300),
-              ],
-            ),
+            child: const Text('Thinking...', style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.w500)),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _dot(int delayMs) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0.4, end: 1.0),
-      duration: const Duration(milliseconds: 600),
-      curve: Curves.easeInOut,
-      builder: (_, value, child) => Opacity(
-        opacity: value,
-        child: Container(
-          width: 7,
-          height: 7,
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            shape: BoxShape.circle,
-          ),
-        ),
       ),
     );
   }

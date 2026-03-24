@@ -7,143 +7,161 @@ class FormReviewScreen extends StatelessWidget {
   final String formTitle;
 
   const FormReviewScreen({
-    Key? key,
+    super.key,
     required this.formData,
     required this.formTitle,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text('Review Form'),
+        title: const Text('Review Form', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: AppColors.textPrimary, letterSpacing: -0.5)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+          onPressed: () => Navigator.pop(context),
+          color: AppColors.textPrimary,
+        ),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Card(
-              color: Colors.green.shade50,
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Icon(Icons.check_circle, color: Colors.green, size: 40),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Form Complete!',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text('Review your information before submitting'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-            SizedBox(height: 24),
-
-            Text(
-              formTitle,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-
-            SizedBox(height: 16),
-
-            ...formData.entries.map((entry) {
-              return Card(
-                margin: EdgeInsets.only(bottom: 12),
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _formatLabel(entry.key),
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: AppColors.textSecondary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        entry.value,
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            }).toList(),
-
-            SizedBox(height: 24),
-
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
-                color: Colors.amber.shade50,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.amber.shade200),
+                color: AppColors.successLight.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppColors.success.withValues(alpha: 0.3)),
               ),
               child: Row(
                 children: [
-                  Icon(Icons.warning, color: Colors.amber.shade700),
-                  SizedBox(width: 12),
-                  Expanded(
-                    child: Text(
-                      'Please ensure all information is accurate.',
-                      style: TextStyle(fontSize: 13),
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(color: AppColors.success.withValues(alpha: 0.15), shape: BoxShape.circle),
+                    child: const Icon(Icons.check_circle_rounded, color: AppColors.success, size: 28),
+                  ),
+                  const SizedBox(width: 16),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Form Complete!', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary)),
+                        SizedBox(height: 4),
+                        Text('Review your information below before submitting.', style: TextStyle(fontSize: 14, color: AppColors.textSecondary, fontWeight: FontWeight.w500)),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-
-            SizedBox(height: 24),
-
+            const SizedBox(height: 32),
+            Text(formTitle, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary, letterSpacing: -0.5)),
+            const SizedBox(height: 20),
+            Container(
+              decoration: BoxDecoration(
+                color: AppColors.surface,
+                borderRadius: BorderRadius.circular(24),
+                boxShadow: AppColors.cardShadow,
+                border: Border.all(color: AppColors.gray200, width: 0.5),
+              ),
+              child: ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(20),
+                itemCount: formData.length,
+                separatorBuilder: (context, index) => Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Divider(color: AppColors.gray200, height: 1),
+                ),
+                itemBuilder: (context, index) {
+                  final entry = formData.entries.elementAt(index);
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        _formatLabel(entry.key),
+                        style: const TextStyle(fontSize: 13, color: AppColors.textSecondary, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        entry.value,
+                        style: const TextStyle(fontSize: 16, color: AppColors.textPrimary, fontWeight: FontWeight.w500, height: 1.4),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 24),
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: AppColors.warningLight.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppColors.warning.withValues(alpha: 0.3)),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.warning_rounded, color: AppColors.warning),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      'Please ensure all information is accurate and final.',
+                      style: TextStyle(fontSize: 13, color: AppColors.textPrimary, fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 32),
             Row(
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Draft saved!')),
-                      );
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Draft saved!')));
                     },
-                    icon: Icon(Icons.save),
-                    label: Text('Save Draft'),
+                    icon: const Icon(Icons.bookmark_border_rounded),
+                    label: const Text('Save Draft', style: TextStyle(fontWeight: FontWeight.bold)),
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppColors.textPrimary,
+                      side: BorderSide(color: AppColors.gray300, width: 1.5),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    ),
                   ),
                 ),
-                SizedBox(width: 12),
+                const SizedBox(width: 16),
                 Expanded(
                   child: ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => FormSuccessScreen(
-                            formTitle: formTitle,
-                          ),
+                          builder: (_) => FormSuccessScreen(formTitle: formTitle),
                         ),
                       );
                     },
-                    icon: Icon(Icons.send),
-                    label: Text('Submit'),
+                    icon: const Icon(Icons.send_rounded, size: 18),
+                    label: const Text('Submit', style: TextStyle(fontWeight: FontWeight.bold)),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    ),
                   ),
                 ),
               ],
             ),
+            const SizedBox(height: 32),
           ],
         ),
       ),
@@ -154,7 +172,7 @@ class FormReviewScreen extends StatelessWidget {
     return key
         .replaceAll('_', ' ')
         .split(' ')
-        .map((word) => word[0].toUpperCase() + word.substring(1))
+        .map((word) => word.isNotEmpty ? word[0].toUpperCase() + word.substring(1) : '')
         .join(' ');
   }
 }

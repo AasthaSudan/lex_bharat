@@ -42,7 +42,7 @@ class _LanguageSelectionScreenState
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.primary.withOpacity(0.3),
+                      color: AppColors.primary.withValues(alpha: 0.3),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -97,7 +97,7 @@ class _LanguageSelectionScreenState
                           horizontal: 20, vertical: 18),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? AppColors.primary.withOpacity(0.06)
+                            ? AppColors.primary.withValues(alpha: 0.06)
                             : Colors.white,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
@@ -114,7 +114,7 @@ class _LanguageSelectionScreenState
                             height: 48,
                             decoration: BoxDecoration(
                               color: isSelected
-                                  ? AppColors.primary.withOpacity(0.1)
+                                  ? AppColors.primary.withValues(alpha: 0.1)
                                   : AppColors.gray100,
                               shape: BoxShape.circle,
                             ),

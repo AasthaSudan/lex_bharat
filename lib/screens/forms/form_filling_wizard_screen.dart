@@ -5,19 +5,16 @@ import 'form_review_screen.dart';
 class FormFillingWizardScreen extends StatefulWidget {
   final String formTitle;
 
-  const FormFillingWizardScreen({Key? key, required this.formTitle})
-      : super(key: key);
+  const FormFillingWizardScreen({super.key, required this.formTitle});
 
   @override
-  _FormFillingWizardScreenState createState() =>
-      _FormFillingWizardScreenState();
+  State<FormFillingWizardScreen> createState() => _FormFillingWizardScreenState();
 }
 
 class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
   int _currentStep = 0;
   final _formKey = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
-
   late List<FormStepData> _steps;
 
   @override
@@ -66,7 +63,6 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
         ),
       ];
     } else {
-      // Default / General
       return [
         FormStepData(
           title: 'Personal Information',
@@ -90,85 +86,120 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: Text(widget.formTitle),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new_rounded, size: 20),
+          onPressed: () => Navigator.pop(context),
+          color: AppColors.textPrimary,
+        ),
+        title: Text(widget.formTitle, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: AppColors.textPrimary, letterSpacing: -0.5)),
       ),
       body: Form(
         key: _formKey,
         child: Column(
           children: [
-            // Progress
+            // Progress Bar
             Container(
-              padding: EdgeInsets.all(16),
-              color: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              color: AppColors.surface,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Step ${_currentStep + 1} of ${_steps.length}',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textSecondary,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        _steps[_currentStep].title,
+                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+                      ),
+                      Text(
+                        'Step ${_currentStep + 1} of ${_steps.length}',
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 8),
-                  LinearProgressIndicator(
-                    value: (_currentStep + 1) / _steps.length,
-                    backgroundColor: Colors.grey.shade200,
-                  ),
-                  SizedBox(height: 8),
-                  Text(
-                    _steps[_currentStep].title,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+                  const SizedBox(height: 16),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: LinearProgressIndicator(
+                      value: (_currentStep + 1) / _steps.length,
+                      backgroundColor: AppColors.gray200,
+                      valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
+                      minHeight: 8,
                     ),
                   ),
                 ],
               ),
             ),
 
-            // Fields
+            // Form Fields
             Expanded(
               child: ListView(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(24),
                 children: _steps[_currentStep].fields.map((field) {
                   return Padding(
-                    padding: EdgeInsets.only(bottom: 16),
-                    child: TextFormField(
-                      initialValue: _formData[field.key],
-                      decoration: InputDecoration(
-                        labelText: field.label,
-                        hintText: field.hint,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12),
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          field.label,
+                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
                         ),
-                      ),
-                      maxLines: field.maxLines,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'This field is required';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _formData[field.key] = value ?? '';
-                      },
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          initialValue: _formData[field.key],
+                          decoration: InputDecoration(
+                            hintText: field.hint,
+                            hintStyle: const TextStyle(color: AppColors.textHint, fontSize: 15),
+                            filled: true,
+                            fillColor: AppColors.surface,
+                            contentPadding: const EdgeInsets.all(16),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: BorderSide(color: AppColors.gray200),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: BorderSide(color: AppColors.gray200),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(16),
+                              borderSide: const BorderSide(color: AppColors.primary, width: 2),
+                            ),
+                          ),
+                          maxLines: field.maxLines,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'This field is required';
+                            }
+                            return null;
+                          },
+                          onSaved: (value) {
+                            _formData[field.key] = value ?? '';
+                          },
+                        ),
+                      ],
                     ),
                   );
                 }).toList(),
               ),
             ),
 
+            // Bottom Action Bar
             Container(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: AppColors.surface,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 4,
-                    offset: Offset(0, -2),
+                    color: Colors.black.withValues(alpha: 0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, -4),
                   ),
                 ],
               ),
@@ -176,22 +207,29 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
                 children: [
                   if (_currentStep > 0)
                     Expanded(
+                      flex: 1,
                       child: OutlinedButton(
                         onPressed: () {
                           setState(() {
                             _currentStep--;
                           });
                         },
-                        child: Text('Previous'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: AppColors.textPrimary,
+                          side: BorderSide(color: AppColors.gray300),
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                        ),
+                        child: const Text('Back', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
                       ),
                     ),
-                  if (_currentStep > 0) SizedBox(width: 16),
+                  if (_currentStep > 0) const SizedBox(width: 16),
                   Expanded(
+                    flex: 2,
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           _formKey.currentState!.save();
-
                           if (_currentStep < _steps.length - 1) {
                             setState(() {
                               _currentStep++;
@@ -209,8 +247,16 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
                           }
                         }
                       },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
                       child: Text(
-                        _currentStep < _steps.length - 1 ? 'Next' : 'Review',
+                        _currentStep < _steps.length - 1 ? 'Next Step' : 'Review Draft',
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                     ),
                   ),
@@ -235,10 +281,5 @@ class FormFieldData {
   final String label;
   final String hint;
   final int maxLines;
-  FormFieldData({
-    required this.key,
-    required this.label,
-    required this.hint,
-    this.maxLines = 1,
-  });
+  FormFieldData({required this.key, required this.label, required this.hint, this.maxLines = 1});
 }

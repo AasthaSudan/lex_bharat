@@ -10,6 +10,7 @@ import 'screens/learn/categories_screen.dart';
 import 'screens/chat/chat_screen.dart';
 import 'screens/forms/form_list_screen.dart';
 import 'screens/profile/profile_screen.dart';
+import 'screens/resources/resources_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,28 +44,54 @@ class LegalRightsApp extends StatelessWidget {
       home: const SplashScreen(),
       theme: ThemeData(
         useMaterial3: true,
-        primaryColor: const Color(0xFF3B82F6),
-        scaffoldBackgroundColor: const Color(0xFFFAFAFA),
+        scaffoldBackgroundColor: const Color(0xFFFAFAF8),
+        primaryColor: const Color(0xFF1A1A2E),
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF3B82F6),
-          primary: const Color(0xFF3B82F6),
+          seedColor: const Color(0xFF1A1A2E),
+          primary: const Color(0xFF1A1A2E),
+          secondary: const Color(0xFF7B5CF8),
         ),
-        textTheme: GoogleFonts.poppinsTextTheme(),
+        textTheme: GoogleFonts.interTextTheme(),
         appBarTheme: const AppBarTheme(
           elevation: 0,
-          backgroundColor: Colors.white,
-          foregroundColor: Color(0xFF111827),
-          iconTheme: IconThemeData(color: Color(0xFF111827)),
+          backgroundColor: Colors.transparent,
+          foregroundColor: Color(0xFF1A1A2E),
+          iconTheme: IconThemeData(color: Color(0xFF1A1A2E)),
+          centerTitle: false,
+        ),
+        cardTheme: CardThemeData(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+            side: const BorderSide(color: Color(0xFFF0EFE9), width: 1),
+          ),
+          elevation: 0,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF3B82F6),
+            backgroundColor: const Color(0xFF1A1A2E),
             foregroundColor: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(14),
             ),
           ),
+        ),
+        navigationBarTheme: NavigationBarThemeData(
+          backgroundColor: const Color(0xFFFAFAF8),
+          indicatorColor: const Color(0xFFE8E4FF),
+          labelTextStyle: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF1A1A2E));
+            }
+            return const TextStyle(fontSize: 11, color: Color(0xFF9B9B9B));
+          }),
+          iconTheme: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.selected)) {
+              return const IconThemeData(color: Color(0xFF7B5CF8));
+            }
+            return const IconThemeData(color: Color(0xFF9B9B9B));
+          }),
         ),
       ),
     );
@@ -99,8 +126,8 @@ class _HomeNavigationState extends State<HomeNavigation> {
       label: 'Forms',
     ),
     const NavigationDestination(
-      icon: Icon(Icons.person),
-      label: 'Profile',
+      icon: Icon(Icons.map_rounded),
+      label: 'Help',
     ),
   ];
 
@@ -131,7 +158,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
       case 3:
         return const FormListScreen();
       case 4:
-        return const ProfileScreen();
+        return const ResourcesScreen();
       default:
         return const HomeScreen();
     }

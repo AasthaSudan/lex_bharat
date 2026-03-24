@@ -14,30 +14,22 @@ class MessageBubble extends StatelessWidget {
       alignment: message.isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 6),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width * 0.75,
         ),
         decoration: BoxDecoration(
-          color: message.isUser ? AppColors.primary : Colors.grey.shade200,
+          color: message.isUser ? AppColors.primary : AppColors.surfaceDim,
           borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(16),
-            topRight: const Radius.circular(16),
-            bottomLeft:
-            message.isUser ? const Radius.circular(16) : const Radius.circular(4),
-            bottomRight:
-            message.isUser ? const Radius.circular(4) : const Radius.circular(16),
+            topLeft: const Radius.circular(20),
+            topRight: const Radius.circular(20),
+            bottomLeft: message.isUser ? const Radius.circular(20) : const Radius.circular(4),
+            bottomRight: message.isUser ? const Radius.circular(4) : const Radius.circular(20),
           ),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               message.text,
@@ -45,35 +37,19 @@ class MessageBubble extends StatelessWidget {
                 color: message.isUser ? Colors.white : AppColors.textPrimary,
                 fontSize: 15,
                 height: 1.4,
+                fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(height: 6),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  _formatTime(message.timestamp),
-                  style: TextStyle(
-                    color: message.isUser ? Colors.white70 : AppColors.textHint,
-                    fontSize: 11,
-                  ),
-                ),
-                if (!message.isUser && onSpeak != null) ...[
-                  const SizedBox(width: 8),
-                  GestureDetector(
-                    onTap: onSpeak,
-                    child: const Icon(Icons.volume_up, size: 14, color: AppColors.primary),
-                  ),
-                ],
-              ],
-            ),
+            if (!message.isUser && onSpeak != null) ...[
+              const SizedBox(height: 6),
+              GestureDetector(
+                onTap: onSpeak,
+                child: const Icon(Icons.volume_up, size: 16, color: AppColors.textSecondary),
+              ),
+            ],
           ],
         ),
       ),
     );
-  }
-
-  String _formatTime(DateTime time) {
-    return '${time.hour}:${time.minute.toString().padLeft(2, '0')}';
   }
 }
