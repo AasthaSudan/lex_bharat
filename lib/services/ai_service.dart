@@ -3,7 +3,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class AIService {
   final Dio _dio = Dio();
-  final String _apiKey = dotenv.env['GROQ_API_KEY'] ?? ''; // get from console.groq.com
+  final String _apiKey = dotenv.env['GROQ_API_KEY'] ?? '';
   final String _baseUrl = 'https://api.groq.com/openai/v1/chat/completions';
 
   final String _systemPrompt = '''You are Lex Bharat, an AI legal rights
@@ -57,7 +57,6 @@ Rules:
     }
   }
 
-  // Fallback when offline or API fails
   String _getFallbackResponse(String question) {
     final q = question.toLowerCase();
     if (q.contains('fir') || q.contains('police')) {
