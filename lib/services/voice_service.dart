@@ -58,7 +58,6 @@ class VoiceService {
   }
 
   Future<void> speak(String text) async {
-    // Strip disclaimer for TTS to keep it short
     final cleanText = text
         .replaceAll('This is for educational purposes only.', '')
         .replaceAll('For legal advice, consult a qualified lawyer.', '')
