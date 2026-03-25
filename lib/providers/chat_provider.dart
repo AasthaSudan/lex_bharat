@@ -37,7 +37,6 @@ class ChatNotifier extends Notifier<ChatState> {
 
   @override
   ChatState build() {
-    // Load history when provider initializes
     _loadHistory();
     return const ChatState();
   }
@@ -45,7 +44,7 @@ class ChatNotifier extends Notifier<ChatState> {
   Future<void> _loadHistory() async {
     try {
       final user = _supabase.auth.currentUser;
-      if (user == null) return; // guest mode — no history
+      if (user == null) return;
 
       final data = await _supabase
           .from('chat_history')
@@ -73,7 +72,6 @@ class ChatNotifier extends Notifier<ChatState> {
 
       state = state.copyWith(messages: messages);
     } catch (_) {
-      // Silently fail — chat still works without history
     }
   }
 
@@ -109,7 +107,6 @@ class ChatNotifier extends Notifier<ChatState> {
         isTyping: false,
       );
 
-      // Save to Supabase in background (don't await — don't block UI)
       _saveToSupabase(text, response);
     } catch (e) {
       state = state.copyWith(
@@ -130,7 +127,7 @@ class ChatNotifier extends Notifier<ChatState> {
         'answer': answer,
       });
     } catch (_) {
-      // Silently fail — user doesn't need to know
+
     }
   }
 
