@@ -84,7 +84,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     final chatState = ref.watch(chatProvider);
     final voiceState = ref.watch(voiceStateProvider);
 
-    // Auto scroll when new message arrives
     if (chatState.messages.isNotEmpty) _scrollToBottom();
 
     return Scaffold(
@@ -151,7 +150,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       ),
       body: Column(
         children: [
-          // Messages list
           Expanded(
             child: chatState.messages.isEmpty
                 ? _buildEmptyState()
@@ -175,7 +173,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   ),
           ),
 
-          // Live transcript banner
           if (voiceState.isListening)
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
