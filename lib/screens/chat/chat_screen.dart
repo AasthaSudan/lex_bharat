@@ -205,7 +205,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               ),
             ),
 
-          // Error banner
           if (chatState.error != null)
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -228,7 +227,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               ),
             ),
 
-          // Floating Input bar
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.only(left: 20, right: 20, bottom: 16, top: 4),
@@ -240,7 +238,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 ),
                 child: Row(
                   children: [
-                    // Voice button
                     GestureDetector(
                       onTap: _handleVoiceButton,
                       child: Container(
@@ -264,7 +261,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
                     const SizedBox(width: 16),
 
-                    // Text input
                     Expanded(
                       child: TextField(
                         controller: _controller,
@@ -285,7 +281,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
                     const SizedBox(width: 12),
 
-                    // Send button
                     GestureDetector(
                       onTap: chatState.isTyping ? null : _sendMessage,
                       child: Container(
@@ -312,7 +307,6 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
       child: Column(
         children: [
-          // Suggestion chips designed as stacked pills
           Wrap(
             spacing: 12,
             runSpacing: 16,
