@@ -102,7 +102,6 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
         key: _formKey,
         child: Column(
           children: [
-            // Progress Bar
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               color: AppColors.surface,
@@ -136,7 +135,6 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
               ),
             ),
 
-            // Form Fields
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.all(24),
@@ -190,7 +188,6 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
               ),
             ),
 
-            // Bottom Action Bar
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
