@@ -119,7 +119,7 @@ class ChatNotifier extends Notifier<ChatState> {
   Future<void> _saveToSupabase(String question, String answer) async {
     try {
       final user = _supabase.auth.currentUser;
-      if (user == null) return; // guest — skip saving
+      if (user == null) return;
 
       await _supabase.from('chat_history').insert({
         'user_id': user.id,
