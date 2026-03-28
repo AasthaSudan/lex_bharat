@@ -45,8 +45,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 32),
-              
-              // Search Bar
+
               GestureDetector(
                 onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatScreen())),
                 child: Container(
@@ -81,7 +80,6 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // Emergency Help Card
               GestureDetector(
                 onTap: () => _showEmergencyDialog(context),
                 child: Container(
