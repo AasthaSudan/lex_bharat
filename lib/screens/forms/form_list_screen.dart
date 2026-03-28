@@ -11,7 +11,7 @@ class FormListScreen extends StatelessWidget {
       'title': 'Police Complaint (FIR)',
       'description': 'File a First Information Report securely',
       'icon': Icons.local_police_rounded,
-      'color': Color(0xFFEF4444), // Red
+      'color': Color(0xFFEF4444),
       'category': 'Criminal',
       'fieldsCount': 8,
       'estimatedTime': 10,
@@ -22,7 +22,7 @@ class FormListScreen extends StatelessWidget {
       'title': 'Legal Aid Application',
       'description': 'Apply for state-sponsored free legal assistance',
       'icon': Icons.gavel_rounded,
-      'color': Color(0xFF4F46E5), // Indigo
+      'color': Color(0xFF4F46E5),
       'category': 'Legal Aid',
       'fieldsCount': 6,
       'estimatedTime': 8,
@@ -33,7 +33,7 @@ class FormListScreen extends StatelessWidget {
       'title': 'Consumer Complaint',
       'description': 'Report defective products or poor service',
       'icon': Icons.shopping_bag_rounded,
-      'color': Color(0xFFF59E0B), // Amber
+      'color': Color(0xFFF59E0B),
       'category': 'Consumer',
       'fieldsCount': 7,
       'estimatedTime': 12,
@@ -44,7 +44,7 @@ class FormListScreen extends StatelessWidget {
       'title': 'Labor Grievance',
       'description': 'File a workplace complaint for unpaid wages, etc.',
       'icon': Icons.work_rounded,
-      'color': Color(0xFF10B981), // Emerald
+      'color': Color(0xFF10B981),
       'category': 'Labor',
       'fieldsCount': 9,
       'estimatedTime': 15,
@@ -55,7 +55,7 @@ class FormListScreen extends StatelessWidget {
       'title': 'RTI Application',
       'description': 'Request information from a government body',
       'icon': Icons.info_rounded,
-      'color': Color(0xFF7C3AED), // Violet
+      'color': Color(0xFF7C3AED),
       'category': 'Government',
       'fieldsCount': 5,
       'estimatedTime': 5,
@@ -94,7 +94,6 @@ class FormListScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Voice assistant banner
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
@@ -275,7 +274,6 @@ class _FormListTile extends StatelessWidget {
         ),
         child: Row(
           children: [
-            // Icon
             Container(
               width: 56,
               height: 56,
@@ -331,5 +329,5 @@ class _FormListTile extends StatelessWidget {
         ),
       ),
     );
-}
+  }
 }
