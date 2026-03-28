@@ -33,7 +33,6 @@ class _LanguageSelectionScreenState
             children: [
               const SizedBox(height: 48),
 
-              // Logo
               Container(
                 width: 56,
                 height: 56,

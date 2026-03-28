@@ -21,7 +21,6 @@ class ProfileScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            // Profile Header
             Container(
               width: double.infinity,
               padding: EdgeInsets.only(top: topPadding + 20, left: 24, right: 24, bottom: 60),
@@ -77,7 +76,6 @@ class ProfileScreen extends ConsumerWidget {
               ),
             ),
 
-            // Content
             Transform.translate(
               offset: const Offset(0, -30),
               child: Padding(
