@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/colors.dart';
+import '../auth/login_screen.dart';
 import '../onboarding/language_selection_screen.dart';
 
 class ProfileScreen extends ConsumerWidget {
@@ -14,6 +15,7 @@ class ProfileScreen extends ConsumerWidget {
     final user = Supabase.instance.client.auth.currentUser;
     final isDarkMode = ref.watch(themeProvider);
     final currentLanguage = ref.watch(languageProvider);
+    final isSecurityLocked = ref.watch(securityLockProvider);
     final topPadding = MediaQuery.of(context).padding.top;
 
     return Scaffold(
@@ -105,6 +107,18 @@ class ProfileScreen extends ConsumerWidget {
                             onChanged: (value) => ref.read(themeProvider.notifier).toggleTheme(),
                           ),
                         ),
+                        _buildDivider(),
+                        _buildListTile(
+                          icon: Icons.lock_outline_rounded,
+                          iconColor: AppColors.success,
+                          title: 'App Lock',
+                          subtitle: 'Biometric security for documents',
+                          trailing: Switch(
+                            value: isSecurityLocked,
+                            activeColor: AppColors.primary,
+                            onChanged: (value) => ref.read(securityLockProvider.notifier).toggleSecurityLock(),
+                          ),
+                        ),
                       ],
                     ),
 
@@ -141,8 +155,14 @@ class ProfileScreen extends ConsumerWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
+                        // Find the signOut button onPressed and replace with:
                         onPressed: () async {
                           await ref.read(authProvider.notifier).signOut();
+                          if (!context.mounted) return;
+                          Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(builder: (_) => const LoginScreen()),
+                                (route) => false,
+                          );
                         },
                         icon: const Icon(Icons.logout_rounded, color: Colors.white),
                         label: const Text('Sign Out', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),

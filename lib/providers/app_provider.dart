@@ -54,3 +54,25 @@ final setFirstTimeFalseProvider = FutureProvider<void>((ref) async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.setBool('first_time', false);
 });
+
+final securityLockProvider =
+NotifierProvider<SecurityLockNotifier, bool>(SecurityLockNotifier.new);
+
+class SecurityLockNotifier extends Notifier<bool> {
+  @override
+  bool build() {
+    _loadSecurityLock();
+    return false;
+  }
+
+  Future<void> _loadSecurityLock() async {
+    final prefs = await SharedPreferences.getInstance();
+    state = prefs.getBool('security_lock') ?? false;
+  }
+
+  Future<void> toggleSecurityLock() async {
+    state = !state;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('security_lock', state);
+  }
+}

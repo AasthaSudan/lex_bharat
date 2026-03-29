@@ -1,9 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:local_auth/local_auth.dart';
 import '../../utils/colors.dart';
+import '../../providers/app_provider.dart';
 import 'form_filling_wizard_screen.dart';
 
-class FormListScreen extends StatelessWidget {
+class FormListScreen extends ConsumerStatefulWidget {
   const FormListScreen({super.key});
+
+  @override
+  ConsumerState<FormListScreen> createState() => _FormListScreenState();
+}
+
+class _FormListScreenState extends ConsumerState<FormListScreen> {
+  final LocalAuthentication _auth = LocalAuthentication();
+  bool _isAuthenticated = false;
 
   final List<Map<String, dynamic>> _forms = const [
     {
@@ -64,7 +75,84 @@ class FormListScreen extends StatelessWidget {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkAuth();
+    });
+  }
+
+  Future<void> _checkAuth() async {
+    final isLocked = ref.read(securityLockProvider);
+    if (!isLocked) {
+      if (mounted) setState(() => _isAuthenticated = true);
+      return;
+    }
+
+    try {
+      final bool canAuthenticateWithBiometrics = await _auth.canCheckBiometrics;
+      final bool canAuthenticate = canAuthenticateWithBiometrics || await _auth.isDeviceSupported();
+
+      if (!canAuthenticate) {
+        if (mounted) setState(() => _isAuthenticated = true);
+        return;
+      }
+
+      final bool didAuthenticate = await _auth.authenticate(
+        localizedReason: 'Please authenticate to access your legal documents',
+      );
+
+      if (mounted) setState(() => _isAuthenticated = didAuthenticate);
+      
+      if (!didAuthenticate && mounted) {
+        // Option: Don't pop, just stay on lock screen.
+      }
+    } catch (e) {
+      if (mounted) setState(() => _isAuthenticated = true);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (!_isAuthenticated) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.lock_rounded, size: 64, color: AppColors.primary),
+              const SizedBox(height: 24),
+              const Text(
+                'Documents Locked',
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+              ),
+              const SizedBox(height: 8),
+              const Text(
+                'Authentication required',
+                style: TextStyle(fontSize: 16, color: AppColors.textSecondary),
+              ),
+              const SizedBox(height: 32),
+              ElevatedButton(
+                onPressed: _checkAuth,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                ),
+                child: const Text('Unlock Vault', style: TextStyle(fontWeight: FontWeight.bold)),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('Go Back', style: TextStyle(color: AppColors.textSecondary)),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
     final popularForms = _forms.where((f) => f['popular'] == true).toList();
     final allForms = _forms;
 

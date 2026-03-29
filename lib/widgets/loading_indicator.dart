@@ -1,3 +1,42 @@
+// import 'package:flutter/material.dart';
+//
+// class LoadingIndicator extends StatelessWidget {
+//   final String? message;
+//   final Color? color;
+//
+//   const LoadingIndicator({
+//     Key? key,
+//     this.message,
+//     this.color,
+//   })
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Center(
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: [
+//           CircularProgressIndicator(
+//             valueColor: AlwaysStoppedAnimation<Color>(
+//               color ?? Theme.of(context).primaryColor,
+//             ),
+//           ),
+//           if (message != null) ...[
+//             SizedBox(height: 16),
+//             Text(
+//               message!,
+//               style: TextStyle(
+//                 color: Colors.grey[600],
+//                 fontSize: 14,
+//               ),
+//             ),
+//           ],
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
 
 class LoadingIndicator extends StatelessWidget {
@@ -5,10 +44,10 @@ class LoadingIndicator extends StatelessWidget {
   final Color? color;
 
   const LoadingIndicator({
-    Key? key,
+    super.key,
     this.message,
     this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +61,7 @@ class LoadingIndicator extends StatelessWidget {
             ),
           ),
           if (message != null) ...[
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               message!,
               style: TextStyle(

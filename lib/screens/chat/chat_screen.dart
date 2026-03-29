@@ -4,6 +4,10 @@ import '../../providers/chat_provider.dart';
 import '../../providers/voice_provider.dart';
 import '../../utils/colors.dart';
 import '../../widgets/message_bubble.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
+import 'package:intl/intl.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({super.key});
@@ -57,6 +61,54 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       await ref.read(chatProvider.notifier).sendMessage(transcript);
       _scrollToBottom();
     }
+  }
+
+  Future<void> _exportChatToPdf() async {
+    final messages = ref.read(chatProvider).messages;
+    if (messages.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No chat history to export.')));
+      return;
+    }
+
+    final pdf = pw.Document();
+    
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            pw.Header(
+              level: 0,
+              child: pw.Text('Lex Bharat - Legal Consultation History', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 24)),
+            ),
+            pw.Paragraph(text: 'Generated on: ${DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now())}'),
+            pw.Divider(),
+            ...messages.map((m) {
+              return pw.Container(
+                margin: const pw.EdgeInsets.only(bottom: 10),
+                alignment: m.isUser ? pw.Alignment.centerRight : pw.Alignment.centerLeft,
+                child: pw.Container(
+                  padding: const pw.EdgeInsets.all(10),
+                  constraints: const pw.BoxConstraints(maxWidth: 400),
+                  decoration: pw.BoxDecoration(
+                    color: m.isUser ? PdfColors.blue100 : PdfColors.grey200,
+                    borderRadius: pw.BorderRadius.circular(8),
+                  ),
+                  child: pw.Text(
+                    '${m.isUser ? "You" : "Legal Assistant"}:\n${m.text}',
+                  ),
+                ),
+              );
+            }).toList(),
+          ];
+        },
+      ),
+    );
+
+    await Printing.sharePdf(
+      bytes: await pdf.save(),
+      filename: 'Legal_Chat_History_${DateTime.now().millisecondsSinceEpoch}.pdf',
+    );
   }
 
   Widget _buildBotIcon() {
@@ -117,6 +169,10 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.picture_as_pdf_outlined, color: AppColors.primary),
+            onPressed: () => _exportChatToPdf(),
+          ),
           IconButton(
             icon: const Icon(Icons.more_horiz_rounded, color: AppColors.textSecondary),
             onPressed: () {

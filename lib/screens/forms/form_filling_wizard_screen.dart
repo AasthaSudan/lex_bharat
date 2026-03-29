@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../utils/colors.dart';
 import 'form_review_screen.dart';
+import 'package:signature/signature.dart';
+import 'dart:typed_data';
 
 class FormFillingWizardScreen extends StatefulWidget {
   final String formTitle;
@@ -16,11 +18,25 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
   final _formKey = GlobalKey<FormState>();
   final Map<String, String> _formData = {};
   late List<FormStepData> _steps;
+  
+  late SignatureController _signatureController;
+  Uint8List? _signatureBytes;
 
   @override
   void initState() {
     super.initState();
     _steps = _getStepsForForm(widget.formTitle);
+    _signatureController = SignatureController(
+      penStrokeWidth: 3,
+      penColor: AppColors.primary,
+      exportBackgroundColor: Colors.white,
+    );
+  }
+
+  @override
+  void dispose() {
+    _signatureController.dispose();
+    super.dispose();
   }
 
   List<FormStepData> _getStepsForForm(String title) {
@@ -112,11 +128,11 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        _steps[_currentStep].title,
+                        _currentStep < _steps.length ? _steps[_currentStep].title : 'E-Signature',
                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
                       ),
                       Text(
-                        'Step ${_currentStep + 1} of ${_steps.length}',
+                        'Step ${_currentStep + 1} of ${_steps.length + 1}',
                         style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
                       ),
                     ],
@@ -125,7 +141,7 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: LinearProgressIndicator(
-                      value: (_currentStep + 1) / _steps.length,
+                      value: (_currentStep + 1) / (_steps.length + 1),
                       backgroundColor: AppColors.gray200,
                       valueColor: const AlwaysStoppedAnimation<Color>(AppColors.primary),
                       minHeight: 8,
@@ -136,56 +152,93 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
             ),
 
             Expanded(
-              child: ListView(
-                padding: const EdgeInsets.all(24),
-                children: _steps[_currentStep].fields.map((field) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          field.label,
-                          style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
-                        ),
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          initialValue: _formData[field.key],
-                          decoration: InputDecoration(
-                            hintText: field.hint,
-                            hintStyle: const TextStyle(color: AppColors.textHint, fontSize: 15),
-                            filled: true,
-                            fillColor: AppColors.surface,
-                            contentPadding: const EdgeInsets.all(16),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: AppColors.gray200),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: BorderSide(color: AppColors.gray200),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(16),
-                              borderSide: const BorderSide(color: AppColors.primary, width: 2),
-                            ),
+              child: _currentStep < _steps.length 
+              ? ListView(
+                  padding: const EdgeInsets.all(24),
+                  children: _steps[_currentStep].fields.map((field) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            field.label,
+                            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
                           ),
-                          maxLines: field.maxLines,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'This field is required';
-                            }
-                            return null;
-                          },
-                          onSaved: (value) {
-                            _formData[field.key] = value ?? '';
-                          },
+                          const SizedBox(height: 8),
+                          TextFormField(
+                            initialValue: _formData[field.key],
+                            decoration: InputDecoration(
+                              hintText: field.hint,
+                              hintStyle: const TextStyle(color: AppColors.textHint, fontSize: 15),
+                              filled: true,
+                              fillColor: AppColors.surface,
+                              contentPadding: const EdgeInsets.all(16),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: AppColors.gray200),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: BorderSide(color: AppColors.gray200),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(16),
+                                borderSide: const BorderSide(color: AppColors.primary, width: 2),
+                              ),
+                            ),
+                            maxLines: field.maxLines,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'This field is required';
+                              }
+                              return null;
+                            },
+                            onSaved: (value) {
+                              _formData[field.key] = value ?? '';
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Sign here to authorize the form',
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textSecondary),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: AppColors.gray200, width: 1.5),
+                          borderRadius: BorderRadius.circular(16),
                         ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(16),
+                          child: Signature(
+                            controller: _signatureController,
+                            height: 300,
+                            backgroundColor: AppColors.surface,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      TextButton.icon(
+                        onPressed: () {
+                          _signatureController.clear();
+                        },
+                        icon: const Icon(Icons.clear_all_rounded, size: 18),
+                        label: const Text('Clear Signature'),
+                        style: TextButton.styleFrom(foregroundColor: AppColors.error),
+                      ),
+                    ],
+                  ),
+                ),
             ),
 
             Container(
@@ -224,20 +277,31 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
                   Expanded(
                     flex: 2,
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          if (_currentStep < _steps.length - 1) {
+                      onPressed: () async {
+                        if (_currentStep < _steps.length) {
+                          if (_formKey.currentState!.validate()) {
+                            _formKey.currentState!.save();
                             setState(() {
                               _currentStep++;
                             });
-                          } else {
+                          }
+                        } else {
+                          if (_signatureController.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Please sign to continue')),
+                            );
+                            return;
+                          }
+                          _signatureBytes = await _signatureController.toPngBytes();
+                          
+                          if (mounted) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (_) => FormReviewScreen(
                                   formData: _formData,
                                   formTitle: widget.formTitle,
+                                  signature: _signatureBytes,
                                 ),
                               ),
                             );
@@ -252,7 +316,7 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                       ),
                       child: Text(
-                        _currentStep < _steps.length - 1 ? 'Next Step' : 'Review Draft',
+                        _currentStep < _steps.length ? 'Next Step' : 'Review Draft',
                         style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                     ),

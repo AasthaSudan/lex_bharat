@@ -22,7 +22,7 @@ class VoiceButton extends StatelessWidget {
         boxShadow: isListening
             ? [
           BoxShadow(
-            color: AppColors.error.withOpacity(0.4),
+            color: AppColors.error.withValues(alpha: 0.4),
             blurRadius: 12,
             spreadRadius: 2,
           ),

@@ -5,6 +5,7 @@ import '../forms/form_list_screen.dart';
 import '../learn/categories_screen.dart';
 import '../../utils/constants.dart';
 import '../resources/resources_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -13,6 +14,17 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
+          final Uri url = Uri(scheme: 'tel', path: '112');
+          if (await canLaunchUrl(url)) {
+            await launchUrl(url);
+          }
+        },
+        backgroundColor: AppColors.error,
+        icon: const Icon(Icons.sos_rounded, color: Colors.white),
+        label: const Text('SOS', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -20,19 +32,39 @@ class HomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 16),
-              const Row(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Good morning',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
-                      letterSpacing: -1,
-                    ),
+                  const Row(
+                    children: [
+                      Text(
+                        'Good morning',
+                        style: TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.textPrimary,
+                          letterSpacing: -1,
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Text('👋', style: TextStyle(fontSize: 28)),
+                    ],
                   ),
-                  SizedBox(width: 8),
-                  Text('👋', style: TextStyle(fontSize: 28)),
+                  Stack(
+                    alignment: Alignment.topRight,
+                    children: [
+                      const Icon(Icons.notifications_none_rounded, size: 30, color: AppColors.textPrimary),
+                      Container(
+                        margin: const EdgeInsets.only(top: 2, right: 2),
+                        width: 10,
+                        height: 10,
+                        decoration: const BoxDecoration(
+                          color: AppColors.error,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(height: 8),

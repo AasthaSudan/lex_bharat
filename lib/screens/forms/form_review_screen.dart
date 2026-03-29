@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 import '../../utils/colors.dart';
 import 'form_success_screen.dart';
+import 'dart:typed_data';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
+import 'package:intl/intl.dart';
 
 class FormReviewScreen extends StatelessWidget {
   final Map<String, String> formData;
   final String formTitle;
+  final Uint8List? signature;
 
   const FormReviewScreen({
     super.key,
     required this.formData,
     required this.formTitle,
+    this.signature,
   });
 
   @override
@@ -98,6 +105,28 @@ class FormReviewScreen extends StatelessWidget {
                 },
               ),
             ),
+            if (signature != null) ...[
+              const SizedBox(height: 24),
+              const Text(
+                'Signature',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+              ),
+              const SizedBox(height: 12),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(24),
+                  border: Border.all(color: AppColors.gray200, width: 0.5),
+                ),
+                child: Image.memory(
+                  signature!,
+                  height: 150,
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ],
             const SizedBox(height: 24),
             Container(
               padding: const EdgeInsets.all(16),
@@ -124,14 +153,12 @@ class FormReviewScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: OutlinedButton.icon(
-                    onPressed: () {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Draft saved!')));
-                    },
-                    icon: const Icon(Icons.bookmark_border_rounded),
-                    label: const Text('Save Draft', style: TextStyle(fontWeight: FontWeight.bold)),
+                    onPressed: () => _generatePdf(context),
+                    icon: const Icon(Icons.download_rounded),
+                    label: const Text('Download PDF', style: TextStyle(fontWeight: FontWeight.bold)),
                     style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.textPrimary,
-                      side: BorderSide(color: AppColors.gray300, width: 1.5),
+                      foregroundColor: AppColors.primary,
+                      side: const BorderSide(color: AppColors.primary, width: 1.5),
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                     ),
@@ -166,6 +193,78 @@ class FormReviewScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _generatePdf(BuildContext context) async {
+    final pdf = pw.Document();
+
+    final signatureImage = signature != null ? pw.MemoryImage(signature!) : null;
+
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        build: (pw.Context context) {
+          return [
+            pw.Header(
+              level: 0,
+              child: pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: [
+                  pw.Text('LEX BHARAT', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 24, color: PdfColors.blue800)),
+                  pw.Text('Legal Document', style: pw.TextStyle(fontSize: 12, color: PdfColors.grey700)),
+                ],
+              ),
+            ),
+            pw.SizedBox(height: 20),
+            pw.Text(formTitle.toUpperCase(), style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+            pw.SizedBox(height: 10),
+            pw.Text('Generated on: ${DateFormat('dd MMMM yyyy, HH:mm').format(DateTime.now())}'),
+            pw.Divider(thickness: 1, color: PdfColors.grey300),
+            pw.SizedBox(height: 20),
+            ...formData.entries.map((entry) {
+              return pw.Padding(
+                padding: const pw.EdgeInsets.only(bottom: 12),
+                child: pw.Column(
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    pw.Text(_formatLabel(entry.key), style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold, color: PdfColors.blue900)),
+                    pw.SizedBox(height: 4),
+                    pw.Text(entry.value, style: const pw.TextStyle(fontSize: 12)),
+                  ],
+                ),
+              );
+            }).toList(),
+            pw.SizedBox(height: 40),
+            if (signatureImage != null) ...[
+              pw.Divider(thickness: 1, color: PdfColors.grey300),
+              pw.SizedBox(height: 10),
+              pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.end,
+                children: [
+                  pw.Column(
+                    children: [
+                      pw.Container(
+                        width: 150,
+                        height: 60,
+                        child: pw.Image(signatureImage),
+                      ),
+                      pw.SizedBox(height: 4),
+                      pw.Text('Authorized Signature', style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold)),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+            pw.Footer(
+              margin: const pw.EdgeInsets.only(top: 40),
+              trailing: pw.Text('Page ${context.pageNumber} of ${context.pagesCount}', style: const pw.TextStyle(fontSize: 10)),
+            ),
+          ];
+        },
+      ),
+    );
+
+    await Printing.layoutPdf(onLayout: (PdfPageFormat format) async => pdf.save());
   }
 
   String _formatLabel(String key) {

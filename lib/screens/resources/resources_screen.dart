@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../utils/colors.dart';
 import '../../utils/sample_data.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ResourcesScreen extends StatefulWidget {
   const ResourcesScreen({super.key});
@@ -214,10 +215,11 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                         children: [
                           Expanded(
                             child: OutlinedButton.icon(
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Calling ${resource['phone']}...')),
-                                );
+                              onPressed: () async {
+                                final Uri url = Uri(scheme: 'tel', path: resource['phone'] as String);
+                                if (await canLaunchUrl(url)) {
+                                  await launchUrl(url);
+                                }
                               },
                               icon: const Icon(Icons.call_rounded, size: 18),
                               label: const Text('Call', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
@@ -234,13 +236,15 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                           const SizedBox(width: 16),
                           Expanded(
                             child: ElevatedButton.icon(
-                              onPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text('Opening Maps...')),
-                                );
+                              onPressed: () async {
+                                final query = Uri.encodeComponent(resource['address'] as String);
+                                final Uri googleMapsUrl = Uri.parse("https://www.google.com/maps/search/?api=1&query=$query");
+                                if (await canLaunchUrl(googleMapsUrl)) {
+                                  await launchUrl(googleMapsUrl, mode: LaunchMode.externalApplication);
+                                }
                               },
                               icon: const Icon(Icons.directions_rounded, size: 18),
-                              label: const Text('Directions', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                              label: const Text('Navigate', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
                                 foregroundColor: Colors.white,
@@ -253,6 +257,50 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                             ),
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: TextButton.icon(
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+                                title: const Text('Book Appointment'),
+                                content: Text('Would you like to request an appointment with ${resource['name']}?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: const Text('Cancel'),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        const SnackBar(content: Text('Appointment requested! They will contact you shortly.')),
+                                      );
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: AppColors.primary,
+                                      foregroundColor: Colors.white,
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                                    ),
+                                    child: const Text('Confirm'),
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.calendar_today_rounded, size: 16),
+                          label: const Text('Book Appointment', style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.textPrimary,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            backgroundColor: AppColors.gray100,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          ),
+                        ),
                       ),
                     ],
                   ),
