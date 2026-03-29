@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // ── Core palette — warm off-white base ───────────────────
-  static const Color primary     = Color(0xFF1A1A2E); // deep navy
-  static const Color accent      = Color(0xFF7B5CF8); // soft purple
-  static const Color accentLight = Color(0xFFE8E4FF); // purple tint
+  static const Color primary     = Color(0xFF1A1A2E);
+  static const Color accent      = Color(0xFF7B5CF8);
+  static const Color accentLight = Color(0xFFE8E4FF);
 
-  // ── Backgrounds ──────────────────────────────────────────
   static const Color background  = Color(0xFFFAFAF8); // warm off-white
   static const Color surface     = Color(0xFFFFFFFF); // pure white cards
   static const Color surfaceDim  = Color(0xFFF0EFE9); // search bars, inputs
