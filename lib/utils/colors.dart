@@ -13,11 +13,9 @@ class AppColors {
   static const Color textSecondary = Color(0xFF5A5A6E);
   static const Color textHint      = Color(0xFF9B9B9B);
 
-  // ── Borders ───────────────────────────────────────────────
   static const Color border     = Color(0xFFF0EFE9);
   static const Color borderMid  = Color(0xFFE2E0DA);
 
-  // ── Status ───────────────────────────────────────────────
   static const Color success     = Color(0xFF3BF87B);
   static const Color successTint = Color(0xFFE8FFE8);
   static const Color warning     = Color(0xFFF89B3B);
@@ -28,7 +26,6 @@ class AppColors {
   static const Color infoTint    = Color(0xFFE8F4FF);
   static const Color infoLight   = Color(0xFFE8F4FF);
 
-  // ── Category icon tints ───────────────────────────────────
   static const Color categoryBlue   = Color(0xFF3B9EF8);
   static const Color categoryGreen  = Color(0xFF3BF87B);
   static const Color categoryOrange = Color(0xFFF89B3B);
@@ -37,7 +34,6 @@ class AppColors {
   static const Color categoryRed    = Color(0xFFFF4D4D);
   static const Color categoryTeal   = Color(0xFF3BF8D4);
 
-  // ── Gray scale ────────────────────────────────────────────
   static const Color gray50  = Color(0xFFFAFAF8);
   static const Color gray100 = Color(0xFFF5F4F0);
   static const Color gray200 = Color(0xFFF0EFE9);
@@ -49,7 +45,6 @@ class AppColors {
   static const Color gray800 = Color(0xFF2A2A3E);
   static const Color gray900 = Color(0xFF1A1A2E);
 
-  // ── Gradients ─────────────────────────────────────────────
   static const LinearGradient primaryGradient = LinearGradient(
     colors: [Color(0xFF1A1A2E), Color(0xFF2D2B55)],
     begin: Alignment.topLeft,
@@ -62,7 +57,6 @@ class AppColors {
     end: Alignment.bottomRight,
   );
 
-  // ── Shadows ───────────────────────────────────────────────
   static List<BoxShadow> cardShadow = [
     BoxShadow(
       color: const Color(0xFF1A1A2E).withValues(alpha: 0.04),
@@ -87,7 +81,6 @@ class AppColors {
     ),
   ];
 
-  // ── Missing Legacy Support Colors ────────────────────────
   static const Color primaryDark   = Color(0xFF0F0F1B);
   static const Color primaryLight  = Color(0xFF2D2B55);
   static const Color primaryLighter = Color(0xFFE8E4FF);
