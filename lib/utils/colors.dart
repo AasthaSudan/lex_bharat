@@ -5,11 +5,10 @@ class AppColors {
   static const Color accent      = Color(0xFF7B5CF8);
   static const Color accentLight = Color(0xFFE8E4FF);
 
-  static const Color background  = Color(0xFFFAFAF8); // warm off-white
-  static const Color surface     = Color(0xFFFFFFFF); // pure white cards
-  static const Color surfaceDim  = Color(0xFFF0EFE9); // search bars, inputs
+  static const Color background  = Color(0xFFFAFAF8);
+  static const Color surface     = Color(0xFFFFFFFF);
+  static const Color surfaceDim  = Color(0xFFF0EFE9);
 
-  // ── Text ─────────────────────────────────────────────────
   static const Color textPrimary   = Color(0xFF1A1A2E);
   static const Color textSecondary = Color(0xFF5A5A6E);
   static const Color textHint      = Color(0xFF9B9B9B);
