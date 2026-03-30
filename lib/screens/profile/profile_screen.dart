@@ -155,7 +155,6 @@ class ProfileScreen extends ConsumerWidget {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton.icon(
-                        // Find the signOut button onPressed and replace with:
                         onPressed: () async {
                           await ref.read(authProvider.notifier).signOut();
                           if (!context.mounted) return;

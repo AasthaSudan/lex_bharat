@@ -79,6 +79,6 @@ class AppConstants {
   static const int maxBookmarks = 50;
 
   static const String defaultLanguage = 'en';
-  static const int defaultChatTimeout = 30; // seconds
+  static const int defaultChatTimeout = 30;
   static const int maxRetries = 3;
 }
