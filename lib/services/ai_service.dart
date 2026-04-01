@@ -42,7 +42,6 @@ Rules:
           'temperature': 0.3,
         },
       );
-
       return response.data['choices'][0]['message']['content'] as String;
     } on DioException catch (e) {
       if (e.response?.statusCode == 401) {
