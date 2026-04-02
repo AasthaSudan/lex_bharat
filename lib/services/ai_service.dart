@@ -55,7 +55,6 @@ Rules:
       return _getFallbackResponse(question);
     }
   }
-
   String _getFallbackResponse(String question) {
     final q = question.toLowerCase();
     if (q.contains('fir') || q.contains('police')) {
