@@ -4,7 +4,6 @@ import '../models/message.dart';
 import '../services/ai_service.dart';
 
 final aiServiceProvider = Provider((ref) => AIService());
-
 final chatProvider =
 NotifierProvider<ChatNotifier, ChatState>(ChatNotifier.new);
 
@@ -34,7 +33,6 @@ class ChatState {
 
 class ChatNotifier extends Notifier<ChatState> {
   final _supabase = Supabase.instance.client;
-
   @override
   ChatState build() {
     _loadHistory();
