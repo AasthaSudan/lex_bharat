@@ -38,7 +38,6 @@ class ChatNotifier extends Notifier<ChatState> {
     _loadHistory();
     return const ChatState();
   }
-
   Future<void> _loadHistory() async {
     try {
       final user = _supabase.auth.currentUser;
@@ -88,7 +87,6 @@ class ChatNotifier extends Notifier<ChatState> {
       isTyping: true,
       error: null,
     );
-
     try {
       final response =
       await ref.read(aiServiceProvider).getLegalAdvice(text);
