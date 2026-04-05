@@ -32,7 +32,6 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
       exportBackgroundColor: Colors.white,
     );
   }
-
   @override
   void dispose() {
     _signatureController.dispose();
@@ -336,7 +335,6 @@ class FormStepData {
   final List<FormFieldData> fields;
   FormStepData({required this.title, required this.fields});
 }
-
 class FormFieldData {
   final String key;
   final String label;
