@@ -111,7 +111,6 @@ class _FormListScreenState extends ConsumerState<FormListScreen> {
       if (mounted) setState(() => _isAuthenticated = true);
     }
   }
-
   @override
   Widget build(BuildContext context) {
     if (!_isAuthenticated) {
@@ -152,7 +151,6 @@ class _FormListScreenState extends ConsumerState<FormListScreen> {
         ),
       );
     }
-
     final popularForms = _forms.where((f) => f['popular'] == true).toList();
     final allForms = _forms;
 
