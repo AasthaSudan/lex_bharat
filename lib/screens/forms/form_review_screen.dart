@@ -197,9 +197,7 @@ class FormReviewScreen extends StatelessWidget {
 
   Future<void> _generatePdf(BuildContext context) async {
     final pdf = pw.Document();
-
     final signatureImage = signature != null ? pw.MemoryImage(signature!) : null;
-
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
