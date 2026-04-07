@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../providers/app_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../utils/colors.dart';
+import '../../utils/constants.dart';
 import '../auth/login_screen.dart';
 import '../onboarding/language_selection_screen.dart';
 
@@ -12,7 +12,8 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = Supabase.instance.client.auth.currentUser;
+    final auth = ref.watch(authProvider.notifier);
+    final isLoggedIn = ref.watch(authProvider) != null;
     final isDarkMode = ref.watch(themeProvider);
     final currentLanguage = ref.watch(languageProvider);
     final isSecurityLocked = ref.watch(securityLockProvider);
@@ -23,6 +24,7 @@ class ProfileScreen extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            // Header
             Container(
               width: double.infinity,
               padding: EdgeInsets.only(top: topPadding + 20, left: 24, right: 24, bottom: 60),
@@ -52,14 +54,14 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                     child: Center(
                       child: Text(
-                        user?.userMetadata?['name']?.substring(0, 1).toUpperCase() ?? 'U',
+                        auth.initials,
                         style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold, color: AppColors.primary),
                       ),
                     ),
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    user?.userMetadata?['name'] ?? 'Guest User',
+                    auth.displayName,
                     style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white, letterSpacing: -0.5),
                   ),
                   const SizedBox(height: 4),
@@ -70,7 +72,7 @@ class ProfileScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: Text(
-                      user?.email ?? 'Please sign in to sync data',
+                      isLoggedIn ? auth.email : 'Guest mode — sign in to sync',
                       style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -138,40 +140,66 @@ class ProfileScreen extends ConsumerWidget {
                           icon: Icons.info_outline_rounded,
                           iconColor: AppColors.primary,
                           title: 'About Lex Bharat',
-                          onTap: () {},
+                          onTap: () => _showAboutDialog(context),
                         ),
                         _buildDivider(),
                         _buildListTile(
                           icon: Icons.shield_outlined,
                           iconColor: AppColors.success,
                           title: 'Privacy Policy',
-                          onTap: () {},
+                          onTap: () => _showPrivacyPolicy(context),
                         ),
                       ],
                     ),
 
                     const SizedBox(height: 36),
 
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton.icon(
-                        onPressed: () async {
-                          await ref.read(authProvider.notifier).signOut();
-                          if (!context.mounted) return;
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (_) => const LoginScreen()),
-                                (route) => false,
-                          );
-                        },
-                        icon: const Icon(Icons.logout_rounded, color: Colors.white),
-                        label: const Text('Sign Out', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.error,
-                          padding: const EdgeInsets.symmetric(vertical: 18),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                    if (isLoggedIn)
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () async {
+                            await ref.read(authProvider.notifier).signOut();
+                            if (!context.mounted) return;
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (_) => const LoginScreen()),
+                              (route) => false,
+                            );
+                          },
+                          icon: const Icon(Icons.logout_rounded, color: Colors.white),
+                          label: const Text('Sign Out', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.error,
+                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                          ),
+                        ),
+                      )
+                    else
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton.icon(
+                          onPressed: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (_) => const LoginScreen()),
+                              (route) => false,
+                            );
+                          },
+                          icon: const Icon(Icons.login_rounded, color: Colors.white),
+                          label: const Text('Sign In', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            padding: const EdgeInsets.symmetric(vertical: 18),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                          ),
                         ),
                       ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Lex Bharat v${AppConstants.appVersion}',
+                      style: const TextStyle(fontSize: 12, color: AppColors.textHint),
                     ),
                     const SizedBox(height: 48),
                   ],
@@ -251,12 +279,9 @@ class ProfileScreen extends ConsumerWidget {
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
-            _buildEmergencyContact('National Emergency', '112'),
-            _buildEmergencyContact('Police', '100'),
-            _buildEmergencyContact('Domestic Abuse', '1091'),
-            _buildEmergencyContact('Women Helpline', '181'),
-          ],
+          children: AppConstants.emergencyNumbers.entries.map((entry) {
+            return _buildEmergencyContact(entry.key, entry.value);
+          }).toList(),
         ),
         actions: [
           TextButton(
@@ -274,7 +299,9 @@ class ProfileScreen extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(title, style: const TextStyle(fontWeight: FontWeight.w500, color: AppColors.textSecondary)),
+          Flexible(
+            child: Text(title, style: const TextStyle(fontWeight: FontWeight.w500, color: AppColors.textSecondary)),
+          ),
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             decoration: BoxDecoration(
@@ -289,6 +316,138 @@ class ProfileScreen extends ConsumerWidget {
                 const Icon(Icons.phone_rounded, color: AppColors.primary, size: 16),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAboutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        title: Row(
+          children: [
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                gradient: AppColors.primaryGradient,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: const Icon(Icons.gavel_rounded, color: Colors.white, size: 24),
+            ),
+            const SizedBox(width: 12),
+            const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Lex Bharat', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+                Text('v1.0.0', style: TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+              ],
+            ),
+          ],
+        ),
+        content: const Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Lex Bharat is an AI-powered legal rights assistant designed for Indian citizens. '
+              'We help ordinary people understand their legal rights in simple language.',
+              style: TextStyle(fontSize: 14, color: AppColors.textSecondary, height: 1.6),
+            ),
+            SizedBox(height: 16),
+            Text(
+              'Features:',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textPrimary),
+            ),
+            SizedBox(height: 8),
+            Text('• AI Legal Chat — ask any legal question', style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5)),
+            Text('• Learn Your Rights — categorized legal education', style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5)),
+            Text('• Legal Forms — FIR, RTI, consumer complaints', style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5)),
+            Text('• Voice Input & Text-to-Speech', style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5)),
+            Text('• Emergency Helplines', style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.5)),
+            SizedBox(height: 16),
+            Text(
+              'Disclaimer: This app provides legal information, not legal advice. '
+              'Always consult a qualified lawyer for specific legal matters.',
+              style: TextStyle(fontSize: 12, color: AppColors.textHint, fontStyle: FontStyle.italic, height: 1.5),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showPrivacyPolicy(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        title: Row(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(color: AppColors.success.withValues(alpha: 0.1), shape: BoxShape.circle),
+              child: const Icon(Icons.shield_outlined, color: AppColors.success),
+            ),
+            const SizedBox(width: 12),
+            const Text('Privacy Policy', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+          ],
+        ),
+        content: const SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Data Collection', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textPrimary)),
+              SizedBox(height: 6),
+              Text(
+                '• Chat conversations are processed by Groq AI to provide answers. '
+                'We do not store your conversations on external servers unless you are signed in.\n'
+                '• Voice data is processed locally on your device.\n'
+                '• Form data is stored locally and only transmitted when you explicitly submit.',
+                style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.6),
+              ),
+              SizedBox(height: 16),
+              Text('Data Security', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textPrimary)),
+              SizedBox(height: 6),
+              Text(
+                '• Biometric authentication protects your documents.\n'
+                '• All data is encrypted in transit.\n'
+                '• We do not sell or share your personal data with third parties.',
+                style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.6),
+              ),
+              SizedBox(height: 16),
+              Text('Your Rights', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textPrimary)),
+              SizedBox(height: 6),
+              Text(
+                '• You can delete all your data at any time from Settings.\n'
+                '• You can use the app without creating an account.\n'
+                '• We comply with the Digital Personal Data Protection Act (DPDP) 2023.',
+                style: TextStyle(fontSize: 13, color: AppColors.textSecondary, height: 1.6),
+              ),
+              SizedBox(height: 12),
+              Text(
+                'Last updated: April 2026',
+                style: TextStyle(fontSize: 11, color: AppColors.textHint, fontStyle: FontStyle.italic),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
           ),
         ],
       ),

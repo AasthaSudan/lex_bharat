@@ -1,11 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/message.dart';
 import '../services/ai_service.dart';
+import '../services/storage_service.dart';
 
 final aiServiceProvider = Provider((ref) => AIService());
 final chatProvider =
-NotifierProvider<ChatNotifier, ChatState>(ChatNotifier.new);
+    NotifierProvider<ChatNotifier, ChatState>(ChatNotifier.new);
 
 class ChatState {
   final List<Message> messages;
@@ -32,43 +34,74 @@ class ChatState {
 }
 
 class ChatNotifier extends Notifier<ChatState> {
-  final _supabase = Supabase.instance.client;
+  final StorageService _storage = StorageService();
+
+  /// Safely access Supabase — returns null if not initialized
+  SupabaseClient? get _supabase {
+    try {
+      return Supabase.instance.client;
+    } catch (_) {
+      return null;
+    }
+  }
+
   @override
   ChatState build() {
     _loadHistory();
     return const ChatState();
   }
+
   Future<void> _loadHistory() async {
+    // Try Supabase first
     try {
-      final user = _supabase.auth.currentUser;
-      if (user == null) return;
+      final client = _supabase;
+      final user = client?.auth.currentUser;
+      if (client != null && user != null) {
+        final data = await client
+            .from('chat_history')
+            .select()
+            .eq('user_id', user.id)
+            .order('created_at', ascending: true)
+            .limit(50);
 
-      final data = await _supabase
-          .from('chat_history')
-          .select()
-          .eq('user_id', user.id)
-          .order('created_at', ascending: true)
-          .limit(50);
+        final messages = (data as List).expand((row) {
+          return [
+            Message(
+              id: '${row['id']}_q',
+              text: row['question'] as String,
+              isUser: true,
+              timestamp: DateTime.parse(row['created_at'] as String),
+            ),
+            Message(
+              id: '${row['id']}_a',
+              text: row['answer'] as String,
+              isUser: false,
+              timestamp: DateTime.parse(row['created_at'] as String),
+            ),
+          ];
+        }).toList();
 
-      final messages = (data as List).expand((row) {
-        return [
-          Message(
-            id: '${row['id']}_q',
-            text: row['question'] as String,
-            isUser: true,
-            timestamp: DateTime.parse(row['created_at'] as String),
-          ),
-          Message(
-            id: '${row['id']}_a',
-            text: row['answer'] as String,
-            isUser: false,
-            timestamp: DateTime.parse(row['created_at'] as String),
-          ),
-        ];
-      }).toList();
+        state = state.copyWith(messages: messages);
+        return;
+      }
+    } catch (e) {
+      debugPrint('Supabase chat load failed: $e');
+    }
 
-      state = state.copyWith(messages: messages);
-    } catch (_) {
+    // Fallback: load from local storage
+    try {
+      final localHistory = await _storage.getChatHistory();
+      if (localHistory != null && localHistory.isNotEmpty) {
+        final messages = localHistory.map((m) => Message(
+          id: m['id'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
+          text: m['text'] ?? '',
+          isUser: m['isUser'] == true,
+          timestamp: DateTime.tryParse(m['timestamp'] ?? '') ?? DateTime.now(),
+        )).toList();
+        state = state.copyWith(messages: messages);
+      }
+    } catch (e) {
+      debugPrint('Local chat load failed: $e');
     }
   }
 
@@ -87,9 +120,10 @@ class ChatNotifier extends Notifier<ChatState> {
       isTyping: true,
       error: null,
     );
+
     try {
       final response =
-      await ref.read(aiServiceProvider).getLegalAdvice(text);
+          await ref.read(aiServiceProvider).getLegalAdvice(text);
 
       final aiMsg = Message(
         id: '${DateTime.now().millisecondsSinceEpoch}_ai',
@@ -103,7 +137,9 @@ class ChatNotifier extends Notifier<ChatState> {
         isTyping: false,
       );
 
+      // Save to both Supabase and local storage
       _saveToSupabase(text, response);
+      _saveToLocal();
     } catch (e) {
       state = state.copyWith(
         isTyping: false,
@@ -114,20 +150,36 @@ class ChatNotifier extends Notifier<ChatState> {
 
   Future<void> _saveToSupabase(String question, String answer) async {
     try {
-      final user = _supabase.auth.currentUser;
-      if (user == null) return;
+      final client = _supabase;
+      final user = client?.auth.currentUser;
+      if (client == null || user == null) return;
 
-      await _supabase.from('chat_history').insert({
+      await client.from('chat_history').insert({
         'user_id': user.id,
         'question': question,
         'answer': answer,
       });
-    } catch (_) {
+    } catch (e) {
+      debugPrint('Supabase chat save failed: $e');
+    }
+  }
 
+  Future<void> _saveToLocal() async {
+    try {
+      final historyMaps = state.messages.map((m) => {
+        'id': m.id,
+        'text': m.text,
+        'isUser': m.isUser,
+        'timestamp': m.timestamp.toIso8601String(),
+      }).toList();
+      await _storage.saveChatHistory(historyMaps);
+    } catch (e) {
+      debugPrint('Local chat save failed: $e');
     }
   }
 
   void clearChat() {
     state = const ChatState();
+    _storage.clearChatHistory();
   }
 }

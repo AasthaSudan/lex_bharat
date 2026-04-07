@@ -1,0 +1,252 @@
+{
+  "categories": [
+    {
+      "id": "fundamental_rights",
+      "title": "Fundamental Rights",
+      "title_hi": "मौलिक अधिकार",
+      "icon": "shield",
+      "color": "#7B5CF8",
+      "topics": [
+        {
+          "title": "Right to Equality (Art. 14-18)",
+          "title_hi": "समानता का अधिकार",
+          "content": "Article 14 guarantees equality before law. Article 15 prohibits discrimination on grounds of religion, race, caste, sex or place of birth. Article 16 ensures equality of opportunity in public employment. Article 17 abolishes untouchability. Article 18 abolishes titles.\n\nKey Points:\n• No citizen can be denied equality before the law\n• Reservations for SC/ST/OBC are constitutionally valid\n• Private discrimination can be challenged under civil rights laws\n• Filing complaint: Approach the National/State Human Rights Commission\n\nHelpline: NHRC — 1800-11-0031 (toll-free)"
+        },
+        {
+          "title": "Right to Freedom (Art. 19-22)",
+          "title_hi": "स्वतंत्रता का अधिकार",
+          "content": "Article 19 guarantees six freedoms: speech & expression, assembly, association, movement, residence, and profession. Article 20 protects against conviction for offences. Article 21 guarantees right to life and personal liberty. Article 21A gives right to education (6-14 years). Article 22 protects against arbitrary arrest.\n\nKey Points:\n• Free speech has reasonable restrictions (security, public order)\n• No person can be detained without being informed of grounds\n• Right to consult a lawyer upon arrest\n• Must be produced before magistrate within 24 hours of arrest"
+        },
+        {
+          "title": "Right Against Exploitation (Art. 23-24)",
+          "title_hi": "शोषण के विरुद्ध अधिकार",
+          "content": "Article 23 prohibits trafficking and forced labor (begar). Article 24 prohibits employment of children below 14 years in factories, mines, or hazardous work.\n\nKey Points:\n• Bonded labor is illegal under the Bonded Labour System (Abolition) Act 1976\n• Child labour is punishable under Child Labour (Prohibition) Act 1986\n• Report violations: Childline 1098 or Anti-Human Trafficking Unit\n• Rehabilitation and compensation is available for victims"
+        },
+        {
+          "title": "Right to Constitutional Remedies (Art. 32)",
+          "title_hi": "संवैधानिक उपचारों का अधिकार",
+          "content": "Article 32 is the heart and soul of the Constitution (Dr. B.R. Ambedkar). It allows citizens to approach the Supreme Court directly for enforcement of fundamental rights through writs.\n\nFive Types of Writs:\n• Habeas Corpus — against illegal detention\n• Mandamus — directing authority to perform duty\n• Certiorari — quashing an unlawful order\n• Prohibition — preventing lower court from exceeding jurisdiction\n• Quo Warranto — questioning authority of a public office holder\n\nArticle 226 grants similar power to High Courts."
+        }
+      ]
+    },
+    {
+      "id": "labor_rights",
+      "title": "Labor Rights",
+      "title_hi": "श्रम अधिकार",
+      "icon": "work",
+      "color": "#3B9EF8",
+      "topics": [
+        {
+          "title": "Minimum Wage",
+          "title_hi": "न्यूनतम मजदूरी",
+          "content": "Under the Code on Wages 2019, every worker has the right to receive at least the minimum wage set by the state/central government.\n\nKey Points:\n• Minimum wage differs across states and industries\n• Covers both skilled and unskilled workers\n• Employers must display minimum wage notice at workplace\n• Non-payment is punishable with fine up to ₹50,000\n\nHow to Check:\nVisit your state labor department website or contact the labor commissioner.\n\nComplaint: File with Labour Commissioner or call Shram Suvidha Helpline: 1800-11-6060"
+        },
+        {
+          "title": "Overtime & Working Hours",
+          "title_hi": "ओवरटाइम और कार्य समय",
+          "content": "Under the Occupational Safety Code 2020 and Factories Act 1948:\n\nStandard Working Hours:\n• 8 hours per day, 48 hours per week\n• Weekly day off is mandatory\n\nOvertime Rate: Double the normal wage rate\n\nYour Rights:\n• Cannot be forced to work overtime without consent\n• Must be paid within 7 days of wage period\n• Women can work night shifts with adequate safety measures\n• Keep records of your actual hours worked"
+        },
+        {
+          "title": "Wrongful Termination",
+          "title_hi": "गलत तरीके से नौकरी से निकालना",
+          "content": "Industrial Disputes Act 1947 and Industrial Relations Code 2020 protect against wrongful termination.\n\nNotice Period: Generally 30 days for permanent employees\n\nCannot be terminated for:\n• Union activities or strikes\n• Filing complaints against employer\n• Pregnancy or maternity leave\n• Whistleblowing\n\nRemedies:\n1. File complaint with Labour Commissioner\n2. Approach Labour Court/Industrial Tribunal\n3. Seek reinstatement with back wages\n4. Free legal aid available: NALSA 1800-11-4001"
+        },
+        {
+          "title": "Maternity Benefits",
+          "title_hi": "मातृत्व लाभ",
+          "content": "Maternity Benefit Act 1961 (amended 2017) provides:\n\n• 26 weeks paid leave for first two children\n• 12 weeks for third child onwards\n• 12 weeks for adoptive/commissioning mothers\n• Work from home option after leave period\n• Crèche facility mandatory in establishments with 50+ employees\n• No termination during maternity leave\n\nApplies to: All establishments with 10+ employees\nComplaint: File with Labour Inspector or Women's Commission"
+        }
+      ]
+    },
+    {
+      "id": "women_rights",
+      "title": "Women's Rights",
+      "title_hi": "महिला अधिकार",
+      "icon": "female",
+      "color": "#F87B9B",
+      "topics": [
+        {
+          "title": "Domestic Violence Act 2005",
+          "title_hi": "घरेलू हिंसा अधिनियम",
+          "content": "Protection of Women from Domestic Violence Act 2005 provides comprehensive protection.\n\nWhat Constitutes Domestic Violence:\n• Physical abuse (beating, slapping)\n• Sexual abuse\n• Verbal and emotional abuse (insults, threats)\n• Economic abuse (denying money, controlling finances)\n\nYour Rights:\n• Right to reside in shared household\n• Monetary relief and compensation\n• Custody of children\n• Protection orders\n\nHow to Get Help:\n1. Call Women Helpline: 181 (24/7)\n2. Call Police: 100 or 112\n3. Approach Protection Officer at district level\n4. File complaint with Magistrate court\n5. Contact nearest One Stop Centre (Sakhi)"
+        },
+        {
+          "title": "Workplace Harassment (POSH Act)",
+          "title_hi": "कार्यस्थल उत्पीड़न",
+          "content": "Sexual Harassment of Women at Workplace Act 2013 (POSH Act):\n\nWhat is Harassment:\n• Unwelcome sexual advances\n• Requests for sexual favors\n• Verbal/physical conduct of sexual nature\n• Creating hostile work environment\n• Showing pornography\n\nEvery Organization Must Have:\n• Internal Complaints Committee (ICC) — mandatory for 10+ employees\n• External members including NGO representative\n\nFiling Complaint:\n• Within 3 months of incident (extendable to 6)\n• Written complaint to ICC\n• ICC must complete inquiry within 90 days\n• Retaliation against complainant is punishable\n\nIf no ICC: Complain to Local Complaints Committee at District Officer"
+        },
+        {
+          "title": "Dowry Prohibition",
+          "title_hi": "दहेज निषेध",
+          "content": "Dowry Prohibition Act 1961 makes giving/taking dowry punishable.\n\nPunishment: Minimum 5 years imprisonment + fine\n\nSection 498A IPC/Section 85 BNS: Cruelty by husband or relatives\n• Covers physical and mental cruelty\n• Demand for dowry is cruelty\n• Cognizable and non-bailable offence\n\nSection 304B IPC/Section 80 BNS: Dowry Death\n• If death within 7 years of marriage due to burns/injury\n• Husband and in-laws presumed guilty\n• Punishment: 7 years to life imprisonment\n\nReport: Women Helpline 181, Police 100"
+        }
+      ]
+    },
+    {
+      "id": "consumer_rights",
+      "title": "Consumer Rights",
+      "title_hi": "उपभोक्ता अधिकार",
+      "icon": "shopping_cart",
+      "color": "#F89B3B",
+      "topics": [
+        {
+          "title": "Consumer Protection Act 2019",
+          "title_hi": "उपभोक्ता संरक्षण अधिनियम",
+          "content": "Six fundamental consumer rights:\n1. Right to Safety — protection from hazardous goods\n2. Right to Information — know quality, quantity, price\n3. Right to Choose — access to variety of goods\n4. Right to be Heard — file complaints freely\n5. Right to Redressal — compensation for exploitation\n6. Right to Consumer Education\n\nFiling Complaint:\n• District Commission: Claims up to ₹1 crore\n• State Commission: ₹1 crore to ₹10 crore\n• National Commission: Above ₹10 crore\n• Online: edaakhil.nic.in\n• Helpline: 1800-11-4000 (National Consumer Helpline)"
+        },
+        {
+          "title": "E-Commerce & Online Shopping Rights",
+          "title_hi": "ई-कॉमर्स अधिकार",
+          "content": "Consumer Protection (E-Commerce) Rules 2020:\n\nYour Rights:\n• Clear return/refund/exchange policy must be displayed\n• No misleading advertisements\n• Grievance officer details must be on website\n• Complaint resolution within 1 month\n• Country of origin must be mentioned\n\nReturn Policy:\n• 7-30 days return for most products\n• Keep order confirmation and screenshots\n• Record unboxing videos for proof\n\nComplaint: First approach seller → Then platform grievance → Then Consumer Forum\nOnline filing: consumerhelpline.gov.in"
+        }
+      ]
+    },
+    {
+      "id": "property_rights",
+      "title": "Property Rights",
+      "title_hi": "संपत्ति अधिकार",
+      "icon": "home",
+      "color": "#3BF87B",
+      "topics": [
+        {
+          "title": "Rent Agreement & Tenant Rights",
+          "title_hi": "किराया समझौता",
+          "content": "Essential clauses in rent agreement:\n• Names and addresses of parties\n• Property description and address\n• Monthly rent amount and due date\n• Security deposit (usually 2-3 months)\n• Duration of tenancy\n• Notice period (usually 1-2 months)\n• Maintenance responsibilities\n\nRegistration: Mandatory if lease exceeds 11 months\n\nTenant Rights:\n• Right to peaceful possession\n• Right to essential amenities (water, electricity)\n• Protection from arbitrary rent increase\n• Cannot be evicted without proper notice and court order\n• Security deposit must be returned at end of tenancy"
+        },
+        {
+          "title": "Eviction Rules",
+          "title_hi": "बेदखली नियम",
+          "content": "Landlords must follow legal procedures for eviction.\n\nValid Grounds:\n• Non-payment of rent (after proper notice)\n• Subletting without permission\n• Misuse of property\n• Bona fide personal need\n• End of lease period\n\nEviction Process:\n• Written notice required (15 days to 3 months)\n• Must approach Rent Control Court\n• Court order mandatory before eviction\n\nIllegal Eviction (Criminal Offences):\n• Changing locks without notice\n• Cutting water/electricity\n• Physical intimidation or threats\n• Removing tenant's belongings\n\nRemedy: File police complaint + approach Rent Controller"
+        },
+        {
+          "title": "Women's Property Rights",
+          "title_hi": "महिलाओं के संपत्ति अधिकार",
+          "content": "Hindu Succession (Amendment) Act 2005:\n• Daughters have equal coparcenary rights as sons\n• Applies to ancestral and self-acquired property\n• Married daughters retain rights in parental property\n\nMuslim Law: Women inherit fixed shares (varies by relationship)\n\nChristian/Parsi Law: Equal inheritance rights\n\nKey Points:\n• A wife has right to reside in matrimonial home\n• Streedhan (gifts received) belongs solely to the woman\n• Widows inherit husband's share\n• Will can be contested if it discriminates unfairly"
+        }
+      ]
+    },
+    {
+      "id": "criminal_law",
+      "title": "Criminal Law",
+      "title_hi": "आपराधिक कानून",
+      "icon": "gavel",
+      "color": "#FF4D4D",
+      "topics": [
+        {
+          "title": "Filing an FIR",
+          "title_hi": "FIR दर्ज करना",
+          "content": "First Information Report (FIR) under Section 173 BNSS (earlier Section 154 CrPC):\n\nYour Rights:\n• Police CANNOT refuse to register an FIR for cognizable offences\n• FIR can be filed at ANY police station (Zero FIR)\n• Free copy of FIR must be given to complainant\n• Can be filed by anyone, not just the victim\n• Women can give statement at their residence\n\nIf Police Refuse:\n1. Write to SP/Commissioner\n2. File complaint with Judicial Magistrate under Section 175(3) BNSS\n3. Use state's online FIR portal\n4. Call 112 emergency number\n\nOnline FIR: Available in most states via police website"
+        },
+        {
+          "title": "Rights Upon Arrest",
+          "title_hi": "गिरफ्तारी पर अधिकार",
+          "content": "Under BNSS (Bharatiya Nagarik Suraksha Sanhita) 2023:\n\n• Right to know grounds of arrest\n• Must be produced before magistrate within 24 hours\n• Right to consult and be defended by a lawyer\n• Right to inform family/friend about arrest\n• Right to free legal aid (Article 22 + NALSA)\n• Cannot be handcuffed unless in serious offences\n• Women cannot be arrested after sunset and before sunrise (except with female officer and magistrate order)\n• Right to medical examination\n\nIf illegally detained: File Habeas Corpus petition in High Court\nFree Legal Aid: NALSA Helpline 1800-11-4001"
+        },
+        {
+          "title": "Bail Rights",
+          "title_hi": "जमानत अधिकार",
+          "content": "Types of Bail:\n• Regular Bail — applied after arrest (Section 480 BNSS)\n• Anticipatory Bail — before arrest (Section 482 BNSS)\n• Default Bail — if chargesheet not filed within time limit\n\nTime Limits for Chargesheet:\n• 60 days for offences punishable up to 7 years\n• 90 days for offences punishable with 7+ years/death\n• If not filed: Accused gets default bail as a right\n\nBailable Offences: Bail is a RIGHT — police must grant\nNon-bailable: Bail at court's discretion\n\nUnder-trial Rights:\n• If detained for half the maximum sentence → entitled to bail\n• First-time offenders usually get favorable consideration"
+        }
+      ]
+    },
+    {
+      "id": "cyber_law",
+      "title": "Cyber Law",
+      "title_hi": "साइबर कानून",
+      "icon": "computer",
+      "color": "#3BF8D4",
+      "topics": [
+        {
+          "title": "Online Fraud & Scams",
+          "title_hi": "ऑनलाइन धोखाधड़ी",
+          "content": "IT Act 2000 and BNS provisions protect against cyber fraud.\n\nCommon Scams:\n• UPI/banking fraud — never share OTP\n• Fake loan/job offers\n• Phishing emails/messages\n• Investment/crypto scams\n\nImmediate Steps if Scammed:\n1. Call Cyber Crime Helpline: 1930 (within golden hour)\n2. File complaint on cybercrime.gov.in\n3. Block your bank card immediately\n4. Report to your bank\n5. File FIR at nearest police station\n\nPunishment: Up to 3 years imprisonment + fine\nFor organized fraud: Up to 7 years"
+        },
+        {
+          "title": "Social Media Harassment",
+          "title_hi": "सोशल मीडिया उत्पीड़न",
+          "content": "Cyberstalking and online harassment are punishable under:\n• Section 67 IT Act (obscene content)\n• Section 354D IPC / Section 78 BNS (stalking)\n• Section 509 IPC / Section 79 BNS (insulting modesty)\n\nProtection Against:\n• Morphed photos/deepfakes\n• Revenge pornography\n• Online bullying and threats\n• Doxing (sharing personal info)\n• Non-consensual intimate images\n\nAction Steps:\n1. Screenshot and preserve evidence\n2. Report on cybercrime.gov.in\n3. Report to platform (Instagram/Facebook/X)\n4. File FIR\n5. Women: Call 181 helpline\n\nPunishment: Up to 5 years imprisonment"
+        }
+      ]
+    },
+    {
+      "id": "rti",
+      "title": "Right to Information",
+      "title_hi": "सूचना का अधिकार",
+      "icon": "info",
+      "color": "#7B5CF8",
+      "topics": [
+        {
+          "title": "How to File RTI",
+          "title_hi": "RTI कैसे दाखिल करें",
+          "content": "Right to Information Act 2005:\n\nWho Can File: Any Indian citizen\n\nHow to File:\n1. Online: rtionline.gov.in (for central govt)\n2. Write application on plain paper\n3. Address to Public Information Officer (PIO)\n4. Pay fee: ₹10 (central) / varies by state\n5. BPL card holders: Free\n\nTimeline:\n• Response within 30 days\n• Life/liberty matters: 48 hours\n• If PIO doesn't respond → First Appeal to senior officer\n• Still no response → Second Appeal to Information Commission\n\nCannot be denied for:\n• Government spending details\n• Public contracts and tenders\n• Inspection reports"
+        }
+      ]
+    },
+    {
+      "id": "family_law",
+      "title": "Family Law",
+      "title_hi": "पारिवारिक कानून",
+      "icon": "family_restroom",
+      "color": "#F89B3B",
+      "topics": [
+        {
+          "title": "Divorce & Maintenance",
+          "title_hi": "तलाक और भरण-पोषण",
+          "content": "Divorce Grounds (Hindu Marriage Act):\n• Cruelty (physical or mental)\n• Adultery\n• Desertion for 2+ years\n• Conversion to another religion\n• Mental disorder\n• Mutual consent (after 1 year separation)\n\nMaintenance Rights:\n• Wife can claim maintenance under Section 125 CrPC/Section 144 BNSS\n• Applies regardless of religion\n• Interim maintenance during divorce proceedings\n• Amount based on husband's income and wife's needs\n• Children's maintenance until age 18 (or disabled)\n\nFamily Court: Available in every district"
+        },
+        {
+          "title": "Child Custody",
+          "title_hi": "बाल अभिरक्षा",
+          "content": "Guiding Principle: Best interest of the child (Guardians & Wards Act 1890)\n\nGeneral Guidelines:\n• Children under 5: Usually with mother\n• Court considers child's preference (if old enough)\n• Earning capacity and character of parents\n• Child's education and welfare\n\nTypes of Custody:\n• Physical custody — child lives with one parent\n• Legal custody — decision-making rights\n• Joint custody — shared between parents\n• Visitation rights for non-custodial parent\n\nImportant: Custody orders can be modified if circumstances change"
+        }
+      ]
+    },
+    {
+      "id": "student_rights",
+      "title": "Student Rights",
+      "title_hi": "छात्र अधिकार",
+      "icon": "school",
+      "color": "#3B9EF8",
+      "topics": [
+        {
+          "title": "Right to Education (RTE)",
+          "title_hi": "शिक्षा का अधिकार",
+          "content": "Right to Education Act 2009 (Article 21A):\n\n• Free and compulsory education for ages 6-14\n• 25% seats in private schools reserved for EWS/disadvantaged\n• No child can be held back, expelled, or failed until Class 8\n• No donation or capitation fee can be charged\n• School must maintain proper infrastructure\n• Pupil-teacher ratio must be maintained\n\nAnti-Ragging:\n• UGC Anti-Ragging Regulations 2009\n• Ragging is a criminal offence\n• Anti-Ragging Helpline: 1800-180-5522\n• File complaint on antiragging.in"
+        },
+        {
+          "title": "Scholarship & Reservation Rights",
+          "title_hi": "छात्रवृत्ति और आरक्षण",
+          "content": "Reservation in Education:\n• SC: 15%, ST: 7.5%, OBC: 27% in central institutions\n• EWS: 10% (103rd Amendment)\n• State quotas vary\n\nMajor Scholarships:\n• National Scholarship Portal: scholarships.gov.in\n• Post Matric Scholarship for SC/ST/OBC/Minorities\n• Central Sector Scholarship for top students\n• State-specific scholarships\n\nApply on: scholarships.gov.in\nGrievance: Contact institution's SC/ST Cell or UGC"
+        }
+      ]
+    },
+    {
+      "id": "sc_st_rights",
+      "title": "SC/ST Rights",
+      "title_hi": "अनुसूचित जाति/जनजाति अधिकार",
+      "icon": "groups",
+      "color": "#9B7CFF",
+      "topics": [
+        {
+          "title": "SC/ST (Prevention of Atrocities) Act",
+          "title_hi": "अत्याचार निवारण अधिनियम",
+          "content": "Scheduled Castes and Scheduled Tribes (Prevention of Atrocities) Act 1989:\n\nProtection Against:\n• Forcing to eat/drink obnoxious substances\n• Dumping waste on land/premises\n• Social/economic boycott\n• Denial of access to public places\n• Using caste slurs or insults\n• Assault on SC/ST women\n• Wrongful land dispossession\n\nKey Features:\n• Cases tried in Special Courts\n• Anticipatory bail generally not available\n• Victim compensation and rehabilitation\n• Non-compoundable offences\n\nReport: File FIR at police station\nNational Commission: ncsc.nic.in / ncst.nic.in\nNHRC Helpline: 1800-11-0031"
+        }
+      ]
+    },
+    {
+      "id": "environmental_law",
+      "title": "Environmental Law",
+      "title_hi": "पर्यावरण कानून",
+      "icon": "eco",
+      "color": "#3BF87B",
+      "topics": [
+        {
+          "title": "Pollution Complaints",
+          "title_hi": "प्रदूषण शिकायत",
+          "content": "Citizens can take action against pollution:\n\nWhere to Complain:\n• Central Pollution Control Board (CPCB)\n• State Pollution Control Board (SPCB)\n• National Green Tribunal (NGT)\n• District Magistrate\n\nNGT can be approach for:\n• Water/air pollution\n• Illegal construction in eco-sensitive zones\n• Solid waste dumping\n• Noise pollution\n• Industrial pollution\n\nOnline: File on CPCB/SPCB websites\nApp: SAMEER app for air quality\nNGT Filing: No court fee required\n\nRight to clean environment is part of Right to Life under Article 21."
+        }
+      ]
+    }
+  ]
+}

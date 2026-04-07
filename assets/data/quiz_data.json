@@ -1,0 +1,131 @@
+{
+  "quizzes": [
+    {
+      "category": "Fundamental Rights",
+      "questions": [
+        {
+          "question": "Which Article of the Indian Constitution guarantees the Right to Equality?",
+          "options": ["Article 12", "Article 14", "Article 19", "Article 21"],
+          "answer": 1,
+          "explanation": "Article 14 states: 'The State shall not deny to any person equality before the law or the equal protection of the laws within the territory of India.'"
+        },
+        {
+          "question": "Which Article abolishes untouchability?",
+          "options": ["Article 15", "Article 16", "Article 17", "Article 18"],
+          "answer": 2,
+          "explanation": "Article 17 abolishes untouchability and forbids its practice in any form. Enforcement of any disability arising out of untouchability is a punishable offence."
+        },
+        {
+          "question": "Within how many hours must an arrested person be produced before a magistrate?",
+          "options": ["12 hours", "24 hours", "48 hours", "72 hours"],
+          "answer": 1,
+          "explanation": "Under Article 22(2) of the Constitution, every arrested person must be produced before the nearest magistrate within 24 hours of arrest."
+        },
+        {
+          "question": "Which is called the 'Heart and Soul' of the Indian Constitution?",
+          "options": ["Right to Freedom", "Right to Equality", "Right to Constitutional Remedies", "Right Against Exploitation"],
+          "answer": 2,
+          "explanation": "Dr. B.R. Ambedkar called Article 32 (Right to Constitutional Remedies) the heart and soul of the Constitution."
+        }
+      ]
+    },
+    {
+      "category": "Women's Rights",
+      "questions": [
+        {
+          "question": "What is the helpline number for women in distress in India?",
+          "options": ["100", "181", "112", "1098"],
+          "answer": 1,
+          "explanation": "181 is the Women Helpline number operational 24/7 across India for women in distress."
+        },
+        {
+          "question": "Under the POSH Act, within how many months must a complaint be filed?",
+          "options": ["1 month", "3 months", "6 months", "12 months"],
+          "answer": 1,
+          "explanation": "Under the POSH Act 2013, a written complaint must be filed within 3 months of the incident (extendable to 6 months in certain cases)."
+        },
+        {
+          "question": "How many weeks of paid maternity leave is a woman entitled to for her first child?",
+          "options": ["12 weeks", "16 weeks", "20 weeks", "26 weeks"],
+          "answer": 3,
+          "explanation": "The Maternity Benefit (Amendment) Act 2017 provides 26 weeks of paid leave for the first two children."
+        },
+        {
+          "question": "Which section of BNS deals with cruelty by husband/relatives?",
+          "options": ["Section 63", "Section 74", "Section 85", "Section 103"],
+          "answer": 2,
+          "explanation": "Section 85 of BNS (formerly 498A IPC) deals with cruelty by husband or relatives of husband."
+        }
+      ]
+    },
+    {
+      "category": "Consumer Rights",
+      "questions": [
+        {
+          "question": "What is the National Consumer Helpline number?",
+          "options": ["1800-11-4000", "1800-11-6060", "1800-11-0031", "1930"],
+          "answer": 0,
+          "explanation": "1800-11-4000 is the toll-free National Consumer Helpline for filing consumer complaints."
+        },
+        {
+          "question": "What is the maximum claim amount for District Consumer Forum?",
+          "options": ["₹20 lakh", "₹50 lakh", "₹1 crore", "₹2 crore"],
+          "answer": 2,
+          "explanation": "Under Consumer Protection Act 2019, District Commission handles claims up to ₹1 crore."
+        },
+        {
+          "question": "Where can you file a consumer complaint online?",
+          "options": ["consumerhelpline.gov.in", "edaakhil.nic.in", "Both A and B", "None of these"],
+          "answer": 2,
+          "explanation": "Both consumerhelpline.gov.in (for grievances) and edaakhil.nic.in (for formal complaints to consumer forums) can be used."
+        }
+      ]
+    },
+    {
+      "category": "Criminal Law & BNS",
+      "questions": [
+        {
+          "question": "Can police refuse to register an FIR for a cognizable offence?",
+          "options": ["Yes, at their discretion", "No, it is mandatory", "Only with SP permission", "Only in certain states"],
+          "answer": 1,
+          "explanation": "Under Section 173 BNSS (Section 154 CrPC), police CANNOT refuse to register an FIR for cognizable offences. If they do, complain to the SP or Magistrate."
+        },
+        {
+          "question": "What is a Zero FIR?",
+          "options": ["FIR with zero evidence", "FIR filed at any police station regardless of jurisdiction", "FIR filed online", "FIR filed without charges"],
+          "answer": 1,
+          "explanation": "A Zero FIR can be filed at ANY police station, irrespective of where the offence occurred. The FIR is later transferred to the concerned police station."
+        },
+        {
+          "question": "What replaced the Indian Penal Code (IPC) in 2024?",
+          "options": ["Bharatiya Nyaya Sanhita (BNS)", "Bharatiya Nagarik Suraksha Sanhita", "Bharatiya Sakshya Adhiniyam", "Indian Justice Code"],
+          "answer": 0,
+          "explanation": "BNS (Bharatiya Nyaya Sanhita) 2023 replaced IPC from 1 July 2024. BNSS replaced CrPC, and BSA replaced Indian Evidence Act."
+        },
+        {
+          "question": "If chargesheet is not filed within 60 days (for offences up to 7 years), the accused gets:",
+          "options": ["Extended custody", "Default bail as a right", "Transfer to another court", "Case dismissed"],
+          "answer": 1,
+          "explanation": "Under BNSS, if chargesheet is not filed within 60 days (offences up to 7 years) or 90 days (7+ years), the accused is entitled to default bail as a matter of right."
+        }
+      ]
+    },
+    {
+      "category": "Cyber Law",
+      "questions": [
+        {
+          "question": "What is the cybercrime helpline number in India?",
+          "options": ["100", "181", "1930", "112"],
+          "answer": 2,
+          "explanation": "1930 is the Cyber Crime Helpline. Call within the 'golden hour' of a fraud for best chances of recovering money."
+        },
+        {
+          "question": "Where can you report cybercrime online?",
+          "options": ["cybercrime.gov.in", "police.gov.in", "cyber.nic.in", "report.gov.in"],
+          "answer": 0,
+          "explanation": "cybercrime.gov.in is the official National Cyber Crime Reporting Portal where you can file complaints online."
+        }
+      ]
+    }
+  ]
+}

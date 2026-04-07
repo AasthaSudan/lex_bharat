@@ -10,160 +10,208 @@ import 'screens/learn/categories_screen.dart';
 import 'screens/chat/chat_screen.dart';
 import 'screens/forms/form_list_screen.dart';
 import 'screens/profile/profile_screen.dart';
-import 'screens/resources/resources_screen.dart';
+import 'providers/app_provider.dart';
+import 'utils/colors.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//
-//   await SystemChrome.setPreferredOrientations([
-//     DeviceOrientation.portraitUp,
-//   ]);
-//
-//   await dotenv.load(fileName: ".env");
-//
-//   await Supabase.initialize(
-//     url: dotenv.env['SUPABASE_URL'] ?? '',
-//     anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
-//   );
-//
-//   runApp(
-//     const ProviderScope(
-//       child: LegalRightsApp(),
-//     ),
-//   );
-// }
-//
-// class LegalRightsApp extends StatelessWidget {
-//   const LegalRightsApp({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Lex Bharat',
-//       debugShowCheckedModeBanner: false,
-//       home: const SplashScreen(),
-//       theme: ThemeData(
-//         useMaterial3: true,
-//         scaffoldBackgroundColor: const Color(0xFFFAFAF8),
-//         primaryColor: const Color(0xFF1A1A2E),
-//         colorScheme: ColorScheme.fromSeed(
-//           seedColor: const Color(0xFF1A1A2E),
-//           primary: const Color(0xFF1A1A2E),
-//           secondary: const Color(0xFF7B5CF8),
-//         ),
-//         textTheme: GoogleFonts.interTextTheme(),
-//         appBarTheme: const AppBarTheme(
-//           elevation: 0,
-//           backgroundColor: Colors.transparent,
-//           foregroundColor: Color(0xFF1A1A2E),
-//           iconTheme: IconThemeData(color: Color(0xFF1A1A2E)),
-//           centerTitle: false,
-//         ),
-//         cardTheme: CardThemeData(
-//           color: Colors.white,
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(16),
-//             side: const BorderSide(color: Color(0xFFF0EFE9), width: 1),
-//           ),
-//           elevation: 0,
-//         ),
-//         elevatedButtonTheme: ElevatedButtonThemeData(
-//           style: ElevatedButton.styleFrom(
-//             backgroundColor: const Color(0xFF1A1A2E),
-//             foregroundColor: Colors.white,
-//             elevation: 0,
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(14),
-//             ),
-//           ),
-//         ),
-//         navigationBarTheme: NavigationBarThemeData(
-//           backgroundColor: const Color(0xFFFAFAF8),
-//           indicatorColor: const Color(0xFFE8E4FF),
-//           labelTextStyle: WidgetStateProperty.resolveWith((states) {
-//             if (states.contains(WidgetState.selected)) {
-//               return const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: Color(0xFF1A1A2E));
-//             }
-//             return const TextStyle(fontSize: 11, color: Color(0xFF9B9B9B));
-//           }),
-//           iconTheme: WidgetStateProperty.resolveWith((states) {
-//             if (states.contains(WidgetState.selected)) {
-//               return const IconThemeData(color: Color(0xFF7B5CF8));
-//             }
-//             return const IconThemeData(color: Color(0xFF9B9B9B));
-//           }),
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// class HomeNavigation extends StatefulWidget {
-//   const HomeNavigation({super.key});
-//
-//   @override
-//   State<HomeNavigation> createState() => _HomeNavigationState();
-// }
-//
-// class _HomeNavigationState extends State<HomeNavigation> {
-//   int _selectedIndex = 0;
-//
-//   final List<NavigationDestination> destinations = [
-//     const NavigationDestination(
-//       icon: Icon(Icons.home),
-//       label: 'Home',
-//     ),
-//     const NavigationDestination(
-//       icon: Icon(Icons.school),
-//       label: 'Learn',
-//     ),
-//     const NavigationDestination(
-//       icon: Icon(Icons.chat),
-//       label: 'Chat',
-//     ),
-//     const NavigationDestination(
-//       icon: Icon(Icons.description),
-//       label: 'Forms',
-//     ),
-//     const NavigationDestination(
-//       icon: Icon(Icons.map_rounded),
-//       label: 'Help',
-//     ),
-//   ];
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: _buildBody(),
-//       bottomNavigationBar: NavigationBar(
-//         selectedIndex: _selectedIndex,
-//         onDestinationSelected: (int index) {
-//           setState(() {
-//             _selectedIndex = index;
-//           });
-//         },
-//         destinations: destinations,
-//       ),
-//     );
-//   }
-//
-//   Widget _buildBody() {
-//     switch (_selectedIndex) {
-//       case 0:
-//         return const HomeScreen();
-//       case 1:
-//         return const CategoriesScreen();
-//       case 2:
-//         return const ChatScreen();
-//       case 3:
-//         return const FormListScreen();
-//       case 4:
-//         return const ResourcesScreen();
-//       default:
-//         return const HomeScreen();
-//     }
-//   }
-// }
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+
+  await dotenv.load(fileName: ".env");
+
+  // Initialize Supabase — gracefully handle failure so app works offline
+  try {
+    await Supabase.initialize(
+      url: dotenv.env['SUPABASE_URL'] ?? '',
+      anonKey: dotenv.env['SUPABASE_ANON_KEY'] ?? '',
+    );
+  } catch (e) {
+    debugPrint('Supabase init failed (offline mode): $e');
+  }
+
+  runApp(
+    const ProviderScope(
+      child: LexBharatApp(),
+    ),
+  );
+}
+
+class LexBharatApp extends ConsumerWidget {
+  const LexBharatApp({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(themeProvider);
+
+    return MaterialApp(
+      title: 'Lex Bharat',
+      debugShowCheckedModeBanner: false,
+      home: const SplashScreen(),
+      theme: _buildLightTheme(),
+      darkTheme: _buildDarkTheme(),
+      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+    );
+  }
+
+  ThemeData _buildLightTheme() {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.light,
+      primaryColor: AppColors.primary,
+      scaffoldBackgroundColor: AppColors.background,
+      colorScheme: ColorScheme.light(
+        primary: AppColors.primary,
+        secondary: AppColors.accent,
+        surface: AppColors.surface,
+        error: AppColors.error,
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        onSurface: AppColors.textPrimary,
+        onError: Colors.white,
+      ),
+      textTheme: GoogleFonts.interTextTheme(),
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        centerTitle: false,
+        backgroundColor: Colors.transparent,
+        foregroundColor: AppColors.textPrimary,
+        surfaceTintColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.dark,
+          statusBarBrightness: Brightness.light,
+        ),
+        titleTextStyle: GoogleFonts.inter(
+          color: AppColors.textPrimary,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          letterSpacing: -0.3,
+        ),
+        iconTheme: const IconThemeData(color: AppColors.textPrimary, size: 24),
+      ),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        color: Colors.white,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(color: AppColors.gray200, width: 1),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.primary,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          shadowColor: Colors.transparent,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: AppColors.surface,
+        indicatorColor: AppColors.accentLight,
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: AppColors.textPrimary);
+          }
+          return const TextStyle(fontSize: 11, color: AppColors.textHint);
+        }),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const IconThemeData(color: AppColors.accent);
+          }
+          return const IconThemeData(color: AppColors.textHint);
+        }),
+      ),
+    );
+  }
+
+  ThemeData _buildDarkTheme() {
+    const darkBg = Color(0xFF0F0F1B);
+    const darkSurface = Color(0xFF1A1A2E);
+    const darkCard = Color(0xFF222240);
+    const darkBorder = Color(0xFF2D2B55);
+    const darkTextPrimary = Color(0xFFF0F0F5);
+    const darkTextSecondary = Color(0xFF9B9BAF);
+
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      primaryColor: AppColors.accent,
+      scaffoldBackgroundColor: darkBg,
+      colorScheme: ColorScheme.dark(
+        primary: AppColors.accent,
+        secondary: AppColors.accent,
+        surface: darkSurface,
+        error: AppColors.error,
+        onPrimary: Colors.white,
+        onSecondary: Colors.white,
+        onSurface: darkTextPrimary,
+        onError: Colors.white,
+      ),
+      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
+      appBarTheme: AppBarTheme(
+        elevation: 0,
+        centerTitle: false,
+        backgroundColor: Colors.transparent,
+        foregroundColor: darkTextPrimary,
+        surfaceTintColor: Colors.transparent,
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Colors.transparent,
+          statusBarIconBrightness: Brightness.light,
+          statusBarBrightness: Brightness.dark,
+        ),
+        titleTextStyle: GoogleFonts.inter(
+          color: darkTextPrimary,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          letterSpacing: -0.3,
+        ),
+        iconTheme: const IconThemeData(color: darkTextPrimary, size: 24),
+      ),
+      cardTheme: CardThemeData(
+        elevation: 0,
+        color: darkCard,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+          side: const BorderSide(color: darkBorder, width: 1),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColors.accent,
+          foregroundColor: Colors.white,
+          elevation: 0,
+          shadowColor: Colors.transparent,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        ),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: darkSurface,
+        indicatorColor: AppColors.accent.withValues(alpha: 0.2),
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: darkTextPrimary);
+          }
+          return const TextStyle(fontSize: 11, color: darkTextSecondary);
+        }),
+        iconTheme: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const IconThemeData(color: AppColors.accent);
+          }
+          return const IconThemeData(color: darkTextSecondary);
+        }),
+      ),
+    );
+  }
+}
+
 class HomeNavigation extends StatefulWidget {
   const HomeNavigation({super.key});
 
@@ -181,6 +229,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
     FormListScreen(),
     ProfileScreen(),
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

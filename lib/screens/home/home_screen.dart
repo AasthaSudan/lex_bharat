@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import '../../utils/colors.dart';
+import '../../utils/helpers.dart';
 import '../chat/chat_screen.dart';
 import '../forms/form_list_screen.dart';
 import '../learn/categories_screen.dart';
 import '../../utils/constants.dart';
 import '../resources/resources_screen.dart';
+import '../tools/ipc_bns_converter_screen.dart';
+import '../tools/quiz_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -35,36 +38,22 @@ class HomeScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       Text(
-                        'Good morning',
-                        style: TextStyle(
+                        Helpers.getGreeting(),
+                        style: const TextStyle(
                           fontSize: 32,
                           fontWeight: FontWeight.w800,
                           color: AppColors.textPrimary,
                           letterSpacing: -1,
                         ),
                       ),
-                      SizedBox(width: 8),
-                      Text('👋', style: TextStyle(fontSize: 28)),
+                      const SizedBox(width: 8),
+                      const Text('👋', style: TextStyle(fontSize: 28)),
                     ],
                   ),
-                  Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-                      const Icon(Icons.notifications_none_rounded, size: 30, color: AppColors.textPrimary),
-                      Container(
-                        margin: const EdgeInsets.only(top: 2, right: 2),
-                        width: 10,
-                        height: 10,
-                        decoration: const BoxDecoration(
-                          color: AppColors.error,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ],
-                  ),
+                  const Icon(Icons.notifications_none_rounded, size: 30, color: AppColors.textPrimary),
                 ],
               ),
               const SizedBox(height: 8),
@@ -186,20 +175,39 @@ class HomeScreen extends StatelessWidget {
                     context,
                     title: 'Learn\nRights',
                     subtitle: 'Laws explained simply',
+                    icon: Icons.school_rounded,
                     iconColor: AppColors.accent,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CategoriesScreen())),
                   ),
                   _buildQuickActionCard(
                     context,
                     title: 'AI\nAssistant',
-                    subtitle: 'Ask any question',
+                    subtitle: 'Ask any legal question',
+                    icon: Icons.chat_bubble_rounded,
                     iconColor: AppColors.info,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatScreen())),
                   ),
                   _buildQuickActionCard(
                     context,
+                    title: 'IPC↔BNS\nConverter',
+                    subtitle: 'New law section finder',
+                    icon: Icons.compare_arrows_rounded,
+                    iconColor: AppColors.error,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const IPCBNSConverterScreen())),
+                  ),
+                  _buildQuickActionCard(
+                    context,
+                    title: 'Rights\nQuiz',
+                    subtitle: 'Test your knowledge',
+                    icon: Icons.quiz_rounded,
+                    iconColor: Colors.amber.shade700,
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizScreen())),
+                  ),
+                  _buildQuickActionCard(
+                    context,
                     title: 'Fill\nForms',
-                    subtitle: 'FIR, Legal Aid, RTI',
+                    subtitle: 'FIR, RTI, Legal Aid',
+                    icon: Icons.description_rounded,
                     iconColor: AppColors.warning,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const FormListScreen())),
                   ),
@@ -207,6 +215,7 @@ class HomeScreen extends StatelessWidget {
                     context,
                     title: 'Find\nHelp',
                     subtitle: 'Legal aid near you',
+                    icon: Icons.location_on_rounded,
                     iconColor: AppColors.success,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ResourcesScreen())),
                   ),
@@ -224,6 +233,7 @@ class HomeScreen extends StatelessWidget {
     BuildContext context, {
     required String title,
     required String subtitle,
+    required IconData icon,
     required Color iconColor,
     required VoidCallback onTap,
   }) {
@@ -234,7 +244,7 @@ class HomeScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: AppColors.border, width: 1.5),
+          border: Border.all(color: iconColor.withValues(alpha: 0.15), width: 1.5),
           boxShadow: AppColors.softShadow,
         ),
         child: Column(
@@ -247,14 +257,7 @@ class HomeScreen extends StatelessWidget {
                 color: iconColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Container(
-                width: 14,
-                height: 14,
-                decoration: BoxDecoration(
-                  color: iconColor,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-              ),
+              child: Icon(icon, color: iconColor, size: 24),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -262,18 +265,18 @@ class HomeScreen extends StatelessWidget {
                 Text(
                   title,
                   style: const TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.w800,
                     color: AppColors.textPrimary,
                     height: 1.1,
                     letterSpacing: -0.5,
                   ),
                 ),
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
                 Text(
                   subtitle,
                   style: const TextStyle(
-                    fontSize: 13,
+                    fontSize: 12,
                     color: AppColors.textSecondary,
                     height: 1.3,
                   ),
