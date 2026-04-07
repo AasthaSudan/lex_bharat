@@ -11,7 +11,6 @@ class LanguageSelectionScreen extends ConsumerStatefulWidget {
   _LanguageSelectionScreenState createState() =>
       _LanguageSelectionScreenState();
 }
-
 class _LanguageSelectionScreenState
     extends ConsumerState<LanguageSelectionScreen> {
   String? selectedLanguage;
@@ -68,7 +67,6 @@ class _LanguageSelectionScreenState
               ),
 
               const SizedBox(height: 8),
-
               Text(
                 'आपनी भाषा चुनें',
                 style: TextStyle(
@@ -126,7 +124,6 @@ class _LanguageSelectionScreenState
                           ),
 
                           const SizedBox(width: 16),
-
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,7 +230,6 @@ class _LanguageSelectionScreenState
                   ),
                 ),
               ),
-
               const SizedBox(height: 32),
             ],
           ),
