@@ -36,7 +36,6 @@ class ChatState {
 class ChatNotifier extends Notifier<ChatState> {
   final StorageService _storage = StorageService();
 
-  /// Safely access Supabase — returns null if not initialized
   SupabaseClient? get _supabase {
     try {
       return Supabase.instance.client;
@@ -52,7 +51,6 @@ class ChatNotifier extends Notifier<ChatState> {
   }
 
   Future<void> _loadHistory() async {
-    // Try Supabase first
     try {
       final client = _supabase;
       final user = client?.auth.currentUser;
@@ -88,7 +86,6 @@ class ChatNotifier extends Notifier<ChatState> {
       debugPrint('Supabase chat load failed: $e');
     }
 
-    // Fallback: load from local storage
     try {
       final localHistory = await _storage.getChatHistory();
       if (localHistory != null && localHistory.isNotEmpty) {
@@ -137,7 +134,6 @@ class ChatNotifier extends Notifier<ChatState> {
         isTyping: false,
       );
 
-      // Save to both Supabase and local storage
       _saveToSupabase(text, response);
       _saveToLocal();
     } catch (e) {
