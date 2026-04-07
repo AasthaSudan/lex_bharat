@@ -43,13 +43,11 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
 
-    // Gracefully check auth — handle Supabase not being initialized
     Widget destination;
     try {
       final user = Supabase.instance.client.auth.currentUser;
       destination = user != null ? const HomeNavigation() : const LoginScreen();
     } catch (_) {
-      // Supabase not initialized — go to login
       destination = const LoginScreen();
     }
 
