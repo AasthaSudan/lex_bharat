@@ -231,7 +231,7 @@ class FormReviewScreen extends StatelessWidget {
                   ],
                 ),
               );
-            }).toList(),
+            }),
             pw.SizedBox(height: 40),
             if (signatureImage != null) ...[
               pw.Divider(thickness: 1, color: PdfColors.grey300),

@@ -36,7 +36,7 @@ Rules:
           'model': 'llama-3.3-70b-versatile',
           'messages': [
             {'role': 'system', 'content': _systemPrompt},
-            {'role': 'user', 'content': question},
+            {'role': 'user', 'content': 'Language: $language\n\nQuestion: $question'},
           ],
           'max_tokens': 300,
           'temperature': 0.3,

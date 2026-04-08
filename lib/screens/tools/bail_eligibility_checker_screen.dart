@@ -213,7 +213,7 @@ class _BailEligibilityCheckerScreenState extends State<BailEligibilityCheckerScr
       child: SwitchListTile(
         title: Text(label, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
         value: value,
-        activeColor: AppColors.primary,
+        activeThumbColor: AppColors.primary,
         onChanged: onChanged,
         contentPadding: EdgeInsets.zero,
       ),
@@ -226,44 +226,48 @@ class _BailEligibilityCheckerScreenState extends State<BailEligibilityCheckerScr
       children: [
         Text(question, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary, height: 1.3)),
         const SizedBox(height: 24),
-        ...options.map((opt) {
-          final isSelected = groupValue == opt['value'];
-          return GestureDetector(
-            onTap: () => onChanged(opt['value']!),
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 12),
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                color: isSelected ? AppColors.accent.withValues(alpha: 0.1) : AppColors.surface,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: isSelected ? AppColors.accent : AppColors.gray200, width: isSelected ? 2 : 1),
-              ),
-              child: Row(
-                children: [
-                  Radio<String>(
-                    value: opt['value']!,
-                    groupValue: groupValue,
-                    activeColor: AppColors.accent,
-                    onChanged: (v) => onChanged(v!),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(opt['label']!, style: TextStyle(fontSize: 16, fontWeight: isSelected ? FontWeight.bold : FontWeight.w600, color: AppColors.textPrimary)),
-                        if (opt['desc'] != null) ...[
-                          const SizedBox(height: 4),
-                          Text(opt['desc']!, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
-                        ],
-                      ],
+      RadioGroup<String>(
+        groupValue: groupValue,
+        onChanged: (val) => val != null ? onChanged(val) : null,
+        child: Column(
+          children: options.map((opt) {
+            final isSelected = groupValue == opt['value'];
+            return GestureDetector(
+              onTap: () => onChanged(opt['value']!),
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: isSelected ? AppColors.accent.withValues(alpha: 0.1) : AppColors.surface,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: isSelected ? AppColors.accent : AppColors.gray200, width: isSelected ? 2 : 1),
+                ),
+                child: Row(
+                  children: [
+                    Radio<String>(
+                      value: opt['value']!,
+                      activeColor: AppColors.accent,
                     ),
-                  ),
-                ],
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(opt['label']!, style: TextStyle(fontSize: 16, fontWeight: isSelected ? FontWeight.bold : FontWeight.w600, color: AppColors.textPrimary)),
+                          if (opt['desc'] != null) ...[
+                            const SizedBox(height: 4),
+                            Text(opt['desc']!, style: const TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          );
-        }),
+            );
+          }).toList(),
+        ),
+      ),
       ],
     );
   }

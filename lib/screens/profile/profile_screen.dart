@@ -105,7 +105,7 @@ class ProfileScreen extends ConsumerWidget {
                           title: 'Dark Mode',
                           trailing: Switch(
                             value: isDarkMode,
-                            activeColor: AppColors.primary,
+                            activeThumbColor: AppColors.primary,
                             onChanged: (value) => ref.read(themeProvider.notifier).toggleTheme(),
                           ),
                         ),
@@ -117,7 +117,7 @@ class ProfileScreen extends ConsumerWidget {
                           subtitle: 'Biometric security for documents',
                           trailing: Switch(
                             value: isSecurityLocked,
-                            activeColor: AppColors.primary,
+                            activeThumbColor: AppColors.primary,
                             onChanged: (value) => ref.read(securityLockProvider.notifier).toggleSecurityLock(),
                           ),
                         ),

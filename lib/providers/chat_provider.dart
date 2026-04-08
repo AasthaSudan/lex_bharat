@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/message.dart';
 import '../services/ai_service.dart';
 import '../services/storage_service.dart';
+import 'app_provider.dart';
 
 final aiServiceProvider = Provider((ref) => AIService());
 final chatProvider =
@@ -119,8 +120,9 @@ class ChatNotifier extends Notifier<ChatState> {
     );
 
     try {
+      final language = ref.read(languageProvider);
       final response =
-          await ref.read(aiServiceProvider).getLegalAdvice(text);
+          await ref.read(aiServiceProvider).getLegalAdvice(text, language: language);
 
       final aiMsg = Message(
         id: '${DateTime.now().millisecondsSinceEpoch}_ai',

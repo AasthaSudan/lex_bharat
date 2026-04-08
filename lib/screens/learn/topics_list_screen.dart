@@ -29,7 +29,7 @@ class TopicsListScreen extends StatelessWidget {
       body: ListView.separated(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         itemCount: topics.length,
-        separatorBuilder: (_, __) => const SizedBox(height: 16),
+        separatorBuilder: (context, index) => const SizedBox(height: 16),
         itemBuilder: (context, index) {
           final topic = topics[index] as Map<String, dynamic>;
           return GestureDetector(

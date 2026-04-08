@@ -167,7 +167,7 @@ class _IPCBNSConverterScreenState extends State<IPCBNSConverterScreen> {
                     : ListView.separated(
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
                         itemCount: _filtered.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 12),
+                        separatorBuilder: (context, index) => const SizedBox(height: 12),
                         itemBuilder: (context, index) {
                           final m = _filtered[index];
                           return Container(

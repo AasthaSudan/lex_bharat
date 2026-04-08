@@ -5,7 +5,7 @@ import 'utils/colors.dart';
 import 'screens/splash_screen.dart';
 
 class LegalRightsApp extends StatelessWidget {
-  const LegalRightsApp({Key? key}) : super(key: key);
+  const LegalRightsApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -293,9 +293,10 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
                           }
                           _signatureBytes = await _signatureController.toPngBytes();
                           
-                          if (mounted) {
-                            Navigator.push(
-                              context,
+                          if (!context.mounted) return;
+
+                          Navigator.push(
+                            context,
                               MaterialPageRoute(
                                 builder: (_) => FormReviewScreen(
                                   formData: _formData,
@@ -304,7 +305,6 @@ class _FormFillingWizardScreenState extends State<FormFillingWizardScreen> {
                                 ),
                               ),
                             );
-                          }
                         }
                       },
                       style: ElevatedButton.styleFrom(

@@ -9,6 +9,7 @@ import '../resources/resources_screen.dart';
 import '../tools/ipc_bns_converter_screen.dart';
 import '../tools/quiz_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../l10n/app_localizations.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -26,7 +27,7 @@ class HomeScreen extends StatelessWidget {
         },
         backgroundColor: AppColors.error,
         icon: const Icon(Icons.sos_rounded, color: Colors.white),
-        label: const Text('SOS', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
+        label: Text(AppLocalizations.of(context)!.sos, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -41,9 +42,9 @@ class HomeScreen extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        Helpers.getGreeting(),
+                        '${Helpers.getGreeting(context)} 👋',
                         style: const TextStyle(
-                          fontSize: 32,
+                          fontSize: 28,
                           fontWeight: FontWeight.w800,
                           color: AppColors.textPrimary,
                           letterSpacing: -1,
@@ -57,9 +58,9 @@ class HomeScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 8),
-              const Text(
-                'How can I help you today?',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.howCanIHelpText,
+                style: const TextStyle(
                   fontSize: 16,
                   color: AppColors.textSecondary,
                   fontWeight: FontWeight.w500,
@@ -86,9 +87,9 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 16),
-                      const Text(
-                        'Ask a legal question...',
-                        style: TextStyle(
+                      Text(
+                        AppLocalizations.of(context)!.askLegalQuestion,
+                        style: const TextStyle(
                           color: AppColors.gray500,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
@@ -125,9 +126,9 @@ class HomeScreen extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              'Emergency Help',
-                              style: TextStyle(
+                            Text(
+                              AppLocalizations.of(context)!.emergencyHelp,
+                              style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
@@ -135,7 +136,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Helplines • Police • Women',
+                              AppLocalizations.of(context)!.emergencyHelpSubtitle,
                               style: TextStyle(
                                 color: Colors.white.withValues(alpha: 0.7),
                                 fontSize: 13,
@@ -152,9 +153,9 @@ class HomeScreen extends StatelessWidget {
 
               const SizedBox(height: 32),
               
-              const Text(
-                'Quick actions',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.quickActions,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
@@ -173,48 +174,48 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   _buildQuickActionCard(
                     context,
-                    title: 'Learn\nRights',
-                    subtitle: 'Laws explained simply',
+                    title: AppLocalizations.of(context)!.learnRights,
+                    subtitle: AppLocalizations.of(context)!.lawsExplained,
                     icon: Icons.school_rounded,
                     iconColor: AppColors.accent,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CategoriesScreen())),
                   ),
                   _buildQuickActionCard(
                     context,
-                    title: 'AI\nAssistant',
-                    subtitle: 'Ask any legal question',
+                    title: AppLocalizations.of(context)!.aiAssistant,
+                    subtitle: AppLocalizations.of(context)!.askAnyLegalQuestion,
                     icon: Icons.chat_bubble_rounded,
                     iconColor: AppColors.info,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatScreen())),
                   ),
                   _buildQuickActionCard(
                     context,
-                    title: 'IPC↔BNS\nConverter',
-                    subtitle: 'New law section finder',
+                    title: AppLocalizations.of(context)!.ipcBnsConverter,
+                    subtitle: AppLocalizations.of(context)!.newLawSectionFinder,
                     icon: Icons.compare_arrows_rounded,
                     iconColor: AppColors.error,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const IPCBNSConverterScreen())),
                   ),
                   _buildQuickActionCard(
                     context,
-                    title: 'Rights\nQuiz',
-                    subtitle: 'Test your knowledge',
+                    title: AppLocalizations.of(context)!.rightsQuiz,
+                    subtitle: AppLocalizations.of(context)!.testYourKnowledge,
                     icon: Icons.quiz_rounded,
                     iconColor: Colors.amber.shade700,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizScreen())),
                   ),
                   _buildQuickActionCard(
                     context,
-                    title: 'Fill\nForms',
-                    subtitle: 'FIR, RTI, Legal Aid',
+                    title: AppLocalizations.of(context)!.fillForms,
+                    subtitle: AppLocalizations.of(context)!.firRtiLegalAid,
                     icon: Icons.description_rounded,
                     iconColor: AppColors.warning,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const FormListScreen())),
                   ),
                   _buildQuickActionCard(
                     context,
-                    title: 'Find\nHelp',
-                    subtitle: 'Legal aid near you',
+                    title: AppLocalizations.of(context)!.findHelp,
+                    subtitle: AppLocalizations.of(context)!.legalAidNearYou,
                     icon: Icons.location_on_rounded,
                     iconColor: AppColors.success,
                     onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ResourcesScreen())),
@@ -303,7 +304,7 @@ class HomeScreen extends StatelessWidget {
               child: const Icon(Icons.emergency_rounded, color: AppColors.error),
             ),
             const SizedBox(width: 12),
-            const Text('Helplines', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text(AppLocalizations.of(context)!.helplinesTitle, style: const TextStyle(fontWeight: FontWeight.bold)),
           ],
         ),
         content: Column(
@@ -334,7 +335,7 @@ class HomeScreen extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Close', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
+            child: Text(AppLocalizations.of(context)!.closeButton, style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
           ),
         ],
       ),

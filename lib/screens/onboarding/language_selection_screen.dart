@@ -3,12 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/app_provider.dart';
 import '../../utils/colors.dart';
 import '../../main.dart';
+import '../../l10n/app_localizations.dart';
 
 class LanguageSelectionScreen extends ConsumerStatefulWidget {
-  const LanguageSelectionScreen({Key? key}) : super(key: key);
+  const LanguageSelectionScreen({super.key});
 
   @override
-  _LanguageSelectionScreenState createState() =>
+  ConsumerState<LanguageSelectionScreen> createState() =>
       _LanguageSelectionScreenState();
 }
 class _LanguageSelectionScreenState
@@ -55,9 +56,9 @@ class _LanguageSelectionScreenState
 
               const SizedBox(height: 32),
 
-              const Text(
-                'Choose your\nlanguage',
-                style: TextStyle(
+              Text(
+                AppLocalizations.of(context)!.chooseLanguageTitle.replaceAll(' ', '\n'),
+                style: const TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: AppColors.textPrimary,
@@ -68,8 +69,8 @@ class _LanguageSelectionScreenState
 
               const SizedBox(height: 8),
               Text(
-                'आपनी भाषा चुनें',
-                style: TextStyle(
+                AppLocalizations.of(context)!.chooseLanguageSubtitle,
+                style: const TextStyle(
                   fontSize: 16,
                   color: AppColors.textSecondary,
                   fontWeight: FontWeight.w500,
@@ -186,7 +187,7 @@ class _LanguageSelectionScreenState
                     ),
                   ),
                 );
-              }).toList(),
+              }),
 
               const Spacer(),
 
@@ -201,7 +202,7 @@ class _LanguageSelectionScreenState
                         .setLanguage(selectedLanguage!);
                     await ref.read(setFirstTimeFalseProvider.future);
 
-                    if (!mounted) return;
+                    if (!context.mounted) return;
 
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
@@ -219,7 +220,7 @@ class _LanguageSelectionScreenState
                     elevation: 0,
                   ),
                   child: Text(
-                    'Continue',
+                    AppLocalizations.of(context)!.continueButton,
                     style: TextStyle(
                       fontSize: 17,
                       fontWeight: FontWeight.w600,

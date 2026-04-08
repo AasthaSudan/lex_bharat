@@ -210,6 +210,34 @@ class _ResourcesScreenState extends State<ResourcesScreen> {
                           ),
                         ],
                       ),
+
+                      // Add after the address row, before the SizedBox(height: 24):
+                      if ((resource['services'] as List?)?.isNotEmpty == true) ...[
+                        const SizedBox(height: 16),
+                        Wrap(
+                          spacing: 6,
+                          runSpacing: 6,
+                          children: (resource['services'] as List<dynamic>)
+                              .map((s) => Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: AppColors.surfaceDim,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              s as String,
+                              style: const TextStyle(
+                                fontSize: 11,
+                                color: AppColors.textSecondary,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ))
+                              .toList(),
+                        ),
+                      ],
+
                       const SizedBox(height: 24),
                       Row(
                         children: [

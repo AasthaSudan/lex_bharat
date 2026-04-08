@@ -8,6 +8,7 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:intl/intl.dart';
+import '../../l10n/app_localizations.dart';
 
 class ChatScreen extends ConsumerStatefulWidget {
   const ChatScreen({super.key});
@@ -66,7 +67,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   Future<void> _exportChatToPdf() async {
     final messages = ref.read(chatProvider).messages;
     if (messages.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No chat history to export.')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLocalizations.of(context)!.exportNoHistory)));
       return;
     }
 
@@ -99,7 +100,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   ),
                 ),
               );
-            }).toList(),
+            }),
           ];
         },
       ),
@@ -152,12 +153,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Legal Assistant',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary, letterSpacing: -0.5),
+                Text(
+                  AppLocalizations.of(context)!.chatTitle,
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary, letterSpacing: -0.5),
                 ),
                 Text(
-                  chatState.isTyping ? 'Thinking...' : 'Powered by Groq AI',
+                  chatState.isTyping ? AppLocalizations.of(context)!.chatSubtitleThinking : AppLocalizations.of(context)!.chatSubtitlePowered,
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
@@ -182,19 +183,19 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 builder: (_) => AlertDialog(
                   backgroundColor: AppColors.surface,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-                  title: const Text('Clear conversation?', style: TextStyle(fontWeight: FontWeight.bold)),
-                  content: const Text('This will clear your chat history with the AI assistant.'),
+                  title: Text(AppLocalizations.of(context)!.clearChatTitle, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  content: Text(AppLocalizations.of(context)!.clearChatContent),
                   actions: [
                     TextButton(
                       onPressed: () => Navigator.pop(context),
-                      child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
+                      child: Text(AppLocalizations.of(context)!.cancel, style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.textSecondary)),
                     ),
                     TextButton(
                       onPressed: () {
                         ref.read(chatProvider.notifier).clearChat();
                         Navigator.pop(context);
                       },
-                      child: const Text('Clear', style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.error)),
+                      child: Text(AppLocalizations.of(context)!.clear, style: const TextStyle(fontWeight: FontWeight.bold, color: AppColors.error)),
                     ),
                   ],
                 ),
@@ -250,7 +251,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      voiceState.liveTranscript.isEmpty ? 'Listening...' : voiceState.liveTranscript,
+                      voiceState.liveTranscript.isEmpty ? AppLocalizations.of(context)!.listening : voiceState.liveTranscript,
                       style: const TextStyle(fontSize: 14, color: AppColors.primary, fontWeight: FontWeight.w500),
                     ),
                   ),
@@ -320,9 +321,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                         minLines: 1,
                         maxLines: 4,
                         textCapitalization: TextCapitalization.sentences,
-                        decoration: const InputDecoration(
-                          hintText: 'Ask anything...',
-                          hintStyle: TextStyle(fontSize: 16, color: AppColors.textHint, fontWeight: FontWeight.w500),
+                        decoration: InputDecoration(
+                          hintText: AppLocalizations.of(context)!.askAnythingHint,
+                          hintStyle: const TextStyle(fontSize: 16, color: AppColors.textHint, fontWeight: FontWeight.w500),
                           border: InputBorder.none,
                           enabledBorder: InputBorder.none,
                           focusedBorder: InputBorder.none,
@@ -406,7 +407,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               color: AppColors.accentLight,
               borderRadius: BorderRadius.circular(100),
             ),
-            child: const Text('Thinking...', style: TextStyle(color: AppColors.accent, fontWeight: FontWeight.w500)),
+            child: Text(AppLocalizations.of(context)!.typingIndicator, style: const TextStyle(color: AppColors.accent, fontWeight: FontWeight.w500)),
           ),
         ],
       ),
