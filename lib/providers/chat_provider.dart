@@ -145,13 +145,11 @@ class ChatNotifier extends Notifier<ChatState> {
       );
     }
   }
-
   Future<void> _saveToSupabase(String question, String answer) async {
     try {
       final client = _supabase;
       final user = client?.auth.currentUser;
       if (client == null || user == null) return;
-
       await client.from('chat_history').insert({
         'user_id': user.id,
         'question': question,
