@@ -48,14 +48,12 @@ class Message {
     required this.isUser,
     required this.timestamp,
   });
-
   Map<String, dynamic> toJson() => {
     'id': id,
     'text': text,
     'isUser': isUser,
     'timestamp': timestamp.toIso8601String(),
   };
-
   factory Message.fromJson(Map<String, dynamic> json) => Message(
     id: json['id'],
     text: json['text'],
