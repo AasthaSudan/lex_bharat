@@ -55,7 +55,6 @@ class _LanguageSelectionScreenState
               ),
 
               const SizedBox(height: 32),
-
               Text(
                 AppLocalizations.of(context)!.chooseLanguageTitle.replaceAll(' ', '\n'),
                 style: const TextStyle(
@@ -78,7 +77,6 @@ class _LanguageSelectionScreenState
               ),
 
               const SizedBox(height: 40),
-
               ...languages.map((lang) {
                 final isSelected = selectedLanguage == lang['code'];
                 return Padding(
