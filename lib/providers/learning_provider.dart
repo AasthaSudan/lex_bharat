@@ -24,20 +24,17 @@ final lessonsByTopicProvider =
   return LearningService.getLessonsByTopic(topicId);
 });
 
-// Quiz by topic provider
 final quizByTopicProvider =
     FutureProvider.family<Quiz?, String>((ref, topicId) async {
   return LearningService.getQuizByTopic(topicId);
 });
 
-// Search topics provider
 final searchTopicsProvider =
     FutureProvider.family<List<Topic>, String>((ref, query) async {
   if (query.isEmpty) return [];
   return LearningService.searchTopics(query);
 });
 
-// User learning progress provider
 final userLearningProgressProvider =
     FutureProvider.family<LearningProgress?, ({String userId, String topicId})>(
   (ref, params) async {
@@ -48,19 +45,16 @@ final userLearningProgressProvider =
   },
 );
 
-// User all progress provider
 final userAllProgressProvider =
     FutureProvider.family<List<LearningProgress>, String>((ref, userId) async {
   return LearningService.getUserAllProgress(userId);
 });
 
-// Learning stats provider
 final learningStatsProvider =
     FutureProvider.family<Map<String, dynamic>, String>((ref, userId) async {
   return LearningService.getLearningStats(userId);
 });
 
-// Selected topic notifier
 final selectedTopicProvider = NotifierProvider<SelectedTopicNotifier, String?>(
   SelectedTopicNotifier.new,
 );
@@ -73,7 +67,6 @@ class SelectedTopicNotifier extends Notifier<String?> {
   void clearSelection() => state = null;
 }
 
-// Selected lesson notifier
 final selectedLessonProvider = NotifierProvider<SelectedLessonNotifier, String?>(
   SelectedLessonNotifier.new,
 );
@@ -86,7 +79,6 @@ class SelectedLessonNotifier extends Notifier<String?> {
   void clearSelection() => state = null;
 }
 
-// Lesson completion notifier
 final lessonCompletionProvider = NotifierProvider<LessonCompletionNotifier, Map<String, bool>>(
   LessonCompletionNotifier.new,
 );
