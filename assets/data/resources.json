@@ -1,0 +1,128 @@
+{
+  "emergencyContacts": [
+    {
+      "id": "women_helpline",
+      "name": "Women's Helpline",
+      "number": "1091",
+      "description": "24/7 helpline for women in distress",
+      "category": "women",
+      "available24x7": true,
+      "languages": ["Hindi", "English"]
+    },
+    {
+      "id": "child_helpline",
+      "name": "Childline India",
+      "number": "1098",
+      "description": "Emergency support for children in distress",
+      "category": "child",
+      "available24x7": true,
+      "languages": ["Hindi", "English"]
+    },
+    {
+      "id": "national_legal_aid",
+      "name": "National Legal Services Authority",
+      "number": "1800-11-4001",
+      "description": "Free legal aid and consultation",
+      "category": "legal",
+      "available24x7": false,
+      "languages": ["Hindi", "English"]
+    },
+    {
+      "id": "police_complaint",
+      "name": "Police Emergency",
+      "number": "100",
+      "description": "Police emergency response",
+      "category": "police",
+      "available24x7": true,
+      "languages": ["Hindi", "English"]
+    },
+    {
+      "id": "consumer_complaint",
+      "name": "Consumer Helpline",
+      "number": "1800-11-4000",
+      "description": "Consumer rights and complaints",
+      "category": "consumer",
+      "available24x7": false,
+      "languages": ["Hindi", "English"]
+    }
+  ],
+  "governmentSchemes": [
+    {
+      "id": "pm_ujjwala",
+      "name": "PM Ujjwala Scheme",
+      "description": "Free LPG connections for below poverty line families",
+      "category": "welfare",
+      "eligibility": ["BPL families", "ST/SC families"],
+      "benefits": ["Free LPG connection", "First refill free"],
+      "applicationProcess": "Through authorized distributors"
+    },
+    {
+      "id": "pm_matru_vandana",
+      "name": "PM Matru Vandana Scheme",
+      "description": "Maternity Benefit Scheme for pregnant women",
+      "category": "women",
+      "eligibility": ["Pregnant women", "Lactating mothers"],
+      "benefits": ["Rs. 5000 cash assistance"],
+      "applicationProcess": "At ASHA worker or health center"
+    },
+    {
+      "id": "pm_awas_yojana",
+      "name": "PM Awas Yojana",
+      "description": "Housing scheme for economically weaker sections",
+      "category": "housing",
+      "eligibility": ["EWS families", "LIG families"],
+      "benefits": ["Affordable housing", "Subsidy on loans"],
+      "applicationProcess": "Through designated banks and authorities"
+    }
+  ],
+  "legalAidOrganizations": [
+    {
+      "id": "nlsa",
+      "name": "National Legal Services Authority",
+      "type": "Government",
+      "services": ["Free legal advice", "Legal aid", "Court representation"],
+      "coverage": "National",
+      "contactNumber": "1800-11-4001",
+      "website": "nalsa.gov.in"
+    },
+    {
+      "id": "aibdpa",
+      "name": "All India Blind, Deaf, Dumb Association",
+      "type": "NGO",
+      "services": ["Legal aid for disabled", "Advocacy"],
+      "coverage": "Multiple states",
+      "website": "aibdpa.org"
+    }
+  ],
+  "commonProcedures": [
+    {
+      "id": "fir_filing",
+      "name": "Filing an FIR",
+      "steps": [
+        "Go to nearest police station",
+        "Speak to SHO or on-duty officer",
+        "Provide details of the crime",
+        "FIR must be registered under Section 154 CrPC",
+        "Police cannot refuse an FIR",
+        "Get a copy of the FIR"
+      ],
+      "timeRequired": "30 minutes - 2 hours",
+      "documents": ["ID proof", "Incident details"]
+    },
+    {
+      "id": "marriage_registration",
+      "name": "Marriage Registration",
+      "steps": [
+        "Obtain marriage certificate form from Sub-Registrar office",
+        "Fill the form with both parties' details",
+        "Submit with marriage witness statements",
+        "Submit documents - date of birth proof, address proof",
+        "Registration is done within 7-30 days",
+        "Collect registered certificate"
+      ],
+      "timeRequired": "7-30 days",
+      "documents": ["Birth certificates", "ID proofs", "Address proofs", "Witness statements"]
+    }
+  ]
+}
+

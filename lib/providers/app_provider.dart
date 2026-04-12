@@ -1,19 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final languageProvider =
-NotifierProvider<LanguageNotifier, String>(LanguageNotifier.new);
+// Async language provider - properly loads language on startup
+final languageProvider = NotifierProvider<LanguageNotifier, String>(
+  LanguageNotifier.new,
+);
 
 class LanguageNotifier extends Notifier<String> {
   @override
   String build() {
-    _loadLanguage();
     return 'en';
-  }
-
-  Future<void> _loadLanguage() async {
-    final prefs = await SharedPreferences.getInstance();
-    state = prefs.getString('language') ?? 'en';
   }
 
   Future<void> setLanguage(String lang) async {
@@ -21,7 +17,20 @@ class LanguageNotifier extends Notifier<String> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('language', lang);
   }
+
+  Future<String> loadLanguage() async {
+    final prefs = await SharedPreferences.getInstance();
+    final language = prefs.getString('language') ?? 'en';
+    state = language;
+    return language;
+  }
 }
+
+// Future provider for async language loading
+final languageLoadProvider = FutureProvider<String>((ref) async {
+  final prefs = await SharedPreferences.getInstance();
+  return prefs.getString('language') ?? 'en';
+});
 
 final themeProvider =
 NotifierProvider<ThemeNotifier, bool>(ThemeNotifier.new);

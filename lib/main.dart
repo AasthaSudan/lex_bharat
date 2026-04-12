@@ -10,10 +10,12 @@ import 'screens/learn/categories_screen.dart';
 import 'screens/chat/chat_screen.dart';
 import 'screens/forms/form_list_screen.dart';
 import 'screens/profile/profile_screen.dart';
+import 'screens/onboarding/language_selection_screen.dart';
 import 'providers/app_provider.dart';
 import 'utils/colors.dart';
 import 'l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'services/database_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,6 +25,13 @@ void main() async {
   ]);
 
   await dotenv.load(fileName: ".env");
+
+  // Initialize Hive for offline storage
+  try {
+    await DatabaseService.initHive();
+  } catch (e) {
+    debugPrint('Hive init failed: $e');
+  }
 
   // Initialize Supabase — gracefully handle failure so app works offline
   try {

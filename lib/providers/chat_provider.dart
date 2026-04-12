@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../models/message.dart';
 import '../services/ai_service.dart';
 import '../services/storage_service.dart';
+import '../services/database_service.dart';
 import 'app_provider.dart';
 
 final aiServiceProvider = Provider((ref) => AIService());
@@ -14,22 +15,26 @@ class ChatState {
   final List<Message> messages;
   final bool isTyping;
   final String? error;
+  final String sessionId;
 
   const ChatState({
     this.messages = const [],
     this.isTyping = false,
     this.error,
+    required this.sessionId,
   });
 
   ChatState copyWith({
     List<Message>? messages,
     bool? isTyping,
     String? error,
+    String? sessionId,
   }) {
     return ChatState(
       messages: messages ?? this.messages,
       isTyping: isTyping ?? this.isTyping,
       error: error,
+      sessionId: sessionId ?? this.sessionId,
     );
   }
 }
@@ -48,7 +53,7 @@ class ChatNotifier extends Notifier<ChatState> {
   @override
   ChatState build() {
     _loadHistory();
-    return const ChatState();
+    return ChatState(sessionId: DateTime.now().toString());
   }
 
   Future<void> _loadHistory() async {
@@ -121,8 +126,20 @@ class ChatNotifier extends Notifier<ChatState> {
 
     try {
       final language = ref.read(languageProvider);
-      final response =
-          await ref.read(aiServiceProvider).getLegalAdvice(text, language: language);
+      
+      // Build conversation history for multi-turn context
+      final conversationHistory = state.messages
+          .map((m) => {
+                'role': m.isUser ? 'user' : 'assistant',
+                'content': m.text,
+              })
+          .toList();
+
+      final response = await ref.read(aiServiceProvider).getLegalAdvice(
+        text,
+        language: language,
+        conversationHistory: conversationHistory.isNotEmpty ? conversationHistory : null,
+      );
 
       final aiMsg = Message(
         id: '${DateTime.now().millisecondsSinceEpoch}_ai',
@@ -138,6 +155,7 @@ class ChatNotifier extends Notifier<ChatState> {
 
       _saveToSupabase(text, response);
       _saveToLocal();
+      _saveToHive();
     } catch (e) {
       state = state.copyWith(
         isTyping: false,
@@ -145,6 +163,7 @@ class ChatNotifier extends Notifier<ChatState> {
       );
     }
   }
+
   Future<void> _saveToSupabase(String question, String answer) async {
     try {
       final client = _supabase;
@@ -174,8 +193,30 @@ class ChatNotifier extends Notifier<ChatState> {
     }
   }
 
+  Future<void> _saveToHive() async {
+    try {
+      final messagesJson = state.messages.map((m) => {
+        'id': m.id,
+        'text': m.text,
+        'isUser': m.isUser,
+        'timestamp': m.timestamp.toIso8601String(),
+      }).toList();
+
+      await DatabaseService.saveChatSession(state.sessionId, {
+        'id': state.sessionId,
+        'messages': messagesJson,
+        'createdAt': DateTime.now().toIso8601String(),
+        'title': state.messages.isNotEmpty
+            ? state.messages.first.text.substring(0, 30)
+            : 'Chat Session',
+      });
+    } catch (e) {
+      debugPrint('Hive chat save failed: $e');
+    }
+  }
+
   void clearChat() {
-    state = const ChatState();
+    state = ChatState(sessionId: DateTime.now().toString());
     _storage.clearChatHistory();
   }
 }

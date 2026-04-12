@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/colors.dart';
-import 'auth/login_screen.dart';
+import '../providers/app_provider.dart';
+import 'onboarding/language_selection_screen.dart';
 import '../main.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -43,13 +44,22 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
     await Future.delayed(const Duration(seconds: 2));
     if (!mounted) return;
 
+    // Check if first time user
+    final isFirstTime = await ref.read(firstTimeProvider.future);
+
     Widget destination;
-    try {
-      final user = Supabase.instance.client.auth.currentUser;
-      destination = user != null ? const HomeNavigation() : const LoginScreen();
-    } catch (_) {
-      destination = const LoginScreen();
+    if (isFirstTime) {
+      destination = const LanguageSelectionScreen();
+    } else {
+      try {
+        final user = Supabase.instance.client.auth.currentUser;
+        destination = user != null ? const HomeNavigation() : const LanguageSelectionScreen();
+      } catch (_) {
+        destination = const LanguageSelectionScreen();
+      }
     }
+
+    if (!mounted) return;
 
     Navigator.of(context).pushReplacement(
       PageRouteBuilder(

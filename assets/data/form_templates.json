@@ -1,0 +1,50 @@
+{
+  "templates": [
+    {
+      "id": "fir_form",
+      "name": "File a Police Complaint (FIR)",
+      "description": "Guide to file an FIR at a police station",
+      "category": "legal_procedures",
+      "instructions": "Fill in the details of your complaint. Police must register your FIR within 24 hours.",
+      "fields": [
+        {"id": "name", "label": "Your Full Name", "type": "text", "placeholder": "Enter your name", "required": true, "helperText": "As per ID proof"},
+        {"id": "phone", "label": "Phone Number", "type": "phone", "placeholder": "10-digit number", "required": true},
+        {"id": "email", "label": "Email Address", "type": "email", "placeholder": "your@email.com", "required": false},
+        {"id": "complaint_date", "label": "Date of Incident", "type": "date", "required": true},
+        {"id": "complaint_description", "label": "Describe what happened", "type": "textarea", "placeholder": "Provide detailed description", "required": true},
+        {"id": "crime_type", "label": "Type of Crime", "type": "select", "options": ["Theft", "Assault", "Property Damage", "Harassment", "Other"], "required": true},
+        {"id": "police_station", "label": "Police Station", "type": "text", "placeholder": "Nearest police station name", "required": true}
+      ]
+    },
+    {
+      "id": "rti_form",
+      "name": "Right to Information (RTI) Request",
+      "description": "File an RTI request under the RTI Act 2005",
+      "category": "legal_documents",
+      "instructions": "Fill the RTI form with specific details about the information you seek. Fees may apply.",
+      "fields": [
+        {"id": "applicant_name", "label": "Applicant Name", "type": "text", "required": true},
+        {"id": "applicant_address", "label": "Address", "type": "textarea", "required": true},
+        {"id": "information_required", "label": "Information Required", "type": "textarea", "placeholder": "Describe exactly what information you need", "required": true},
+        {"id": "public_body", "label": "Public Body/Ministry", "type": "text", "placeholder": "e.g., Municipality, District Office", "required": true},
+        {"id": "urgency", "label": "Is this urgent?", "type": "select", "options": ["Yes", "No"], "required": true}
+      ]
+    },
+    {
+      "id": "tenant_notice",
+      "name": "Tenant Eviction Notice",
+      "description": "Template for tenant eviction notice",
+      "category": "property_documents",
+      "instructions": "Fill in tenant and property details. This creates a legal notice for eviction.",
+      "fields": [
+        {"id": "landlord_name", "label": "Landlord Name", "type": "text", "required": true},
+        {"id": "tenant_name", "label": "Tenant Name", "type": "text", "required": true},
+        {"id": "property_address", "label": "Property Address", "type": "textarea", "required": true},
+        {"id": "lease_start", "label": "Lease Start Date", "type": "date", "required": true},
+        {"id": "reason_for_eviction", "label": "Reason for Eviction", "type": "select", "options": ["Non-payment of rent", "Property damage", "Lease violation", "End of lease period"], "required": true},
+        {"id": "notice_period_days", "label": "Notice Period (days)", "type": "number", "placeholder": "30, 60, or 90", "required": true}
+      ]
+    }
+  ]
+}
+
