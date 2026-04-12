@@ -2,23 +2,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/learning_models.dart';
 import '../services/learning_service.dart';
 
-// Categories provider
 final categoriesProvider = FutureProvider<List<Category>>((ref) async {
   return LearningService.getCategories();
 });
 
-// Topics by category provider
 final topicsByCategoryProvider =
     FutureProvider.family<List<Topic>, String>((ref, categoryId) async {
   return LearningService.getTopicsByCategory(categoryId);
 });
 
-// All topics provider
 final allTopicsProvider = FutureProvider<List<Topic>>((ref) async {
   return LearningService.getAllTopics();
 });
 
-// Lessons by topic provider
 final lessonsByTopicProvider =
     FutureProvider.family<List<Lesson>, String>((ref, topicId) async {
   return LearningService.getLessonsByTopic(topicId);
@@ -90,9 +86,7 @@ class LessonCompletionNotifier extends Notifier<Map<String, bool>> {
   void markLessonComplete(String lessonId, bool isComplete) {
     state = {...state, lessonId: isComplete};
   }
-
   bool isLessonComplete(String lessonId) => state[lessonId] ?? false;
-
   void clearCompletion() => state = {};
 }
 
