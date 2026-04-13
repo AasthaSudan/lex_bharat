@@ -49,7 +49,6 @@ class ChatNotifier extends Notifier<ChatState> {
       return null;
     }
   }
-
   @override
   ChatState build() {
     _loadHistory();
@@ -110,7 +109,6 @@ class ChatNotifier extends Notifier<ChatState> {
 
   Future<void> sendMessage(String text) async {
     if (text.trim().isEmpty) return;
-
     final userMsg = Message(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       text: text.trim(),
