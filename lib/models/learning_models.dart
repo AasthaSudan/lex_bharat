@@ -1,5 +1,3 @@
-// Learning Module Data Models
-
 class Category {
   final String id;
   final String name;
