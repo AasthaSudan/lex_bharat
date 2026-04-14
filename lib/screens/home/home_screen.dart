@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../utils/colors.dart';
 import '../../utils/helpers.dart';
+import '../../utils/spacing.dart';
+import '../../utils/typography.dart';
 import '../chat/chat_screen.dart';
 import '../forms/form_list_screen.dart';
 import '../learn/categories_screen.dart';
@@ -10,6 +12,9 @@ import '../tools/ipc_bns_converter_screen.dart';
 import '../tools/quiz_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../l10n/app_localizations.dart';
+import '../../widgets/feature_card.dart';
+import '../../widgets/highlight_banner.dart';
+import '../../widgets/section_header.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -31,198 +36,207 @@ class HomeScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        '${Helpers.getGreeting(context)} 👋',
-                        style: const TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.textPrimary,
-                          letterSpacing: -1,
+              // Header Section with Greeting
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.screenPadding,
+                  vertical: AppSpacing.screenPadding,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${Helpers.getGreeting(context)} 👋',
+                          style: AppTypography.displaySmall,
+                        ),
+                        const SizedBox(height: AppSpacing.xs6),
+                        Text(
+                          AppLocalizations.of(context)!.howCanIHelpText,
+                          style: AppTypography.bodyMedium.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {},
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                          padding: const EdgeInsets.all(AppSpacing.sm),
+                          decoration: BoxDecoration(
+                            color: AppColors.surfaceDim,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.notifications_none_rounded,
+                            size: 24,
+                            color: AppColors.textPrimary,
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 8),
-                      const Text('👋', style: TextStyle(fontSize: 28)),
-                    ],
-                  ),
-                  const Icon(Icons.notifications_none_rounded, size: 30, color: AppColors.textPrimary),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Text(
-                AppLocalizations.of(context)!.howCanIHelpText,
-                style: const TextStyle(
-                  fontSize: 16,
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w500,
+                    ),
+                  ],
                 ),
               ),
-              const SizedBox(height: 32),
 
-              GestureDetector(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatScreen())),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceDim,
+              const SizedBox(height: AppSpacing.componentSpacing),
+
+              // Search Bar
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.screenPadding,
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const ChatScreen()),
+                    ),
                     borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 16,
-                        height: 16,
-                        decoration: const BoxDecoration(
-                          color: AppColors.gray400,
-                          shape: BoxShape.circle,
-                        ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.md,
+                        vertical: AppSpacing.sm16,
                       ),
-                      const SizedBox(width: 16),
-                      Text(
-                        AppLocalizations.of(context)!.askLegalQuestion,
-                        style: const TextStyle(
-                          color: AppColors.gray500,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceDim,
+                        borderRadius: BorderRadius.circular(100),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
-              GestureDetector(
-                onTap: () => _showEmergencyDialog(context),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: AppColors.cardShadow,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 8,
-                        height: 8,
-                        decoration: const BoxDecoration(
-                          color: AppColors.error,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              AppLocalizations.of(context)!.emergencyHelp,
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
+                      child: Row(
+                        children: [
+                          const Icon(
+                            Icons.search_rounded,
+                            size: 20,
+                            color: AppColors.textHint,
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          Text(
+                            AppLocalizations.of(context)!.askLegalQuestion,
+                            style: AppTypography.bodyMedium.copyWith(
+                              color: AppColors.textHint,
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              AppLocalizations.of(context)!.emergencyHelpSubtitle,
-                              style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.7),
-                                fontSize: 13,
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      Icon(Icons.chevron_right_rounded, color: Colors.white.withValues(alpha: 0.5), size: 20),
-                    ],
+                    ),
                   ),
                 ),
               ),
 
-              const SizedBox(height: 32),
-              
-              Text(
-                AppLocalizations.of(context)!.quickActions,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
+              const SizedBox(height: AppSpacing.lg),
+
+              // Emergency Banner
+              HighlightBanner(
+                title: AppLocalizations.of(context)!.emergencyHelp,
+                subtitle: AppLocalizations.of(context)!.emergencyHelpSubtitle,
+                icon: Icons.emergency_rounded,
+                backgroundColor: AppColors.error,
+                textColor: Colors.white,
+                actionLabel: 'Call Now',
+                actionColor: Colors.white,
+                onAction: () async {
+                  final Uri url = Uri(scheme: 'tel', path: '112');
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url);
+                  }
+                },
+              ),
+
+              const SizedBox(height: AppSpacing.lg),
+
+              // Quick Actions Section Header
+              SectionHeader(
+                title: AppLocalizations.of(context)!.quickActions,
+                subtitle: 'Access key features',
+              ),
+
+              // Quick Actions Grid
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpacing.screenPadding,
+                ),
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  mainAxisSpacing: AppSpacing.componentSpacing,
+                  crossAxisSpacing: AppSpacing.componentSpacing,
+                  childAspectRatio: 0.95,
+                  children: [
+                    FeatureCard(
+                      title: AppLocalizations.of(context)!.learnRights,
+                      subtitle: AppLocalizations.of(context)!.lawsExplained,
+                      icon: Icons.school_rounded,
+                      iconColor: AppColors.accent,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const CategoriesScreen()),
+                      ),
+                    ),
+                    FeatureCard(
+                      title: AppLocalizations.of(context)!.aiAssistant,
+                      subtitle: AppLocalizations.of(context)!.askAnyLegalQuestion,
+                      icon: Icons.chat_bubble_rounded,
+                      iconColor: AppColors.info,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ChatScreen()),
+                      ),
+                    ),
+                    FeatureCard(
+                      title: AppLocalizations.of(context)!.ipcBnsConverter,
+                      subtitle: AppLocalizations.of(context)!.newLawSectionFinder,
+                      icon: Icons.compare_arrows_rounded,
+                      iconColor: AppColors.error,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const IPCBNSConverterScreen()),
+                      ),
+                    ),
+                    FeatureCard(
+                      title: AppLocalizations.of(context)!.rightsQuiz,
+                      subtitle: AppLocalizations.of(context)!.testYourKnowledge,
+                      icon: Icons.quiz_rounded,
+                      iconColor: Colors.amber.shade700,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const QuizScreen()),
+                      ),
+                    ),
+                    FeatureCard(
+                      title: AppLocalizations.of(context)!.fillForms,
+                      subtitle: AppLocalizations.of(context)!.firRtiLegalAid,
+                      icon: Icons.description_rounded,
+                      iconColor: AppColors.warning,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const FormListScreen()),
+                      ),
+                    ),
+                    FeatureCard(
+                      title: AppLocalizations.of(context)!.findHelp,
+                      subtitle: AppLocalizations.of(context)!.legalAidNearYou,
+                      icon: Icons.location_on_rounded,
+                      iconColor: AppColors.success,
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const ResourcesScreen()),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              
-              const SizedBox(height: 16),
-              
-              GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                childAspectRatio: 0.85,
-                children: [
-                  _buildQuickActionCard(
-                    context,
-                    title: AppLocalizations.of(context)!.learnRights,
-                    subtitle: AppLocalizations.of(context)!.lawsExplained,
-                    icon: Icons.school_rounded,
-                    iconColor: AppColors.accent,
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CategoriesScreen())),
-                  ),
-                  _buildQuickActionCard(
-                    context,
-                    title: AppLocalizations.of(context)!.aiAssistant,
-                    subtitle: AppLocalizations.of(context)!.askAnyLegalQuestion,
-                    icon: Icons.chat_bubble_rounded,
-                    iconColor: AppColors.info,
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatScreen())),
-                  ),
-                  _buildQuickActionCard(
-                    context,
-                    title: AppLocalizations.of(context)!.ipcBnsConverter,
-                    subtitle: AppLocalizations.of(context)!.newLawSectionFinder,
-                    icon: Icons.compare_arrows_rounded,
-                    iconColor: AppColors.error,
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const IPCBNSConverterScreen())),
-                  ),
-                  _buildQuickActionCard(
-                    context,
-                    title: AppLocalizations.of(context)!.rightsQuiz,
-                    subtitle: AppLocalizations.of(context)!.testYourKnowledge,
-                    icon: Icons.quiz_rounded,
-                    iconColor: Colors.amber.shade700,
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizScreen())),
-                  ),
-                  _buildQuickActionCard(
-                    context,
-                    title: AppLocalizations.of(context)!.fillForms,
-                    subtitle: AppLocalizations.of(context)!.firRtiLegalAid,
-                    icon: Icons.description_rounded,
-                    iconColor: AppColors.warning,
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const FormListScreen())),
-                  ),
-                  _buildQuickActionCard(
-                    context,
-                    title: AppLocalizations.of(context)!.findHelp,
-                    subtitle: AppLocalizations.of(context)!.legalAidNearYou,
-                    icon: Icons.location_on_rounded,
-                    iconColor: AppColors.success,
-                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ResourcesScreen())),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 32),
+
+              const SizedBox(height: AppSpacing.lg),
             ],
           ),
         ),
