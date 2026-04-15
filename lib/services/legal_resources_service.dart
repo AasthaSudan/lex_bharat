@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'database_service.dart';
 
 /// Production-grade legal resources service for finding legal aid and emergency services
 class LegalResourcesService {

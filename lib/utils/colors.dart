@@ -1,96 +1,97 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primary     = Color(0xFF1A1A2E);
-  static const Color accent      = Color(0xFF7B5CF8);
-  static const Color accentLight = Color(0xFFE8E4FF);
+  // Minimal color palette - Simple and clean
+  static const Color primary     = Color(0xFF000000);  // Pure black for primary actions
+  static const Color accent      = Color(0xFF0066FF);  // Clean blue for highlights
+  static const Color accentLight = Color(0xFFE6F0FF);  // Light blue background
 
-  static const Color background  = Color(0xFFFAFAF8);
-  static const Color surface     = Color(0xFFFFFFFF);
-  static const Color surfaceDim  = Color(0xFFF0EFE9);
+  static const Color background  = Color(0xFFFAFAFA);  // Off-white background
+  static const Color surface     = Color(0xFFFFFFFF);  // Pure white
+  static const Color surfaceDim  = Color(0xFFF5F5F5);  // Light gray
 
-  static const Color textPrimary   = Color(0xFF1A1A2E);
-  static const Color textSecondary = Color(0xFF5A5A6E);
-  static const Color textHint      = Color(0xFF9B9B9B);
+  static const Color textPrimary   = Color(0xFF000000);  // Black text
+  static const Color textSecondary = Color(0xFF666666);  // Gray text
+  static const Color textHint      = Color(0xFF999999);  // Light gray hint
 
-  static const Color border     = Color(0xFFF0EFE9);
-  static const Color borderMid  = Color(0xFFE2E0DA);
+  static const Color border     = Color(0xFFE5E5E5);  // Minimal gray border
+  static const Color borderMid  = Color(0xFFDDDDDD);   // Medium gray border
 
-  static const Color success     = Color(0xFF3BF87B);
-  static const Color successTint = Color(0xFFE8FFE8);
-  static const Color warning     = Color(0xFFF89B3B);
-  static const Color warningTint = Color(0xFFFFF4E8);
-  static const Color error       = Color(0xFFFF4D4D);
-  static const Color errorTint   = Color(0xFFFFECEC);
-  static const Color info        = Color(0xFF3B9EF8);
-  static const Color infoTint    = Color(0xFFE8F4FF);
-  static const Color infoLight   = Color(0xFFE8F4FF);
+  static const Color success     = Color(0xFF00B81A);  // Clean green
+  static const Color successTint = Color(0xFFE6F7E6);  // Light green
+  static const Color warning     = Color(0xFFFF9800);  // Clean orange
+  static const Color warningTint = Color(0xFFFFF3E0);  // Light orange
+  static const Color error       = Color(0xFFD32F2F);  // Clean red
+  static const Color errorTint   = Color(0xFFFFEBEE);  // Light red
+  static const Color info        = Color(0xFF0066FF);  // Same as accent
+  static const Color infoTint    = Color(0xFFE6F0FF);  // Light blue
 
-  static const Color categoryBlue   = Color(0xFF3B9EF8);
-  static const Color categoryGreen  = Color(0xFF3BF87B);
-  static const Color categoryOrange = Color(0xFFF89B3B);
-  static const Color categoryPink   = Color(0xFFF87B9B);
-  static const Color categoryPurple = Color(0xFF7B5CF8);
-  static const Color categoryRed    = Color(0xFFFF4D4D);
-  static const Color categoryTeal   = Color(0xFF3BF8D4);
+  static const Color categoryBlue   = Color(0xFF0066FF);
+  static const Color categoryGreen  = Color(0xFF00B81A);
+  static const Color categoryOrange = Color(0xFFFF9800);
+  static const Color categoryPink   = Color(0xFFE91E63);
+  static const Color categoryPurple = Color(0xFF9C27B0);
+  static const Color categoryRed    = Color(0xFFD32F2F);
+  static const Color categoryTeal   = Color(0xFF009688);
 
-  static const Color gray50  = Color(0xFFFAFAF8);
-  static const Color gray100 = Color(0xFFF5F4F0);
-  static const Color gray200 = Color(0xFFF0EFE9);
-  static const Color gray300 = Color(0xFFE2E0DA);
-  static const Color gray400 = Color(0xFFC0BEB5);
-  static const Color gray500 = Color(0xFF9B9B9B);
-  static const Color gray600 = Color(0xFF5A5A6E);
-  static const Color gray700 = Color(0xFF3A3A4E);
-  static const Color gray800 = Color(0xFF2A2A3E);
-  static const Color gray900 = Color(0xFF1A1A2E);
+  static const Color gray50  = Color(0xFFFAFAFA);
+  static const Color gray100 = Color(0xFFF5F5F5);
+  static const Color gray200 = Color(0xFFEEEEEE);
+  static const Color gray300 = Color(0xFFE0E0E0);
+  static const Color gray400 = Color(0xFFBDBDBD);
+  static const Color gray500 = Color(0xFF9E9E9E);
+  static const Color gray600 = Color(0xFF757575);
+  static const Color gray700 = Color(0xFF616161);
+  static const Color gray800 = Color(0xFF424242);
+  static const Color gray900 = Color(0xFF212121);
 
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF1A1A2E), Color(0xFF2D2B55)],
+    colors: [Color(0xFF000000), Color(0xFF333333)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient accentGradient = LinearGradient(
-    colors: [Color(0xFF7B5CF8), Color(0xFF9B7CFF)],
+    colors: [Color(0xFF0066FF), Color(0xFF0052CC)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static List<BoxShadow> cardShadow = [
     BoxShadow(
-      color: const Color(0xFF1A1A2E).withValues(alpha: 0.04),
-      blurRadius: 12,
-      offset: const Offset(0, 2),
+      color: Colors.black.withValues(alpha: 0.05),
+      blurRadius: 8,
+      offset: const Offset(0, 1),
     ),
   ];
 
   static List<BoxShadow> elevatedShadow = [
     BoxShadow(
-      color: const Color(0xFF7B5CF8).withValues(alpha: 0.12),
-      blurRadius: 20,
-      offset: const Offset(0, 6),
+      color: Colors.black.withValues(alpha: 0.08),
+      blurRadius: 12,
+      offset: const Offset(0, 4),
     ),
   ];
 
   static List<BoxShadow> softShadow = [
     BoxShadow(
-      color: const Color(0xFF1A1A2E).withValues(alpha: 0.06),
-      blurRadius: 8,
-      offset: const Offset(0, 2),
+      color: Colors.black.withValues(alpha: 0.04),
+      blurRadius: 6,
+      offset: const Offset(0, 1),
     ),
   ];
 
-  static const Color primaryDark   = Color(0xFF0F0F1B);
-  static const Color primaryLight  = Color(0xFF2D2B55);
-  static const Color primaryLighter = Color(0xFFE8E4FF);
-  
-  static const Color successLight = Color(0xFFE8FFE8);
-  static const Color warningLight = Color(0xFFFFF4E8);
-  static const Color errorLight   = Color(0xFFFFECEC);
-  
+  static const Color primaryDark   = Color(0xFF000000);
+  static const Color primaryLight  = Color(0xFF333333);
+  static const Color primaryLighter = Color(0xFFE6F0FF);
+
+  static const Color successLight = Color(0xFFE6F7E6);
+  static const Color warningLight = Color(0xFFFFF3E0);
+  static const Color errorLight   = Color(0xFFFFEBEE);
+  static const Color infoLight    = Color(0xFFE6F0FF);
+
   static const LinearGradient softGradient = LinearGradient(
-    colors: [Color(0xFFFAFAF8), Color(0xFFF0EFE9)],
+    colors: [Color(0xFFFAFAFA), Color(0xFFF5F5F5)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

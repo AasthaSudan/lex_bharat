@@ -21,7 +21,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tabForms => 'Forms';
 
   @override
-  String get tabProfile => 'Profile';
+  String get tabHelp => 'Help';
+
+  @override
+  String get findHelp => 'Find Help';
+
+  @override
+  String get legalAidNearYou => 'Legal aid near you';
+
+  @override
+  String get helplinesTitle => 'Helplines';
+
+  @override
+  String get verified => 'Verified';
+
+  @override
+  String get call => 'Call';
+
+  @override
+  String get emailLabel => 'Email';
+
+  @override
+  String get website => 'Website';
 
   @override
   String get howCanIHelpText => 'How can I help you today?';
@@ -69,13 +90,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get firRtiLegalAid => 'FIR, RTI, Legal Aid';
 
   @override
-  String get findHelp => 'Find\nHelp';
+  String get legalAid => 'Legal Aid';
 
   @override
-  String get legalAidNearYou => 'Legal aid near you';
+  String get emergency => 'Emergency';
 
   @override
-  String get helplinesTitle => 'Helplines';
+  String get schemes => 'Schemes';
+
+  @override
+  String get errorFetchingData => 'Error fetching data';
+
+  @override
+  String get noDataAvailable => 'No data available';
 
   @override
   String get closeButton => 'Close';

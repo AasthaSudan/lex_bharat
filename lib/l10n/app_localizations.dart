@@ -6,7 +6,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
-import 'app_localizations_hi.dart';
 
 // ignore_for_file: type=lint
 
@@ -93,10 +92,7 @@ abstract class AppLocalizations {
       ];
 
   /// A list of this localizations delegate's supported locales.
-  static const List<Locale> supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('hi'),
-  ];
+  static const List<Locale> supportedLocales = <Locale>[Locale('en')];
 
   /// No description provided for @tabHome.
   ///
@@ -122,11 +118,53 @@ abstract class AppLocalizations {
   /// **'Forms'**
   String get tabForms;
 
-  /// No description provided for @tabProfile.
+  /// No description provided for @tabHelp.
   ///
   /// In en, this message translates to:
-  /// **'Profile'**
-  String get tabProfile;
+  /// **'Help'**
+  String get tabHelp;
+
+  /// No description provided for @findHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'Find Help'**
+  String get findHelp;
+
+  /// No description provided for @legalAidNearYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal aid near you'**
+  String get legalAidNearYou;
+
+  /// No description provided for @helplinesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Helplines'**
+  String get helplinesTitle;
+
+  /// No description provided for @verified.
+  ///
+  /// In en, this message translates to:
+  /// **'Verified'**
+  String get verified;
+
+  /// No description provided for @call.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get call;
+
+  /// No description provided for @emailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get emailLabel;
+
+  /// No description provided for @website.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get website;
 
   /// No description provided for @howCanIHelpText.
   ///
@@ -218,23 +256,35 @@ abstract class AppLocalizations {
   /// **'FIR, RTI, Legal Aid'**
   String get firRtiLegalAid;
 
-  /// No description provided for @findHelp.
+  /// No description provided for @legalAid.
   ///
   /// In en, this message translates to:
-  /// **'Find\nHelp'**
-  String get findHelp;
+  /// **'Legal Aid'**
+  String get legalAid;
 
-  /// No description provided for @legalAidNearYou.
+  /// No description provided for @emergency.
   ///
   /// In en, this message translates to:
-  /// **'Legal aid near you'**
-  String get legalAidNearYou;
+  /// **'Emergency'**
+  String get emergency;
 
-  /// No description provided for @helplinesTitle.
+  /// No description provided for @schemes.
   ///
   /// In en, this message translates to:
-  /// **'Helplines'**
-  String get helplinesTitle;
+  /// **'Schemes'**
+  String get schemes;
+
+  /// No description provided for @errorFetchingData.
+  ///
+  /// In en, this message translates to:
+  /// **'Error fetching data'**
+  String get errorFetchingData;
+
+  /// No description provided for @noDataAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No data available'**
+  String get noDataAvailable;
 
   /// No description provided for @closeButton.
   ///
@@ -1280,7 +1330,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'hi'].contains(locale.languageCode);
+      <String>['en'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -1291,8 +1341,6 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   switch (locale.languageCode) {
     case 'en':
       return AppLocalizationsEn();
-    case 'hi':
-      return AppLocalizationsHi();
   }
 
   throw FlutterError(

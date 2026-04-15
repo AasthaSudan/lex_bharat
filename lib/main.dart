@@ -9,8 +9,7 @@ import 'screens/home/home_screen.dart';
 import 'screens/learn/categories_screen.dart';
 import 'screens/chat/chat_screen.dart';
 import 'screens/forms/form_list_screen.dart';
-import 'screens/profile/profile_screen.dart';
-import 'screens/onboarding/language_selection_screen.dart';
+import 'screens/help/help_screen.dart';
 import 'providers/app_provider.dart';
 import 'utils/colors.dart';
 import 'l10n/app_localizations.dart';
@@ -57,8 +56,6 @@ class LexBharatApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(themeProvider);
 
-    final language = ref.watch(languageProvider);
-
     return MaterialApp(
       title: 'Lex Bharat',
       debugShowCheckedModeBanner: false,
@@ -66,7 +63,7 @@ class LexBharatApp extends ConsumerWidget {
       theme: _buildLightTheme(),
       darkTheme: _buildDarkTheme(),
       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      locale: Locale(language),
+      locale: const Locale('en'),
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -75,7 +72,6 @@ class LexBharatApp extends ConsumerWidget {
       ],
       supportedLocales: const [
         Locale('en'),
-        Locale('hi'),
       ],
     );
   }
@@ -96,7 +92,12 @@ class LexBharatApp extends ConsumerWidget {
         onSurface: AppColors.textPrimary,
         onError: Colors.white,
       ),
-      textTheme: GoogleFonts.interTextTheme(),
+      textTheme: GoogleFonts.interTextTheme().copyWith(
+        displayLarge: GoogleFonts.inter(fontSize: 32, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
+        headlineMedium: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+        bodyLarge: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w400, color: AppColors.textPrimary, height: 1.5),
+        bodyMedium: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: AppColors.textSecondary, height: 1.5),
+      ),
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: false,
@@ -112,7 +113,6 @@ class LexBharatApp extends ConsumerWidget {
           color: AppColors.textPrimary,
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          letterSpacing: -0.3,
         ),
         iconTheme: const IconThemeData(color: AppColors.textPrimary, size: 24),
       ),
@@ -121,7 +121,7 @@ class LexBharatApp extends ConsumerWidget {
         color: Colors.white,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           side: const BorderSide(color: AppColors.gray200, width: 1),
         ),
       ),
@@ -132,7 +132,15 @@ class LexBharatApp extends ConsumerWidget {
           elevation: 0,
           shadowColor: Colors.transparent,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.primary,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          side: const BorderSide(color: AppColors.gray300, width: 1),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -151,16 +159,17 @@ class LexBharatApp extends ConsumerWidget {
           return const IconThemeData(color: AppColors.textHint);
         }),
       ),
+      dividerTheme: const DividerThemeData(color: AppColors.gray200, thickness: 1),
     );
   }
 
   ThemeData _buildDarkTheme() {
-    const darkBg = Color(0xFF0F0F1B);
-    const darkSurface = Color(0xFF1A1A2E);
-    const darkCard = Color(0xFF222240);
-    const darkBorder = Color(0xFF2D2B55);
-    const darkTextPrimary = Color(0xFFF0F0F5);
-    const darkTextSecondary = Color(0xFF9B9BAF);
+    const darkBg = Color(0xFF121212);
+    const darkSurface = Color(0xFF1E1E1E);
+    const darkCard = Color(0xFF2A2A2A);
+    const darkBorder = Color(0xFF333333);
+    const darkTextPrimary = Color(0xFFFFFFFF);
+    const darkTextSecondary = Color(0xFFB0B0B0);
 
     return ThemeData(
       useMaterial3: true,
@@ -177,7 +186,12 @@ class LexBharatApp extends ConsumerWidget {
         onSurface: darkTextPrimary,
         onError: Colors.white,
       ),
-      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme),
+      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
+        displayLarge: GoogleFonts.inter(fontSize: 32, fontWeight: FontWeight.bold, color: darkTextPrimary),
+        headlineMedium: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w600, color: darkTextPrimary),
+        bodyLarge: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w400, color: darkTextPrimary, height: 1.5),
+        bodyMedium: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: darkTextSecondary, height: 1.5),
+      ),
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: false,
@@ -193,7 +207,6 @@ class LexBharatApp extends ConsumerWidget {
           color: darkTextPrimary,
           fontSize: 20,
           fontWeight: FontWeight.w600,
-          letterSpacing: -0.3,
         ),
         iconTheme: const IconThemeData(color: darkTextPrimary, size: 24),
       ),
@@ -202,7 +215,7 @@ class LexBharatApp extends ConsumerWidget {
         color: darkCard,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(12),
           side: const BorderSide(color: darkBorder, width: 1),
         ),
       ),
@@ -213,7 +226,14 @@ class LexBharatApp extends ConsumerWidget {
           elevation: 0,
           shadowColor: Colors.transparent,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: AppColors.accent,
+          side: const BorderSide(color: darkBorder, width: 1),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -232,6 +252,7 @@ class LexBharatApp extends ConsumerWidget {
           return const IconThemeData(color: darkTextSecondary);
         }),
       ),
+      dividerTheme: const DividerThemeData(color: darkBorder, thickness: 1),
     );
   }
 }
@@ -251,7 +272,7 @@ class _HomeNavigationState extends State<HomeNavigation> {
     CategoriesScreen(),
     ChatScreen(),
     FormListScreen(),
-    ProfileScreen(),
+    HelpScreen(),
   ];
 
   @override
@@ -281,16 +302,16 @@ class _HomeNavigationState extends State<HomeNavigation> {
             selectedIcon: const Icon(Icons.chat_bubble_rounded),
             label: AppLocalizations.of(context)!.tabChat,
           ),
-          NavigationDestination(
-            icon: const Icon(Icons.description_outlined),
-            selectedIcon: const Icon(Icons.description_rounded),
-            label: AppLocalizations.of(context)!.tabForms,
-          ),
-          NavigationDestination(
-            icon: const Icon(Icons.person_outline_rounded),
-            selectedIcon: const Icon(Icons.person_rounded),
-            label: AppLocalizations.of(context)!.tabProfile,
-          ),
+           NavigationDestination(
+             icon: const Icon(Icons.description_outlined),
+             selectedIcon: const Icon(Icons.description_rounded),
+             label: AppLocalizations.of(context)!.tabForms,
+           ),
+           NavigationDestination(
+             icon: const Icon(Icons.help_outline_rounded),
+             selectedIcon: const Icon(Icons.help_rounded),
+             label: AppLocalizations.of(context)!.tabHelp,
+           ),
         ],
       ),
     );

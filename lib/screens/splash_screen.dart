@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../utils/colors.dart';
 import '../providers/app_provider.dart';
-import 'onboarding/language_selection_screen.dart';
 import '../main.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -49,13 +48,13 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     Widget destination;
     if (isFirstTime) {
-      destination = const LanguageSelectionScreen();
+      destination = const HomeNavigation();
     } else {
       try {
-        final user = Supabase.instance.client.auth.currentUser;
-        destination = user != null ? const HomeNavigation() : const LanguageSelectionScreen();
+        final _ = Supabase.instance.client.auth.currentUser;
+        destination = const HomeNavigation();
       } catch (_) {
-        destination = const LanguageSelectionScreen();
+        destination = const HomeNavigation();
       }
     }
 
