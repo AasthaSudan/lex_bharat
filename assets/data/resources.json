@@ -4,8 +4,17 @@
       "id": "women_helpline",
       "name": "Women's Helpline",
       "number": "1091",
-      "description": "24/7 helpline for women in distress",
-      "category": "women",
+      "description": "24/7 National helpline for women in distress",
+      "category": "Women Safety",
+      "available24x7": true,
+      "languages": ["Hindi", "English", "Regional"]
+    },
+    {
+      "id": "domestic_abuse",
+      "name": "NCW Domestic Violence",
+      "number": "7827170170",
+      "description": "National Commission for Women helpline for domestic abuse",
+      "category": "Women Safety",
       "available24x7": true,
       "languages": ["Hindi", "English"]
     },
@@ -13,85 +22,180 @@
       "id": "child_helpline",
       "name": "Childline India",
       "number": "1098",
-      "description": "Emergency support for children in distress",
-      "category": "child",
+      "description": "Emergency support for children in distress or abuse",
+      "category": "Child Protection",
       "available24x7": true,
-      "languages": ["Hindi", "English"]
+      "languages": ["Hindi", "English", "Regional"]
     },
     {
       "id": "national_legal_aid",
-      "name": "National Legal Services Authority",
-      "number": "1800-11-4001",
-      "description": "Free legal aid and consultation",
-      "category": "legal",
+      "name": "NALSA Helpline",
+      "number": "15100",
+      "description": "National Legal Services Authority for free legal aid",
+      "category": "Legal Consultation",
       "available24x7": false,
       "languages": ["Hindi", "English"]
     },
     {
       "id": "police_complaint",
-      "name": "Police Emergency",
-      "number": "100",
-      "description": "Police emergency response",
-      "category": "police",
+      "name": "National Emergency Number",
+      "number": "112",
+      "description": "Integrated emergency response for Police, Fire, and Ambulance",
+      "category": "General Emergency",
+      "available24x7": true,
+      "languages": ["Hindi", "English", "Regional"]
+    },
+    {
+      "id": "cyber_crime",
+      "name": "Cyber Crime Helpline",
+      "number": "1930",
+      "description": "Report financial frauds and cyber crimes immediately",
+      "category": "Cyber Crime",
       "available24x7": true,
       "languages": ["Hindi", "English"]
     },
     {
       "id": "consumer_complaint",
-      "name": "Consumer Helpline",
-      "number": "1800-11-4000",
-      "description": "Consumer rights and complaints",
-      "category": "consumer",
+      "name": "National Consumer Helpline",
+      "number": "1915",
+      "description": "Grievance redressal for consumer rights",
+      "category": "Consumer Rights",
       "available24x7": false,
       "languages": ["Hindi", "English"]
     }
   ],
   "governmentSchemes": [
     {
-      "id": "pm_ujjwala",
-      "name": "PM Ujjwala Scheme",
-      "description": "Free LPG connections for below poverty line families",
-      "category": "welfare",
-      "eligibility": ["BPL families", "ST/SC families"],
-      "benefits": ["Free LPG connection", "First refill free"],
-      "applicationProcess": "Through authorized distributors"
+      "id": "nalsa_free_legal",
+      "name": "Free Legal Services (NALSA)",
+      "description": "Provides free legal aid, advice, and representation in courts for eligible marginalized sections of society.",
+      "category": "Legal Aid",
+      "eligibility": ["Women and Children", "SC/ST Members", "Industrial Workmen", "Victims of Mass Disaster/Violence", "Persons in Custody", "Annual Income < ₹3,00,000"],
+      "benefits": ["Free legal representation", "Payment of process fees", "Drafting of legal documents", "Free legal advice"],
+      "applicationProcess": "Apply online at nalsa.gov.in or visit the nearest DLSA/SLSA office"
+    },
+    {
+      "id": "nyaya_bandhu",
+      "name": "Nyaya Bandhu (Pro Bono Legal Services)",
+      "description": "Connects marginalized individuals seeking legal help with Pro Bono Advocates volunteering their time.",
+      "category": "Legal Aid",
+      "eligibility": ["Members of Scheduled Castes and Scheduled Tribes", "Victims of Trafficking", "Women and Children", "Persons with Disabilities", "Senior Citizens"],
+      "benefits": ["Free voluntary legal advice", "Representation in courts", "Access to top lawyers"],
+      "applicationProcess": "Install the Nyaya Bandhu mobile application and register as an applicant"
+    },
+    {
+      "id": "tele_law",
+      "name": "Tele-Law Service",
+      "description": "Facilitates delivery of legal advice through an expert panel of lawyers via video conferencing and telephone.",
+      "category": "Legal Consultation",
+      "eligibility": ["All Citizens (Free for marginalized, nominal fee for others)"],
+      "benefits": ["Pre-litigation advice", "Convenient access via CSCs", "Video conferencing with lawyers", "Dispute resolution guidance"],
+      "applicationProcess": "Visit nearest Common Service Centre (CSC) or use the Tele-Law Citizen Mobile App"
     },
     {
       "id": "pm_matru_vandana",
       "name": "PM Matru Vandana Scheme",
-      "description": "Maternity Benefit Scheme for pregnant women",
-      "category": "women",
-      "eligibility": ["Pregnant women", "Lactating mothers"],
-      "benefits": ["Rs. 5000 cash assistance"],
-      "applicationProcess": "At ASHA worker or health center"
-    },
-    {
-      "id": "pm_awas_yojana",
-      "name": "PM Awas Yojana",
-      "description": "Housing scheme for economically weaker sections",
-      "category": "housing",
-      "eligibility": ["EWS families", "LIG families"],
-      "benefits": ["Affordable housing", "Subsidy on loans"],
-      "applicationProcess": "Through designated banks and authorities"
+      "description": "Maternity Benefit Scheme providing direct cash benefits to pregnant women and lactating mothers.",
+      "category": "Women Welfare",
+      "eligibility": ["Pregnant women", "Lactating mothers for first living child"],
+      "benefits": ["Cash incentive of ₹5000 in three installments", "Direct benefit transfer"],
+      "applicationProcess": "Register at nearby Anganwadi Centre (AWC) or approved health facility"
     }
   ],
   "legalAidOrganizations": [
     {
-      "id": "nlsa",
-      "name": "National Legal Services Authority",
+      "id": "nalsa",
+      "name": "National Legal Services Authority (NALSA)",
       "type": "Government",
-      "services": ["Free legal advice", "Legal aid", "Court representation"],
-      "coverage": "National",
-      "contactNumber": "1800-11-4001",
-      "website": "nalsa.gov.in"
+      "description": "Apex body constituted under Legal Services Authorities Act to provide free legal services to the weaker sections.",
+      "phone": "15100",
+      "email": "nalsa-dla@nic.in",
+      "website": "https://nalsa.gov.in",
+      "address": "Jaisalmer House, Mansingh Road",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "pincode": "110011",
+      "latitude": 28.6083,
+      "longitude": 77.2246,
+      "services": ["Civil Cases", "Criminal Cases", "Family Disputes", "PILs", "Free Consultation"],
+      "availability_hours": "Mon-Fri, 9:30 AM - 5:30 PM",
+      "language_support": ["English", "Hindi"],
+      "is_verified": true,
+      "rating": 4.8
     },
     {
-      "id": "aibdpa",
-      "name": "All India Blind, Deaf, Dumb Association",
+      "id": "hrln",
+      "name": "Human Rights Law Network",
       "type": "NGO",
-      "services": ["Legal aid for disabled", "Advocacy"],
-      "coverage": "Multiple states",
-      "website": "aibdpa.org"
+      "description": "Collective of lawyers and social activists providing legal support to marginalized and oppressed people.",
+      "phone": "011-24374501",
+      "email": "contact@hrln.org",
+      "website": "https://hrln.org",
+      "address": "576, Masjid Road, Jungpura",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "pincode": "110014",
+      "latitude": 28.5830,
+      "longitude": 77.2435,
+      "services": ["Human Rights", "Women's Rights", "Labour Law", "Prisoner Rights"],
+      "availability_hours": "Mon-Sat, 10:00 AM - 6:00 PM",
+      "language_support": ["English", "Hindi", "Regional"],
+      "is_verified": true,
+      "rating": 4.5
+    },
+    {
+      "id": "pufcl",
+      "name": "People's Union for Civil Liberties (PUCL)",
+      "type": "NGO",
+      "description": "Largest human rights organization in India fighting for civil liberties and democratic rights.",
+      "phone": "011-22750014",
+      "email": "puclnat@gmail.com",
+      "website": "http://www.pucl.org",
+      "address": "270-A, Patparganj",
+      "city": "New Delhi",
+      "state": "Delhi",
+      "pincode": "110091",
+      "services": ["Civil Liberties", "RTI", "Constitutional Rights", "Public Advocacy"],
+      "availability_hours": "Mon-Fri, 10:00 AM - 5:00 PM",
+      "language_support": ["English", "Hindi"],
+      "is_verified": true,
+      "rating": 4.6
+    },
+    {
+      "id": "slsa_mh",
+      "name": "Maharashtra State Legal Services Authority",
+      "type": "Government",
+      "description": "State authority extending NALSA's free legal aid scheme across Maharashtra.",
+      "phone": "1800-22-2066",
+      "email": "mslsa-bhc@nic.in",
+      "website": "https://legalservices.maharashtra.gov.in",
+      "address": "High Court Building, Fort",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400032",
+      "services": ["Legal Aid Clinics", "Lok Adalat", "Victim Compensation"],
+      "availability_hours": "Mon-Fri, 10:30 AM - 5:30 PM",
+      "language_support": ["English", "Marathi", "Hindi"],
+      "is_verified": true,
+      "rating": 4.7
+    },
+    {
+      "id": "apwld",
+      "name": "Majlis Legal Centre",
+      "type": "NGO",
+      "description": "Legal center providing rights-based interventions for women in distress, focusing on domestic violence and sexual abuse.",
+      "phone": "022-26662394",
+      "email": "majlis.mumbai@gmail.com",
+      "website": "http://majlislaw.com",
+      "address": "Kalina, Santacruz East",
+      "city": "Mumbai",
+      "state": "Maharashtra",
+      "pincode": "400098",
+      "services": ["Domestic Violence", "Sexual Harassment", "Family Court Cases", "Counseling"],
+      "availability_hours": "Mon-Sat, 10:00 AM - 6:00 PM",
+      "language_support": ["English", "Marathi", "Hindi"],
+      "is_verified": true,
+      "rating": 4.9
     }
   ],
   "commonProcedures": [
@@ -125,4 +229,3 @@
     }
   ]
 }
-

@@ -15,6 +15,8 @@ class _HelpScreenState extends State<HelpScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final LegalResourcesService _resourcesService = LegalResourcesService();
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
 
   @override
   void initState() {
@@ -25,6 +27,7 @@ class _HelpScreenState extends State<HelpScreen>
   @override
   void dispose() {
     _tabController.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -69,57 +72,102 @@ class _HelpScreenState extends State<HelpScreen>
 
   Widget _buildLegalAidTab(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    return FutureBuilder<List<LegalResource>>(
-      future: _resourcesService.searchResources(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(color: AppColors.primary),
-          );
-        }
-
-        if (snapshot.hasError) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.error_outline, size: 48, color: AppColors.error),
-                const SizedBox(height: 16),
-                Text(
-                  l10n.errorFetchingData,
-                  style: const TextStyle(color: AppColors.textSecondary),
-                ),
-              ],
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TextField(
+            controller: _searchController,
+            onChanged: (value) {
+              setState(() {
+                _searchQuery = value;
+              });
+            },
+            decoration: InputDecoration(
+              hintText: 'Search legal aid, NGOs...',
+              prefixIcon: const Icon(
+                Icons.search,
+                color: AppColors.textSecondary,
+              ),
+              filled: true,
+              fillColor: AppColors.surface,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 0,
+                horizontal: 16,
+              ),
             ),
-          );
-        }
+          ),
+        ),
+        Expanded(
+          child: FutureBuilder<List<LegalResource>>(
+            future: _resourcesService.searchResources(query: _searchQuery),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(color: AppColors.primary),
+                );
+              }
 
-        final resources = snapshot.data ?? [];
-        if (resources.isEmpty) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Icon(Icons.inbox_rounded, size: 48, color: AppColors.gray400),
-                const SizedBox(height: 16),
-                Text(
-                  l10n.noDataAvailable,
-                  style: const TextStyle(color: AppColors.textSecondary),
+              if (snapshot.hasError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.error_outline,
+                        size: 48,
+                        color: AppColors.error,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        l10n.errorFetchingData,
+                        style: const TextStyle(color: AppColors.textSecondary),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              final resources = snapshot.data ?? [];
+              if (resources.isEmpty) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.search_off_rounded,
+                        size: 48,
+                        color: AppColors.gray400,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        l10n.noDataAvailable,
+                        style: const TextStyle(color: AppColors.textSecondary),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return ListView.builder(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
                 ),
-              ],
-            ),
-          );
-        }
-
-        return ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: resources.length,
-          itemBuilder: (context, index) {
-            final resource = resources[index];
-            return _buildResourceCard(context, resource);
-          },
-        );
-      },
+                itemCount: resources.length,
+                itemBuilder: (context, index) {
+                  final resource = resources[index];
+                  return _buildResourceCard(context, resource);
+                },
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 
@@ -157,13 +205,18 @@ class _HelpScreenState extends State<HelpScreen>
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(Icons.location_on_outlined,
-                            size: 14, color: AppColors.textSecondary),
+                        const Icon(
+                          Icons.location_on_outlined,
+                          size: 14,
+                          color: AppColors.textSecondary,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           '${resource.city}, ${resource.state}',
                           style: const TextStyle(
-                              fontSize: 12, color: AppColors.textSecondary),
+                            fontSize: 12,
+                            color: AppColors.textSecondary,
+                          ),
                         ),
                       ],
                     ),
@@ -172,8 +225,10 @@ class _HelpScreenState extends State<HelpScreen>
               ),
               if (resource.isVerified)
                 Container(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.successLight,
                     borderRadius: BorderRadius.circular(6),
@@ -181,15 +236,19 @@ class _HelpScreenState extends State<HelpScreen>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.check_circle_rounded,
-                          size: 12, color: AppColors.success),
+                      const Icon(
+                        Icons.check_circle_rounded,
+                        size: 12,
+                        color: AppColors.success,
+                      ),
                       const SizedBox(width: 4),
                       Text(
                         l10n.verified,
                         style: const TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.success),
+                          fontSize: 10,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.success,
+                        ),
                       ),
                     ],
                   ),
@@ -201,9 +260,10 @@ class _HelpScreenState extends State<HelpScreen>
             Text(
               resource.description!,
               style: const TextStyle(
-                  fontSize: 13,
-                  color: AppColors.textSecondary,
-                  height: 1.4),
+                fontSize: 13,
+                color: AppColors.textSecondary,
+                height: 1.4,
+              ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
@@ -214,8 +274,10 @@ class _HelpScreenState extends State<HelpScreen>
               spacing: 8,
               children: resource.services!.take(3).map((service) {
                 return Container(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: AppColors.primaryLighter,
                     borderRadius: BorderRadius.circular(8),
@@ -223,48 +285,40 @@ class _HelpScreenState extends State<HelpScreen>
                   child: Text(
                     service,
                     style: const TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.primary),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.primary,
+                    ),
                   ),
                 );
               }).toList(),
             ),
             const SizedBox(height: 12),
           ],
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
             children: [
               if (resource.phone != null)
-                Expanded(
-                  child: _buildContactButton(
-                    context,
-                    icon: Icons.phone_rounded,
-                    label: l10n.call,
-                    onTap: () => _launchPhone(resource.phone!),
-                  ),
+                _buildContactButton(
+                  context,
+                  icon: Icons.phone_rounded,
+                  label: l10n.call,
+                  onTap: () => _launchPhone(resource.phone!),
                 ),
-              if (resource.phone != null && resource.email != null)
-                const SizedBox(width: 12),
               if (resource.email != null)
-                Expanded(
-                  child: _buildContactButton(
-                    context,
-                    icon: Icons.email_rounded,
-                    label: l10n.emailLabel,
-                    onTap: () => _launchEmail(resource.email!),
-                  ),
+                _buildContactButton(
+                  context,
+                  icon: Icons.email_rounded,
+                  label: l10n.emailLabel,
+                  onTap: () => _launchEmail(resource.email!),
                 ),
-              if ((resource.phone != null || resource.email != null) &&
-                  resource.website != null)
-                const SizedBox(width: 12),
               if (resource.website != null)
-                Expanded(
-                  child: _buildContactButton(
-                    context,
-                    icon: Icons.link_rounded,
-                    label: l10n.website,
-                    onTap: () => _launchUrl(resource.website!),
-                  ),
+                _buildContactButton(
+                  context,
+                  icon: Icons.link_rounded,
+                  label: l10n.website,
+                  onTap: () => _launchUrl(resource.website!),
                 ),
             ],
           ),
@@ -274,28 +328,29 @@ class _HelpScreenState extends State<HelpScreen>
   }
 
   Widget _buildContactButton(
-      BuildContext context, {
-        required IconData icon,
-        required String label,
-        required VoidCallback onTap,
-      }) {
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: BoxDecoration(
           color: AppColors.primaryLighter,
           borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.primary.withValues(alpha: 0.2)),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 16, color: AppColors.primary),
             const SizedBox(width: 6),
             Text(
               label,
               style: const TextStyle(
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primary,
               ),
@@ -322,8 +377,11 @@ class _HelpScreenState extends State<HelpScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.error_outline,
-                    size: 48, color: AppColors.error),
+                const Icon(
+                  Icons.error_outline,
+                  size: 48,
+                  color: AppColors.error,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   l10n.errorFetchingData,
@@ -349,18 +407,17 @@ class _HelpScreenState extends State<HelpScreen>
   }
 
   Widget _buildEmergencyCategory(
-      BuildContext context,
-      String category,
-      List<EmergencyContact> contacts,
-      ) {
+    BuildContext context,
+    String category,
+    List<EmergencyContact> contacts,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            padding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
               color: AppColors.error.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
@@ -373,8 +430,11 @@ class _HelpScreenState extends State<HelpScreen>
                     color: AppColors.error,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(Icons.emergency_rounded,
-                      color: Colors.white, size: 20),
+                  child: const Icon(
+                    Icons.emergency_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -392,14 +452,17 @@ class _HelpScreenState extends State<HelpScreen>
           ),
           const SizedBox(height: 8),
           ...contacts.map(
-                  (contact) => _buildEmergencyContactTile(context, contact)),
+            (contact) => _buildEmergencyContactTile(context, contact),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildEmergencyContactTile(
-      BuildContext context, EmergencyContact contact) {
+    BuildContext context,
+    EmergencyContact contact,
+  ) {
     return Container(
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
@@ -423,14 +486,15 @@ class _HelpScreenState extends State<HelpScreen>
           Text(
             contact.description,
             style: const TextStyle(
-                fontSize: 12, color: AppColors.textSecondary),
+              fontSize: 12,
+              color: AppColors.textSecondary,
+            ),
           ),
           const SizedBox(height: 8),
           GestureDetector(
             onTap: () => _launchPhone(contact.number),
             child: Container(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: AppColors.error,
                 borderRadius: BorderRadius.circular(8),
@@ -438,8 +502,11 @@ class _HelpScreenState extends State<HelpScreen>
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.phone_rounded,
-                      color: Colors.white, size: 16),
+                  const Icon(
+                    Icons.phone_rounded,
+                    color: Colors.white,
+                    size: 16,
+                  ),
                   const SizedBox(width: 6),
                   Text(
                     contact.number,
@@ -474,8 +541,11 @@ class _HelpScreenState extends State<HelpScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.error_outline,
-                    size: 48, color: AppColors.error),
+                const Icon(
+                  Icons.error_outline,
+                  size: 48,
+                  color: AppColors.error,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   l10n.errorFetchingData,
@@ -492,8 +562,11 @@ class _HelpScreenState extends State<HelpScreen>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.inbox_rounded,
-                    size: 48, color: AppColors.gray400),
+                const Icon(
+                  Icons.inbox_rounded,
+                  size: 48,
+                  color: AppColors.gray400,
+                ),
                 const SizedBox(height: 16),
                 Text(
                   l10n.noDataAvailable,
@@ -517,19 +590,20 @@ class _HelpScreenState extends State<HelpScreen>
   }
 
   Widget _buildSchemeCard(BuildContext context, GovernmentScheme scheme) {
-    return Container(
+    return Card(
       margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
+      elevation: 0,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.gray200),
-        boxShadow: AppColors.softShadow,
+        side: BorderSide(color: AppColors.gray200, width: 1),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
+      color: AppColors.surface,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: ExpansionTile(
+          collapsedBackgroundColor: AppColors.surface,
+          backgroundColor: AppColors.surface,
+          title: Text(
             scheme.name,
             style: const TextStyle(
               fontSize: 16,
@@ -537,20 +611,47 @@ class _HelpScreenState extends State<HelpScreen>
               color: AppColors.textPrimary,
             ),
           ),
-          const SizedBox(height: 8),
-          Text(
-            scheme.description,
-            style: const TextStyle(
-              fontSize: 13,
-              color: AppColors.textSecondary,
-              height: 1.4,
+          subtitle: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Text(
+              scheme.description,
+              style: const TextStyle(
+                fontSize: 13,
+                color: AppColors.textSecondary,
+                height: 1.4,
+              ),
             ),
           ),
-          const SizedBox(height: 12),
-          _buildSchemeSection('Eligibility', scheme.eligibility),
-          const SizedBox(height: 12),
-          _buildSchemeSection('Benefits', scheme.benefits),
-        ],
+          childrenPadding: const EdgeInsets.all(16).copyWith(top: 0),
+          expandedCrossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Divider(),
+            const SizedBox(height: 8),
+            _buildSchemeSection('Eligibility', scheme.eligibility),
+            const SizedBox(height: 16),
+            _buildSchemeSection('Benefits', scheme.benefits),
+            const SizedBox(height: 16),
+            if (scheme.applicationProcess.isNotEmpty) ...[
+              const Text(
+                'Application Process',
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                scheme.applicationProcess,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: AppColors.textSecondary,
+                  height: 1.4,
+                ),
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }
@@ -568,17 +669,17 @@ class _HelpScreenState extends State<HelpScreen>
           ),
         ),
         const SizedBox(height: 6),
-        ...items.take(2).map((item) {
+        ...items.map((item) {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
+            padding: const EdgeInsets.symmetric(vertical: 4),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: 4,
-                  height: 4,
+                  width: 6,
+                  height: 6,
                   margin: const EdgeInsets.only(top: 6, right: 8),
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppColors.primary,
                     shape: BoxShape.circle,
                   ),
@@ -587,25 +688,16 @@ class _HelpScreenState extends State<HelpScreen>
                   child: Text(
                     item,
                     style: const TextStyle(
-                        fontSize: 12, color: AppColors.textSecondary),
+                      fontSize: 13,
+                      color: AppColors.textSecondary,
+                      height: 1.4,
+                    ),
                   ),
                 ),
               ],
             ),
           );
         }),
-        if (items.length > 2)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              '+ ${items.length - 2} more',
-              style: const TextStyle(
-                fontSize: 11,
-                color: AppColors.primary,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
       ],
     );
   }
