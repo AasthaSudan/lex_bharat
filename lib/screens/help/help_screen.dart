@@ -851,7 +851,6 @@ class _HelpScreenState extends State<HelpScreen>
       }
     }
   }
-
   Future<void> _launchEmail(String email) async {
     final Uri url = Uri(scheme: 'mailto', path: email);
     try {
