@@ -841,22 +841,39 @@ class _HelpScreenState extends State<HelpScreen>
 
   Future<void> _launchPhone(String phone) async {
     final Uri url = Uri(scheme: 'tel', path: phone);
-    if (await canLaunchUrl(url)) {
+    try {
       await launchUrl(url);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not open phone dialer.')),
+        );
+      }
     }
   }
 
   Future<void> _launchEmail(String email) async {
     final Uri url = Uri(scheme: 'mailto', path: email);
-    if (await canLaunchUrl(url)) {
+    try {
       await launchUrl(url);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not open email app.')),
+        );
+      }
     }
   }
-
   Future<void> _launchUrl(String urlString) async {
     final Uri url = Uri.parse(urlString);
-    if (await canLaunchUrl(url)) {
+    try {
       await launchUrl(url, mode: LaunchMode.externalApplication);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not launch website: $urlString')),
+        );
+      }
     }
   }
 }
