@@ -145,7 +145,7 @@ class LearningService {
     String userId,
     String topicId,
   ) async {
-    final key = '${userId}_${topicId}';
+    final key = '${userId}_$topicId';
     final data = await DatabaseService.getLearningProgress(key);
     return data != null ? LearningProgress.fromJson(data) : null;
   }

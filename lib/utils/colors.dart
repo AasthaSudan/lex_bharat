@@ -1,79 +1,134 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Minimal color palette - Simple and clean
-  static const Color primary     = Color(0xFF000000);  // Pure black for primary actions
-  static const Color accent      = Color(0xFF0066FF);  // Clean blue for highlights
-  static const Color accentLight = Color(0xFFE6F0FF);  // Light blue background
+  // ── Primary Palette ─────────────────────────────────────────────────────
+  static const Color primary        = Color(0xFF1E3A5F);  // Deep navy blue
+  static const Color primaryDark    = Color(0xFF0F2241);  // Darker navy
+  static const Color primaryLight   = Color(0xFF2D5F94);  // Lighter navy
+  static const Color primaryLighter = Color(0xFFEBF4FF);  // Very light blue tint
 
-  static const Color background  = Color(0xFFFAFAFA);  // Off-white background
-  static const Color surface     = Color(0xFFFFFFFF);  // Pure white
-  static const Color surfaceDim  = Color(0xFFF5F5F5);  // Light gray
+  // ── Accent ──────────────────────────────────────────────────────────────
+  static const Color accent         = Color(0xFF3B82F6);  // Electric blue
+  static const Color accentDark     = Color(0xFF2563EB);  // Darker electric blue
+  static const Color accentLight    = Color(0xFFDBEAFE);  // Light blue tint
 
-  static const Color textPrimary   = Color(0xFF000000);  // Black text
-  static const Color textSecondary = Color(0xFF666666);  // Gray text
-  static const Color textHint      = Color(0xFF999999);  // Light gray hint
+  // ── Amber / Gold (CTA + Highlight) ──────────────────────────────────────
+  static const Color gold           = Color(0xFFF59E0B);  // Amber gold
+  static const Color goldLight      = Color(0xFFFEF3C7);  // Light amber
 
-  static const Color border     = Color(0xFFE5E5E5);  // Minimal gray border
-  static const Color borderMid  = Color(0xFFDDDDDD);   // Medium gray border
+  // ── Backgrounds ─────────────────────────────────────────────────────────
+  static const Color background     = Color(0xFFF8FAFC);  // Off-white
+  static const Color surface        = Color(0xFFFFFFFF);  // White
+  static const Color surfaceDim     = Color(0xFFF1F5F9);  // Muted surface
+  static const Color surfaceCard    = Color(0xFFFFFFFF);  // Card white
 
-  static const Color success     = Color(0xFF00B81A);  // Clean green
-  static const Color successTint = Color(0xFFE6F7E6);  // Light green
-  static const Color warning     = Color(0xFFFF9800);  // Clean orange
-  static const Color warningTint = Color(0xFFFFF3E0);  // Light orange
-  static const Color error       = Color(0xFFD32F2F);  // Clean red
-  static const Color errorTint   = Color(0xFFFFEBEE);  // Light red
-  static const Color info        = Color(0xFF0066FF);  // Same as accent
-  static const Color infoTint    = Color(0xFFE6F0FF);  // Light blue
+  // ── Text ────────────────────────────────────────────────────────────────
+  static const Color textPrimary    = Color(0xFF0F172A);  // Near-black
+  static const Color textSecondary  = Color(0xFF475569);  // Slate gray
+  static const Color textHint       = Color(0xFF94A3B8);  // Light slate
+  static const Color textOnDark     = Color(0xFFFFFFFF);  // White text
 
-  static const Color categoryBlue   = Color(0xFF0066FF);
-  static const Color categoryGreen  = Color(0xFF00B81A);
-  static const Color categoryOrange = Color(0xFFFF9800);
-  static const Color categoryPink   = Color(0xFFE91E63);
-  static const Color categoryPurple = Color(0xFF9C27B0);
-  static const Color categoryRed    = Color(0xFFD32F2F);
-  static const Color categoryTeal   = Color(0xFF009688);
+  // ── Borders ─────────────────────────────────────────────────────────────
+  static const Color border         = Color(0xFFE2E8F0);  // Soft border
+  static const Color borderMid      = Color(0xFFCBD5E1);  // Medium border
 
-  static const Color gray50  = Color(0xFFFAFAFA);
-  static const Color gray100 = Color(0xFFF5F5F5);
-  static const Color gray200 = Color(0xFFEEEEEE);
-  static const Color gray300 = Color(0xFFE0E0E0);
-  static const Color gray400 = Color(0xFFBDBDBD);
-  static const Color gray500 = Color(0xFF9E9E9E);
-  static const Color gray600 = Color(0xFF757575);
-  static const Color gray700 = Color(0xFF616161);
-  static const Color gray800 = Color(0xFF424242);
-  static const Color gray900 = Color(0xFF212121);
+  // ── Semantic ────────────────────────────────────────────────────────────
+  static const Color success        = Color(0xFF10B981);  // Emerald green
+  static const Color successLight   = Color(0xFFD1FAE5);  // Light green
+  static const Color successTint    = Color(0xFFECFDF5);
 
+  static const Color warning        = Color(0xFFF59E0B);  // Amber
+  static const Color warningLight   = Color(0xFFFEF3C7);  // Light amber
+  static const Color warningTint    = Color(0xFFFFFBEB);
+
+  static const Color error          = Color(0xFFEF4444);  // Red
+  static const Color errorLight     = Color(0xFFFEE2E2);  // Light red
+  static const Color errorTint      = Color(0xFFFFF1F2);
+
+  static const Color info           = Color(0xFF3B82F6);  // Blue
+  static const Color infoLight      = Color(0xFFDBEAFE);  // Light blue
+  static const Color infoTint       = Color(0xFFEFF6FF);
+
+  // ── Category Colors ──────────────────────────────────────────────────────
+  static const Color categoryBlue   = Color(0xFF3B82F6);
+  static const Color categoryGreen  = Color(0xFF10B981);
+  static const Color categoryOrange = Color(0xFFF59E0B);
+  static const Color categoryPink   = Color(0xFFEC4899);
+  static const Color categoryPurple = Color(0xFF8B5CF6);
+  static const Color categoryRed    = Color(0xFFEF4444);
+  static const Color categoryTeal   = Color(0xFF14B8A6);
+  static const Color categoryIndigo = Color(0xFF6366F1);
+
+  // ── Grays ────────────────────────────────────────────────────────────────
+  static const Color gray50   = Color(0xFFF8FAFC);
+  static const Color gray100  = Color(0xFFF1F5F9);
+  static const Color gray200  = Color(0xFFE2E8F0);
+  static const Color gray300  = Color(0xFFCBD5E1);
+  static const Color gray400  = Color(0xFF94A3B8);
+  static const Color gray500  = Color(0xFF64748B);
+  static const Color gray600  = Color(0xFF475569);
+  static const Color gray700  = Color(0xFF334155);
+  static const Color gray800  = Color(0xFF1E293B);
+  static const Color gray900  = Color(0xFF0F172A);
+
+  // ── Gradients ────────────────────────────────────────────────────────────
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF000000), Color(0xFF333333)],
+    colors: [Color(0xFF1E3A5F), Color(0xFF2D5F94)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
+  );
+
+  static const LinearGradient heroGradient = LinearGradient(
+    colors: [Color(0xFF0F172A), Color(0xFF1E3A5F), Color(0xFF1D4ED8)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    stops: [0.0, 0.5, 1.0],
   );
 
   static const LinearGradient accentGradient = LinearGradient(
-    colors: [Color(0xFF0066FF), Color(0xFF0052CC)],
+    colors: [Color(0xFF3B82F6), Color(0xFF2563EB)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
-  static List<BoxShadow> cardShadow = [
-    BoxShadow(
-      color: Colors.black.withValues(alpha: 0.05),
-      blurRadius: 8,
-      offset: const Offset(0, 1),
-    ),
-  ];
+  static const LinearGradient goldGradient = LinearGradient(
+    colors: [Color(0xFFF59E0B), Color(0xFFD97706)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 
-  static List<BoxShadow> elevatedShadow = [
+  static const LinearGradient successGradient = LinearGradient(
+    colors: [Color(0xFF10B981), Color(0xFF059669)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static const LinearGradient errorGradient = LinearGradient(
+    colors: [Color(0xFFEF4444), Color(0xFFDC2626)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static const LinearGradient softGradient = LinearGradient(
+    colors: [Color(0xFFF8FAFC), Color(0xFFF1F5F9)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  static const LinearGradient cardGlassGradient = LinearGradient(
+    colors: [Color(0xFFFFFFFF), Color(0xFFF8FAFC)],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  // ── Shadows ──────────────────────────────────────────────────────────────
+  static List<BoxShadow> get cardShadow => [
     BoxShadow(
-      color: Colors.black.withValues(alpha: 0.08),
-      blurRadius: 12,
+      color: const Color(0xFF1E3A5F).withValues(alpha: 0.08),
+      blurRadius: 16,
+      spreadRadius: 0,
       offset: const Offset(0, 4),
     ),
-  ];
-
-  static List<BoxShadow> softShadow = [
     BoxShadow(
       color: Colors.black.withValues(alpha: 0.04),
       blurRadius: 6,
@@ -81,18 +136,52 @@ class AppColors {
     ),
   ];
 
-  static const Color primaryDark   = Color(0xFF000000);
-  static const Color primaryLight  = Color(0xFF333333);
-  static const Color primaryLighter = Color(0xFFE6F0FF);
+  static List<BoxShadow> get elevatedShadow => [
+    BoxShadow(
+      color: const Color(0xFF1E3A5F).withValues(alpha: 0.15),
+      blurRadius: 32,
+      spreadRadius: 0,
+      offset: const Offset(0, 8),
+    ),
+    BoxShadow(
+      color: Colors.black.withValues(alpha: 0.06),
+      blurRadius: 10,
+      offset: const Offset(0, 2),
+    ),
+  ];
 
-  static const Color successLight = Color(0xFFE6F7E6);
-  static const Color warningLight = Color(0xFFFFF3E0);
-  static const Color errorLight   = Color(0xFFFFEBEE);
-  static const Color infoLight    = Color(0xFFE6F0FF);
+  static List<BoxShadow> get softShadow => [
+    BoxShadow(
+      color: Colors.black.withValues(alpha: 0.05),
+      blurRadius: 10,
+      offset: const Offset(0, 2),
+    ),
+  ];
 
-  static const LinearGradient softGradient = LinearGradient(
-    colors: [Color(0xFFFAFAFA), Color(0xFFF5F5F5)],
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-  );
+  static List<BoxShadow> get accentShadow => [
+    BoxShadow(
+      color: const Color(0xFF3B82F6).withValues(alpha: 0.35),
+      blurRadius: 20,
+      spreadRadius: 0,
+      offset: const Offset(0, 6),
+    ),
+  ];
+
+  static List<BoxShadow> get errorShadow => [
+    BoxShadow(
+      color: const Color(0xFFEF4444).withValues(alpha: 0.35),
+      blurRadius: 20,
+      spreadRadius: 0,
+      offset: const Offset(0, 6),
+    ),
+  ];
+
+  static List<BoxShadow> get goldShadow => [
+    BoxShadow(
+      color: const Color(0xFFF59E0B).withValues(alpha: 0.35),
+      blurRadius: 16,
+      spreadRadius: 0,
+      offset: const Offset(0, 4),
+    ),
+  ];
 }

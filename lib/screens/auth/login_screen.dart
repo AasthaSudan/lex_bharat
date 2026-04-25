@@ -1,580 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import '../../providers/auth_provider.dart';
-// import '../../utils/colors.dart';
-// import 'otp_screen.dart';
-//
-// class LoginScreen extends ConsumerStatefulWidget {
-//   const LoginScreen({super.key});
-//
-//   @override
-//   ConsumerState<LoginScreen> createState() => _LoginScreenState();
-// }
-//
-// class _LoginScreenState extends ConsumerState<LoginScreen> {
-//   final _phoneController = TextEditingController();
-//   bool _isLoading = false;
-//   bool _isGoogleLoading = false;
-//   String? _error;
-//
-//   @override
-//   void dispose() {
-//     _phoneController.dispose();
-//     super.dispose();
-//   }
-//
-//   Future<void> _sendOtp() async {
-//     final phone = _phoneController.text.trim();
-//     if (phone.length < 10) {
-//       setState(() => _error = 'Enter a valid phone number');
-//       return;
-//     }
-//
-//     setState(() {
-//       _isLoading = true;
-//       _error = null;
-//     });
-//
-//     try {
-//       final formatted = phone.startsWith('+') ? phone : '+91$phone';
-//       await ref.read(authProvider.notifier).sendOtp(formatted);
-//
-//       if (!mounted) return;
-//       Navigator.push(
-//         context,
-//         MaterialPageRoute(
-//           builder: (_) => OtpScreen(phone: formatted),
-//         ),
-//       );
-//     } catch (e) {
-//       setState(() => _error = 'Failed to send OTP. Try again.');
-//     } finally {
-//       if (mounted) setState(() => _isLoading = false);
-//     }
-//   }
-//
-//   Future<void> _googleSignIn() async {
-//     setState(() {
-//       _isGoogleLoading = true;
-//       _error = null;
-//     });
-//
-//     try {
-//       await ref.read(authProvider.notifier).signInWithGoogle();
-//     } catch (e) {
-//       setState(() => _error = 'Google sign-in failed. Try again.');
-//     } finally {
-//       if (mounted) setState(() => _isGoogleLoading = false);
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: SafeArea(
-//         child: SingleChildScrollView(
-//           padding: const EdgeInsets.symmetric(horizontal: 24),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               const SizedBox(height: 48),
-//
-//               // Logo
-//               Container(
-//                 width: 60,
-//                 height: 60,
-//                 decoration: BoxDecoration(
-//                   gradient: AppColors.primaryGradient,
-//                   borderRadius: BorderRadius.circular(16),
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: AppColors.primary.withValues(alpha: 0.3),
-//                       blurRadius: 12,
-//                       offset: const Offset(0, 4),
-//                     ),
-//                   ],
-//                 ),
-//                 child: const Icon(
-//                   Icons.gavel_rounded,
-//                   color: Colors.white,
-//                   size: 32,
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 32),
-//
-//               // Title
-//               const Text(
-//                 'Welcome to\nLex Bharat',
-//                 style: TextStyle(
-//                   fontSize: 30,
-//                   fontWeight: FontWeight.bold,
-//                   color: AppColors.textPrimary,
-//                   letterSpacing: -0.5,
-//                   height: 1.2,
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 8),
-//
-//               const Text(
-//                 'Your legal rights, in your language',
-//                 style: TextStyle(
-//                   fontSize: 15,
-//                   color: AppColors.textSecondary,
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 48),
-//
-//               // Phone field label
-//               const Text(
-//                 'Phone number',
-//                 style: TextStyle(
-//                   fontSize: 14,
-//                   fontWeight: FontWeight.w500,
-//                   color: AppColors.textPrimary,
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 8),
-//
-//               // Phone input
-//               TextField(
-//                 controller: _phoneController,
-//                 keyboardType: TextInputType.phone,
-//                 maxLength: 13,
-//                 style: const TextStyle(
-//                   fontSize: 16,
-//                   color: AppColors.textPrimary,
-//                 ),
-//                 decoration: InputDecoration(
-//                   counterText: '',
-//                   hintText: '98765 43210',
-//                   prefixIcon: Container(
-//                     padding: const EdgeInsets.symmetric(
-//                       horizontal: 14,
-//                       vertical: 16,
-//                     ),
-//                     child: const Text(
-//                       '🇮🇳 +91',
-//                       style: TextStyle(
-//                         fontSize: 15,
-//                         fontWeight: FontWeight.w500,
-//                         color: AppColors.textPrimary,
-//                       ),
-//                     ),
-//                   ),
-//                   prefixIconConstraints: const BoxConstraints(),
-//                   border: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(14),
-//                     borderSide: const BorderSide(color: AppColors.gray300),
-//                   ),
-//                   enabledBorder: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(14),
-//                     borderSide: const BorderSide(color: AppColors.gray300),
-//                   ),
-//                   focusedBorder: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(14),
-//                     borderSide:
-//                     const BorderSide(color: AppColors.primary, width: 2),
-//                   ),
-//                   filled: true,
-//                   fillColor: AppColors.gray50,
-//                 ),
-//                 onSubmitted: (_) => _sendOtp(),
-//               ),
-//
-//               // Error
-//               if (_error != null) ...[
-//                 const SizedBox(height: 10),
-//                 Text(
-//                   _error!,
-//                   style: const TextStyle(
-//                     fontSize: 13,
-//                     color: AppColors.error,
-//                   ),
-//                 ),
-//               ],
-//
-//               const SizedBox(height: 20),
-//
-//               // Send OTP button
-//               SizedBox(
-//                 width: double.infinity,
-//                 height: 54,
-//                 child: ElevatedButton(
-//                   onPressed: _isLoading ? null : _sendOtp,
-//                   style: ElevatedButton.styleFrom(
-//                     backgroundColor: AppColors.primary,
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(14),
-//                     ),
-//                     elevation: 0,
-//                   ),
-//                   child: _isLoading
-//                       ? const SizedBox(
-//                     width: 22,
-//                     height: 22,
-//                     child: CircularProgressIndicator(
-//                       color: Colors.white,
-//                       strokeWidth: 2.5,
-//                     ),
-//                   )
-//                       : const Text(
-//                     'Send OTP',
-//                     style: TextStyle(
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.w600,
-//                       color: Colors.white,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 24),
-//
-//               // Divider
-//               Row(
-//                 children: [
-//                   Expanded(
-//                     child: Divider(color: AppColors.gray200, thickness: 1),
-//                   ),
-//                   const Padding(
-//                     padding: EdgeInsets.symmetric(horizontal: 16),
-//                     child: Text(
-//                       'or',
-//                       style: TextStyle(
-//                         fontSize: 13,
-//                         color: AppColors.textHint,
-//                       ),
-//                     ),
-//                   ),
-//                   Expanded(
-//                     child: Divider(color: AppColors.gray200, thickness: 1),
-//                   ),
-//                 ],
-//               ),
-//
-//               const SizedBox(height: 24),
-//
-//               // Google button
-//               SizedBox(
-//                 width: double.infinity,
-//                 height: 54,
-//                 child: OutlinedButton(
-//                   onPressed: _isGoogleLoading ? null : _googleSignIn,
-//                   style: OutlinedButton.styleFrom(
-//                     side: const BorderSide(color: AppColors.gray300),
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(14),
-//                     ),
-//                   ),
-//                   child: _isGoogleLoading
-//                       ? const SizedBox(
-//                     width: 22,
-//                     height: 22,
-//                     child: CircularProgressIndicator(
-//                       strokeWidth: 2.5,
-//                     ),
-//                   )
-//                       : Row(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       // Google G logo in SVG-like shape
-//                       Container(
-//                         width: 22,
-//                         height: 22,
-//                         decoration: BoxDecoration(
-//                           color: Colors.white,
-//                           borderRadius: BorderRadius.circular(4),
-//                         ),
-//                         child: const Center(
-//                           child: Text(
-//                             'G',
-//                             style: TextStyle(
-//                               fontSize: 15,
-//                               fontWeight: FontWeight.bold,
-//                               color: Color(0xFF4285F4),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                       const SizedBox(width: 12),
-//                       const Text(
-//                         'Continue with Google',
-//                         style: TextStyle(
-//                           fontSize: 15,
-//                           fontWeight: FontWeight.w500,
-//                           color: AppColors.textPrimary,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 40),
-//
-//               // Disclaimer
-//               Center(
-//                 child: Text(
-//                   'By continuing, you agree to our Terms of Service.\nThis app provides legal information, not legal advice.',
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(
-//                     fontSize: 11,
-//                     color: AppColors.textHint,
-//                     height: 1.5,
-//                   ),
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 24),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// import 'package:flutter/material.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import '../../providers/auth_provider.dart';
-// import '../../utils/colors.dart';
-//
-// class LoginScreen extends ConsumerStatefulWidget {
-//   const LoginScreen({super.key});
-//
-//   @override
-//   ConsumerState<LoginScreen> createState() => _LoginScreenState();
-// }
-//
-// class _LoginScreenState extends ConsumerState<LoginScreen> {
-//   bool _isLoading = false;
-//   String? _error;
-//
-//   Future<void> _googleSignIn() async {
-//     setState(() {
-//       _isLoading = true;
-//       _error = null;
-//     });
-//
-//     try {
-//       await ref.read(authProvider.notifier).signInWithGoogle();
-//     } catch (e) {
-//       setState(() => _error = 'Sign-in failed. Try again.');
-//     } finally {
-//       if (mounted) setState(() => _isLoading = false);
-//     }
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       body: SafeArea(
-//         child: Padding(
-//           padding: const EdgeInsets.symmetric(horizontal: 24),
-//           child: Column(
-//             children: [
-//               const Spacer(),
-//
-//               Container(
-//                 width: 80,
-//                 height: 80,
-//                 decoration: BoxDecoration(
-//                   gradient: AppColors.primaryGradient,
-//                   borderRadius: BorderRadius.circular(22),
-//                   boxShadow: [
-//                     BoxShadow(
-//                       color: AppColors.primary.withValues(alpha: 0.3),
-//                       blurRadius: 16,
-//                       offset: const Offset(0, 6),
-//                     ),
-//                   ],
-//                 ),
-//                 child: const Icon(
-//                   Icons.gavel_rounded,
-//                   color: Colors.white,
-//                   size: 42,
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 32),
-//
-//               const Text(
-//                 'Welcome to\nLex Bharat',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: 32,
-//                   fontWeight: FontWeight.bold,
-//                   color: AppColors.textPrimary,
-//                   letterSpacing: -0.5,
-//                   height: 1.2,
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 12),
-//
-//               const Text(
-//                 'Your legal rights, in your language',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: 16,
-//                   color: AppColors.textSecondary,
-//                 ),
-//               ),
-//
-//               const Spacer(),
-//
-//               Wrap(
-//                 spacing: 8,
-//                 runSpacing: 8,
-//                 alignment: WrapAlignment.center,
-//                 children: const [
-//                   _FeaturePill(icon: Icons.mic_rounded, label: 'Voice-first'),
-//                   _FeaturePill(icon: Icons.gavel_rounded, label: 'Legal Q&A'),
-//                   _FeaturePill(icon: Icons.description_rounded, label: 'Forms'),
-//                   _FeaturePill(
-//                       icon: Icons.location_on_rounded, label: 'Find aid'),
-//                 ],
-//               ),
-//
-//               const SizedBox(height: 48),
-//
-//               if (_error != null) ...[
-//                 Container(
-//                   padding:
-//                   const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-//                   decoration: BoxDecoration(
-//                     color: AppColors.errorLight,
-//                     borderRadius: BorderRadius.circular(10),
-//                   ),
-//                   child: Row(
-//                     children: [
-//                       const Icon(Icons.error_outline,
-//                           color: AppColors.error, size: 18),
-//                       const SizedBox(width: 8),
-//                       Expanded(
-//                         child: Text(
-//                           _error!,
-//                           style: const TextStyle(
-//                               fontSize: 13, color: AppColors.error),
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//                 const SizedBox(height: 16),
-//               ],
-//
-//               SizedBox(
-//                 width: double.infinity,
-//                 height: 56,
-//                 child: OutlinedButton(
-//                   onPressed: _isLoading ? null : _googleSignIn,
-//                   style: OutlinedButton.styleFrom(
-//                     side: const BorderSide(color: AppColors.gray300, width: 1),
-//                     shape: RoundedRectangleBorder(
-//                       borderRadius: BorderRadius.circular(14),
-//                     ),
-//                     backgroundColor: Colors.white,
-//                   ),
-//                   child: _isLoading
-//                       ? const SizedBox(
-//                     width: 22,
-//                     height: 22,
-//                     child: CircularProgressIndicator(strokeWidth: 2.5),
-//                   )
-//                       : Row(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     children: [
-//                       Container(
-//                         width: 24,
-//                         height: 24,
-//                         decoration: BoxDecoration(
-//                           borderRadius: BorderRadius.circular(4),
-//                         ),
-//                         child: const Text(
-//                           'G',
-//                           textAlign: TextAlign.center,
-//                           style: TextStyle(
-//                             fontSize: 18,
-//                             fontWeight: FontWeight.bold,
-//                             color: Color(0xFF4285F4),
-//                           ),
-//                         ),
-//                       ),
-//                       const SizedBox(width: 12),
-//                       const Text(
-//                         'Continue with Google',
-//                         style: TextStyle(
-//                           fontSize: 16,
-//                           fontWeight: FontWeight.w600,
-//                           color: AppColors.textPrimary,
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 16),
-//
-//               const Text(
-//                 'This app provides legal information, not legal advice.',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: 11,
-//                   color: AppColors.textHint,
-//                 ),
-//               ),
-//
-//               const SizedBox(height: 32),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-//
-// class _FeaturePill extends StatelessWidget {
-//   final IconData icon;
-//   final String label;
-//
-//   const _FeaturePill({required this.icon, required this.label});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-//       decoration: BoxDecoration(
-//         color: AppColors.gray100,
-//         borderRadius: BorderRadius.circular(20),
-//         border: Border.all(color: AppColors.gray200),
-//       ),
-//       child: Row(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           Icon(icon, size: 15, color: AppColors.primary),
-//           const SizedBox(width: 6),
-//           Text(
-//             label,
-//             style: const TextStyle(
-//               fontSize: 13,
-//               fontWeight: FontWeight.w500,
-//               color: AppColors.textPrimary,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../utils/colors.dart';
@@ -587,235 +10,445 @@ class LoginScreen extends ConsumerStatefulWidget {
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends ConsumerState<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _heroController;
+  late AnimationController _cardController;
+  late Animation<double> _heroFade;
+  late Animation<double> _cardSlide;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              const Spacer(),
+  void initState() {
+    super.initState();
+    _heroController = AnimationController(
+      duration: const Duration(milliseconds: 900),
+      vsync: this,
+    )..forward();
+    _cardController = AnimationController(
+      duration: const Duration(milliseconds: 700),
+      vsync: this,
+    );
 
-              // Logo
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  gradient: AppColors.primaryGradient,
-                  borderRadius: BorderRadius.circular(22),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.primary.withValues(alpha: 0.3),
-                      blurRadius: 16,
-                      offset: const Offset(0, 6),
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.gavel_rounded,
-                  color: Colors.white,
-                  size: 42,
-                ),
-              ),
+    _heroFade = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _heroController, curve: Curves.easeOut),
+    );
+    _cardSlide = Tween<double>(begin: 60.0, end: 0.0).animate(
+      CurvedAnimation(parent: _cardController, curve: Curves.easeOutCubic),
+    );
 
-              const SizedBox(height: 32),
+    Future.delayed(const Duration(milliseconds: 400), () {
+      if (mounted) _cardController.forward();
+    });
+  }
 
-              const Text(
-                'Welcome to\nLex Bharat',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimary,
-                  letterSpacing: -0.5,
-                  height: 1.2,
-                ),
-              ),
+  @override
+  void dispose() {
+    _heroController.dispose();
+    _cardController.dispose();
+    super.dispose();
+  }
 
-              const SizedBox(height: 12),
-
-              const Text(
-                'Your legal rights, in your language',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-
-              const Spacer(),
-
-              // Feature pills
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                alignment: WrapAlignment.center,
-                children: const [
-                  _FeaturePill(
-                      icon: Icons.mic_rounded, label: 'Voice-first'),
-                  _FeaturePill(
-                      icon: Icons.gavel_rounded, label: 'Legal Q&A'),
-                  _FeaturePill(
-                      icon: Icons.description_rounded, label: 'Forms'),
-                  _FeaturePill(
-                      icon: Icons.location_on_rounded, label: 'Find aid'),
-                ],
-              ),
-
-              const SizedBox(height: 48),
-
-              // Get Started button
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () => _navigateToHome(context),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: const Text(
-                    'Get Started',
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 12),
-
-              // Google button — disabled with coming soon label
-              SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: OutlinedButton(
-                  onPressed: null, // disabled for now
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(
-                        color: AppColors.gray200, width: 1),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    backgroundColor: AppColors.gray50,
-                    disabledForegroundColor:
-                    AppColors.textHint,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 22,
-                        height: 22,
-                        decoration: BoxDecoration(
-                          color: AppColors.gray300,
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: const Center(
-                          child: Text(
-                            'G',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      const Text(
-                        'Continue with Google',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.textHint,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: AppColors.gray200,
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: const Text(
-                          'Coming soon',
-                          style: TextStyle(
-                            fontSize: 10,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.textHint,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 32),
-
-              const Text(
-                'This app provides legal information, not legal advice.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 11,
-                  color: AppColors.textHint,
-                ),
-              ),
-
-              const SizedBox(height: 24),
-            ],
-          ),
-        ),
+  void _navigateToHome() {
+    Navigator.of(context).pushReplacement(
+      PageRouteBuilder(
+        pageBuilder: (_, __, ___) => const HomeNavigation(),
+        transitionsBuilder: (_, animation, __, child) =>
+            FadeTransition(opacity: animation, child: child),
+        transitionDuration: const Duration(milliseconds: 400),
       ),
     );
   }
 
-  void _navigateToHome(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const HomeNavigation()),
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return Scaffold(
+      body: Stack(
+        children: [
+          // ── Dark hero background ─────────────────────────────────────
+          Container(
+            height: size.height * 0.55,
+            decoration: const BoxDecoration(
+              gradient: AppColors.heroGradient,
+            ),
+          ),
+
+          // ── Decorative circles ───────────────────────────────────────
+          Positioned(
+            top: -60,
+            right: -40,
+            child: Container(
+              width: 220,
+              height: 220,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.accent.withValues(alpha: 0.1),
+              ),
+            ),
+          ),
+          Positioned(
+            top: 30,
+            left: -80,
+            child: Container(
+              width: 180,
+              height: 180,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withValues(alpha: 0.04),
+              ),
+            ),
+          ),
+
+          SafeArea(
+            child: Column(
+              children: [
+                // ── Hero section ──────────────────────────────────────
+                FadeTransition(
+                  opacity: _heroFade,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(28, 44, 28, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Logo
+                        Container(
+                          width: 72,
+                          height: 72,
+                          decoration: BoxDecoration(
+                            gradient: const LinearGradient(
+                              colors: [Color(0xFF3B82F6), Color(0xFF1D4ED8)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(22),
+                            boxShadow: AppColors.accentShadow,
+                          ),
+                          child: const Icon(
+                            Icons.gavel_rounded,
+                            color: Colors.white,
+                            size: 36,
+                          ),
+                        ),
+
+                        const SizedBox(height: 28),
+
+                        const Text(
+                          'Know Your\nRights.',
+                          style: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                            letterSpacing: -1.5,
+                            height: 1.1,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        Text(
+                          'Lex Bharat — legal guidance\nfor every Indian citizen.',
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.white.withValues(alpha: 0.65),
+                            height: 1.5,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                const Spacer(),
+
+                // ── Bottom card ───────────────────────────────────────
+                AnimatedBuilder(
+                  animation: _cardSlide,
+                  builder: (context, child) => Transform.translate(
+                    offset: Offset(0, _cardSlide.value),
+                    child: child,
+                  ),
+                  child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(36),
+                        topRight: Radius.circular(36),
+                      ),
+                    ),
+                    padding: const EdgeInsets.fromLTRB(28, 36, 28, 0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Get started',
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.textPrimary,
+                            letterSpacing: -0.8,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        const Text(
+                          'Free access to AI-powered legal guidance.',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textSecondary,
+                          ),
+                        ),
+
+                        const SizedBox(height: 28),
+
+                        // Feature pills row
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 10,
+                          children: const [
+                            _FeaturePill(
+                              icon: Icons.mic_rounded,
+                              label: 'Voice-first',
+                              color: AppColors.accent,
+                            ),
+                            _FeaturePill(
+                              icon: Icons.gavel_rounded,
+                              label: 'Legal Q&A',
+                              color: AppColors.primary,
+                            ),
+                            _FeaturePill(
+                              icon: Icons.description_rounded,
+                              label: 'Fill Forms',
+                              color: AppColors.warning,
+                            ),
+                            _FeaturePill(
+                              icon: Icons.location_on_rounded,
+                              label: 'Find Aid',
+                              color: AppColors.success,
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 32),
+
+                        // CTA button
+                        _GradientButton(
+                          label: 'Enter Lex Bharat',
+                          icon: Icons.arrow_forward_rounded,
+                          onTap: _navigateToHome,
+                          gradient: AppColors.primaryGradient,
+                        ),
+                        const SizedBox(height: 14),
+
+                        // Google (disabled)
+                        SizedBox(
+                          width: double.infinity,
+                          height: 54,
+                          child: OutlinedButton(
+                            onPressed: null,
+                            style: OutlinedButton.styleFrom(
+                              side: const BorderSide(
+                                  color: AppColors.border, width: 1.5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14),
+                              ),
+                              backgroundColor: AppColors.gray50,
+                              disabledForegroundColor: AppColors.textHint,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  width: 22,
+                                  height: 22,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.gray300,
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  alignment: Alignment.center,
+                                  child: const Text(
+                                    'G',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                const Text(
+                                  'Continue with Google',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textHint,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 3),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.gray200,
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: const Text(
+                                    'Coming soon',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.textHint,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        const SizedBox(height: 24),
+
+                        const Center(
+                          child: Text(
+                            'Legal information only — not legal advice.\nAlways consult a qualified lawyer.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: AppColors.textHint,
+                              height: 1.6,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 32),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
 
+// ── Reusable widgets ─────────────────────────────────────────────────────────
+
 class _FeaturePill extends StatelessWidget {
   final IconData icon;
   final String label;
+  final Color color;
 
-  const _FeaturePill({required this.icon, required this.label});
+  const _FeaturePill({
+    required this.icon,
+    required this.label,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
       decoration: BoxDecoration(
-        color: AppColors.gray100,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.gray200),
+        color: color.withValues(alpha: 0.08),
+        borderRadius: BorderRadius.circular(100),
+        border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 15, color: AppColors.primary),
+          Icon(icon, size: 15, color: color),
           const SizedBox(width: 6),
           Text(
             label,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
-              fontWeight: FontWeight.w500,
-              color: AppColors.textPrimary,
+              fontWeight: FontWeight.w600,
+              color: color,
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _GradientButton extends StatefulWidget {
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+  final LinearGradient gradient;
+
+  const _GradientButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+    required this.gradient,
+  });
+
+  @override
+  State<_GradientButton> createState() => _GradientButtonState();
+}
+
+class _GradientButtonState extends State<_GradientButton>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scale;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
+    );
+    _scale = Tween<double>(begin: 1.0, end: 0.96).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(
+      scale: _scale,
+      child: GestureDetector(
+        onTapDown: (_) => _controller.forward(),
+        onTapUp: (_) {
+          _controller.reverse();
+          widget.onTap();
+        },
+        onTapCancel: () => _controller.reverse(),
+        child: Container(
+          width: double.infinity,
+          height: 56,
+          decoration: BoxDecoration(
+            gradient: widget.gradient,
+            borderRadius: BorderRadius.circular(14),
+            boxShadow: AppColors.elevatedShadow,
+          ),
+          alignment: Alignment.center,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                widget.label,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                  letterSpacing: 0.2,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Icon(widget.icon, color: Colors.white, size: 20),
+            ],
+          ),
+        ),
       ),
     );
   }
