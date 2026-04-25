@@ -19,9 +19,7 @@ import 'services/database_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
+  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   await dotenv.load(fileName: ".env");
 
@@ -40,11 +38,7 @@ void main() async {
     debugPrint('Supabase init failed (offline mode): $e');
   }
 
-  runApp(
-    const ProviderScope(
-      child: LexBharatApp(),
-    ),
-  );
+  runApp(const ProviderScope(child: LexBharatApp()));
 }
 
 class LexBharatApp extends ConsumerWidget {
@@ -68,9 +62,7 @@ class LexBharatApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      supportedLocales: const [
-        Locale('en'),
-      ],
+      supportedLocales: const [Locale('en')],
     );
   }
 
@@ -92,52 +84,72 @@ class LexBharatApp extends ConsumerWidget {
       ),
       textTheme: GoogleFonts.interTextTheme().copyWith(
         displayLarge: GoogleFonts.inter(
-          fontSize: 32, fontWeight: FontWeight.bold,
-          color: AppColors.textPrimary, letterSpacing: -1,
+          fontSize: 32,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textPrimary,
+          letterSpacing: -1,
         ),
         displayMedium: GoogleFonts.inter(
-          fontSize: 28, fontWeight: FontWeight.bold,
-          color: AppColors.textPrimary, letterSpacing: -0.7,
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+          color: AppColors.textPrimary,
+          letterSpacing: -0.7,
         ),
         displaySmall: GoogleFonts.inter(
-          fontSize: 24, fontWeight: FontWeight.w700,
-          color: AppColors.textPrimary, letterSpacing: -0.5,
+          fontSize: 24,
+          fontWeight: FontWeight.w700,
+          color: AppColors.textPrimary,
+          letterSpacing: -0.5,
         ),
         headlineLarge: GoogleFonts.inter(
-          fontSize: 22, fontWeight: FontWeight.w700,
-          color: AppColors.textPrimary, letterSpacing: -0.4,
+          fontSize: 22,
+          fontWeight: FontWeight.w700,
+          color: AppColors.textPrimary,
+          letterSpacing: -0.4,
         ),
         headlineMedium: GoogleFonts.inter(
-          fontSize: 20, fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary, letterSpacing: -0.3,
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
+          color: AppColors.textPrimary,
+          letterSpacing: -0.3,
         ),
         headlineSmall: GoogleFonts.inter(
-          fontSize: 18, fontWeight: FontWeight.w600,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
         titleLarge: GoogleFonts.inter(
-          fontSize: 17, fontWeight: FontWeight.w600,
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
         titleMedium: GoogleFonts.inter(
-          fontSize: 15, fontWeight: FontWeight.w600,
+          fontSize: 15,
+          fontWeight: FontWeight.w600,
           color: AppColors.textPrimary,
         ),
         bodyLarge: GoogleFonts.inter(
-          fontSize: 16, fontWeight: FontWeight.w400,
-          color: AppColors.textPrimary, height: 1.6,
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          color: AppColors.textPrimary,
+          height: 1.6,
         ),
         bodyMedium: GoogleFonts.inter(
-          fontSize: 14, fontWeight: FontWeight.w400,
-          color: AppColors.textSecondary, height: 1.5,
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: AppColors.textSecondary,
+          height: 1.5,
         ),
         bodySmall: GoogleFonts.inter(
-          fontSize: 12, fontWeight: FontWeight.w400,
+          fontSize: 12,
+          fontWeight: FontWeight.w400,
           color: AppColors.textHint,
         ),
         labelLarge: GoogleFonts.inter(
-          fontSize: 14, fontWeight: FontWeight.w600,
-          color: AppColors.textPrimary, letterSpacing: 0.1,
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          color: AppColors.textPrimary,
+          letterSpacing: 0.1,
         ),
       ),
       appBarTheme: AppBarTheme(
@@ -178,8 +190,13 @@ class LexBharatApp extends ConsumerWidget {
           elevation: 0,
           shadowColor: Colors.transparent,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-          textStyle: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          textStyle: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       outlinedButtonTheme: OutlinedButtonThemeData(
@@ -187,8 +204,13 @@ class LexBharatApp extends ConsumerWidget {
           foregroundColor: AppColors.primary,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           side: const BorderSide(color: AppColors.border, width: 1.5),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-          textStyle: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          textStyle: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -206,7 +228,10 @@ class LexBharatApp extends ConsumerWidget {
           borderRadius: BorderRadius.circular(14),
           borderSide: const BorderSide(color: AppColors.accent, width: 2),
         ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         hintStyle: GoogleFonts.inter(color: AppColors.textHint, fontSize: 14),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -223,12 +248,14 @@ class LexBharatApp extends ConsumerWidget {
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return GoogleFonts.inter(
-              fontSize: 11, fontWeight: FontWeight.w700,
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
               color: AppColors.primary,
             );
           }
           return GoogleFonts.inter(
-            fontSize: 11, fontWeight: FontWeight.w500,
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
             color: AppColors.textHint,
           );
         }),
@@ -240,12 +267,17 @@ class LexBharatApp extends ConsumerWidget {
         }),
       ),
       dividerTheme: const DividerThemeData(
-        color: AppColors.border, thickness: 1, space: 1,
+        color: AppColors.border,
+        thickness: 1,
+        space: 1,
       ),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.gray100,
         selectedColor: AppColors.accentLight,
-        labelStyle: GoogleFonts.inter(fontSize: 13, fontWeight: FontWeight.w500),
+        labelStyle: GoogleFonts.inter(
+          fontSize: 13,
+          fontWeight: FontWeight.w500,
+        ),
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         side: BorderSide.none,
@@ -260,13 +292,13 @@ class LexBharatApp extends ConsumerWidget {
   }
 
   ThemeData _buildDarkTheme() {
-    const darkBg      = Color(0xFF0F172A);
+    const darkBg = Color(0xFF0F172A);
     const darkSurface = Color(0xFF1E293B);
-    const darkCard    = Color(0xFF1E293B);
-    const darkBorder  = Color(0xFF334155);
-    const darkTextPrimary   = Color(0xFFF1F5F9);
+    const darkCard = Color(0xFF1E293B);
+    const darkBorder = Color(0xFF334155);
+    const darkTextPrimary = Color(0xFFF1F5F9);
     const darkTextSecondary = Color(0xFF94A3B8);
-    const darkTextHint      = Color(0xFF64748B);
+    const darkTextHint = Color(0xFF64748B);
 
     return ThemeData(
       useMaterial3: true,
@@ -283,13 +315,32 @@ class LexBharatApp extends ConsumerWidget {
         onSurface: darkTextPrimary,
         onError: Colors.white,
       ),
-      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme).copyWith(
-        displayLarge: GoogleFonts.inter(fontSize: 32, fontWeight: FontWeight.bold, color: darkTextPrimary),
-        headlineMedium: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w600, color: darkTextPrimary),
-        bodyLarge: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w400, color: darkTextPrimary, height: 1.6),
-        bodyMedium: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w400, color: darkTextSecondary, height: 1.5),
-        bodySmall: GoogleFonts.inter(fontSize: 12, color: darkTextHint),
-      ),
+      textTheme: GoogleFonts.interTextTheme(ThemeData.dark().textTheme)
+          .copyWith(
+            displayLarge: GoogleFonts.inter(
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+              color: darkTextPrimary,
+            ),
+            headlineMedium: GoogleFonts.inter(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: darkTextPrimary,
+            ),
+            bodyLarge: GoogleFonts.inter(
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+              color: darkTextPrimary,
+              height: 1.6,
+            ),
+            bodyMedium: GoogleFonts.inter(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: darkTextSecondary,
+              height: 1.5,
+            ),
+            bodySmall: GoogleFonts.inter(fontSize: 12, color: darkTextHint),
+          ),
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: false,
@@ -325,8 +376,13 @@ class LexBharatApp extends ConsumerWidget {
           foregroundColor: Colors.white,
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-          textStyle: GoogleFonts.inter(fontSize: 16, fontWeight: FontWeight.w600),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          textStyle: GoogleFonts.inter(
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       ),
       navigationBarTheme: NavigationBarThemeData(
@@ -339,9 +395,17 @@ class LexBharatApp extends ConsumerWidget {
         ),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w700, color: AppColors.accent);
+            return GoogleFonts.inter(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: AppColors.accent,
+            );
           }
-          return GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.w500, color: darkTextHint);
+          return GoogleFonts.inter(
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
+            color: darkTextHint,
+          );
         }),
         iconTheme: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
@@ -402,15 +466,10 @@ class _HomeNavigationState extends State<HomeNavigation>
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      body: IndexedStack(
-        index: _selectedIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _selectedIndex, children: _screens),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: isDark
-              ? const Color(0xFF1E293B)
-              : AppColors.surface,
+          color: isDark ? const Color(0xFF1E293B) : AppColors.surface,
           border: Border(
             top: BorderSide(
               color: AppColors.border.withValues(alpha: 0.8),
@@ -452,9 +511,9 @@ class _HomeNavigationState extends State<HomeNavigation>
                 label: AppLocalizations.of(context)!.tabForms,
               ),
               NavigationDestination(
-                icon: const Icon(Icons.person_outline_rounded),
-                selectedIcon: const Icon(Icons.person_rounded),
-                label: 'Profile',
+                icon: const Icon(Icons.help_rounded),
+                selectedIcon: const Icon(Icons.help_rounded),
+                label: 'Help',
               ),
             ],
           ),
