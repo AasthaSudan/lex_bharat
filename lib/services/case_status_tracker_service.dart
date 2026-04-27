@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Production-grade case status tracker service with real API integration
 class CaseStatusTrackerService {
-  final SupabaseClient _supabase = Supabase.instance.client;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   // eCourts APIs
   static const String _eCourtsAPIBaseUrl = 'https://api.ecourts.gov.in/api/s';
@@ -28,7 +28,7 @@ class CaseStatusTrackerService {
       // Check local cache first
       final cachedCase = await _getCachedCaseStatus(cnrNumber);
       if (cachedCase != null &&
-          cachedCase.lastUpdated.difference(DateTime.now()).inHours < 6) {
+          DateTime.now().difference(cachedCase.lastUpdated).inHours < 6) {
         return cachedCase;
       }
 
@@ -89,21 +89,16 @@ class CaseStatusTrackerService {
   /// Validate CNR format
   bool _isValidCNR(String cnr) {
     // CNR format: LLYYIISTTTCCCCCC (13 digits)
-    // LL: State code (letters), YY: Year, II: Court type, SS: Section, TT: Type, CCCCCC: Case number
     return RegExp(r'^\d{13}$').hasMatch(cnr);
   }
 
   /// Get cached case status
   Future<CaseStatus?> _getCachedCaseStatus(String cnrNumber) async {
     try {
-      final response = await _supabase
-          .from('case_cache')
-          .select()
-          .eq('cnr_number', cnrNumber)
-          .maybeSingle();
+      final doc = await _firestore.collection('case_cache').doc(cnrNumber).get();
 
-      if (response == null) return null;
-      return CaseStatus.fromJson(response);
+      if (!doc.exists) return null;
+      return CaseStatus.fromJson(doc.data()!);
     } catch (e) {
       print('Cache retrieval error: $e');
       return null;
@@ -113,10 +108,12 @@ class CaseStatusTrackerService {
   /// Cache case status locally
   Future<void> _cacheCaseStatus(CaseStatus caseStatus) async {
     try {
-      await _supabase.from('case_cache').insert(caseStatus.toJson());
+      await _firestore
+          .collection('case_cache')
+          .doc(caseStatus.cnrNumber)
+          .set(caseStatus.toJson());
     } catch (e) {
       print('Cache storage error: $e');
-      // Non-critical, continue
     }
   }
 
@@ -133,16 +130,16 @@ class CaseStatusTrackerService {
     }
   }
 
-  /// Set hearing date reminder (local notification)
+  /// Set hearing date reminder
   Future<void> setHearingReminder({
     required String cnrNumber,
     required DateTime reminderDate,
   }) async {
     try {
-      await _supabase.from('case_reminders').insert({
+      await _firestore.collection('case_reminders').add({
         'cnr_number': cnrNumber,
         'reminder_date': reminderDate.toIso8601String(),
-        'created_at': DateTime.now().toIso8601String(),
+        'created_at': FieldValue.serverTimestamp(),
       });
     } catch (e) {
       throw CaseTrackingException(
@@ -154,14 +151,14 @@ class CaseStatusTrackerService {
   /// Get case history for a user
   Future<List<CaseStatus>> getUserCaseHistory(String userId) async {
     try {
-      final response = await _supabase
-          .from('user_case_tracking')
-          .select('cnr_number')
-          .eq('user_id', userId);
+      final snapshot = await _firestore
+          .collection('user_case_tracking')
+          .where('user_id', isEqualTo: userId)
+          .get();
 
       final cases = <CaseStatus>[];
-      for (final item in response as List) {
-        final cnr = item['cnr_number'] as String;
+      for (final doc in snapshot.docs) {
+        final cnr = doc.data()['cnr_number'] as String;
         try {
           final caseStatus = await trackCase(cnrNumber: cnr);
           cases.add(caseStatus);
@@ -186,10 +183,10 @@ class CaseStatusTrackerService {
     required String cnrNumber,
   }) async {
     try {
-      await _supabase.from('user_case_tracking').insert({
+      await _firestore.collection('user_case_tracking').add({
         'user_id': userId,
         'cnr_number': cnrNumber,
-        'added_at': DateTime.now().toIso8601String(),
+        'added_at': FieldValue.serverTimestamp(),
       });
     } catch (e) {
       throw CaseTrackingException(

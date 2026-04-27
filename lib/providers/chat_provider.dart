@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/message.dart';
 import '../services/ai_service.dart';
 import '../services/storage_service.dart';
@@ -8,8 +9,9 @@ import '../services/database_service.dart';
 import 'app_provider.dart';
 
 final aiServiceProvider = Provider((ref) => AIService());
-final chatProvider =
-    NotifierProvider<ChatNotifier, ChatState>(ChatNotifier.new);
+final chatProvider = NotifierProvider<ChatNotifier, ChatState>(
+  ChatNotifier.new,
+);
 
 class ChatState {
   final List<Message> messages;
@@ -42,13 +44,6 @@ class ChatState {
 class ChatNotifier extends Notifier<ChatState> {
   final StorageService _storage = StorageService();
 
-  SupabaseClient? get _supabase {
-    try {
-      return Supabase.instance.client;
-    } catch (_) {
-      return null;
-    }
-  }
   @override
   ChatState build() {
     _loadHistory();
@@ -57,29 +52,30 @@ class ChatNotifier extends Notifier<ChatState> {
 
   Future<void> _loadHistory() async {
     try {
-      final client = _supabase;
-      final user = client?.auth.currentUser;
-      if (client != null && user != null) {
-        final data = await client
-            .from('chat_history')
-            .select()
-            .eq('user_id', user.id)
-            .order('created_at', ascending: true)
-            .limit(50);
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        final snapshot = await FirebaseFirestore.instance
+            .collection('chat_history')
+            .where('user_id', isEqualTo: user.uid)
+            .orderBy('created_at', descending: false)
+            .limit(50)
+            .get();
 
-        final messages = (data as List).expand((row) {
+        final messages = snapshot.docs.expand((doc) {
+          final data = doc.data();
+          final createdAt = (data['created_at'] as Timestamp?)?.toDate() ?? DateTime.now();
           return [
             Message(
-              id: '${row['id']}_q',
-              text: row['question'] as String,
+              id: '${doc.id}_q',
+              text: data['question'] as String,
               isUser: true,
-              timestamp: DateTime.parse(row['created_at'] as String),
+              timestamp: createdAt,
             ),
             Message(
-              id: '${row['id']}_a',
-              text: row['answer'] as String,
+              id: '${doc.id}_a',
+              text: data['answer'] as String,
               isUser: false,
-              timestamp: DateTime.parse(row['created_at'] as String),
+              timestamp: createdAt,
             ),
           ];
         }).toList();
@@ -88,18 +84,23 @@ class ChatNotifier extends Notifier<ChatState> {
         return;
       }
     } catch (e) {
-      debugPrint('Supabase chat load failed: $e');
+      debugPrint('Firestore chat load failed: $e');
     }
 
     try {
       final localHistory = await _storage.getChatHistory();
       if (localHistory != null && localHistory.isNotEmpty) {
-        final messages = localHistory.map((m) => Message(
-          id: m['id'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
-          text: m['text'] ?? '',
-          isUser: m['isUser'] == true,
-          timestamp: DateTime.tryParse(m['timestamp'] ?? '') ?? DateTime.now(),
-        )).toList();
+        final messages = localHistory
+            .map(
+              (m) => Message(
+                id: m['id'] ?? DateTime.now().millisecondsSinceEpoch.toString(),
+                text: m['text'] ?? '',
+                isUser: m['isUser'] == true,
+                timestamp:
+                    DateTime.tryParse(m['timestamp'] ?? '') ?? DateTime.now(),
+              ),
+            )
+            .toList();
         state = state.copyWith(messages: messages);
       }
     } catch (e) {
@@ -124,20 +125,22 @@ class ChatNotifier extends Notifier<ChatState> {
 
     try {
       final language = ref.read(languageProvider);
-      
-      // Build conversation history for multi-turn context
+
       final conversationHistory = state.messages
-          .map((m) => {
-                'role': m.isUser ? 'user' : 'assistant',
-                'content': m.text,
-              })
+          .map(
+            (m) => {'role': m.isUser ? 'user' : 'assistant', 'content': m.text},
+          )
           .toList();
 
-      final response = await ref.read(aiServiceProvider).getLegalAdvice(
-        text,
-        language: language,
-        conversationHistory: conversationHistory.isNotEmpty ? conversationHistory : null,
-      );
+      final response = await ref
+          .read(aiServiceProvider)
+          .getLegalAdvice(
+            text,
+            language: language,
+            conversationHistory: conversationHistory.isNotEmpty
+                ? conversationHistory
+                : null,
+          );
 
       final aiMsg = Message(
         id: '${DateTime.now().millisecondsSinceEpoch}_ai',
@@ -151,7 +154,7 @@ class ChatNotifier extends Notifier<ChatState> {
         isTyping: false,
       );
 
-      _saveToSupabase(text, response);
+      _saveToFirestore(text, response);
       _saveToLocal();
       _saveToHive();
     } catch (e) {
@@ -162,29 +165,33 @@ class ChatNotifier extends Notifier<ChatState> {
     }
   }
 
-  Future<void> _saveToSupabase(String question, String answer) async {
+  Future<void> _saveToFirestore(String question, String answer) async {
     try {
-      final client = _supabase;
-      final user = client?.auth.currentUser;
-      if (client == null || user == null) return;
-      await client.from('chat_history').insert({
-        'user_id': user.id,
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return;
+      await FirebaseFirestore.instance.collection('chat_history').add({
+        'user_id': user.uid,
         'question': question,
         'answer': answer,
+        'created_at': FieldValue.serverTimestamp(),
       });
     } catch (e) {
-      debugPrint('Supabase chat save failed: $e');
+      debugPrint('Firestore chat save failed: $e');
     }
   }
 
   Future<void> _saveToLocal() async {
     try {
-      final historyMaps = state.messages.map((m) => {
-        'id': m.id,
-        'text': m.text,
-        'isUser': m.isUser,
-        'timestamp': m.timestamp.toIso8601String(),
-      }).toList();
+      final historyMaps = state.messages
+          .map(
+            (m) => {
+              'id': m.id,
+              'text': m.text,
+              'isUser': m.isUser,
+              'timestamp': m.timestamp.toIso8601String(),
+            },
+          )
+          .toList();
       await _storage.saveChatHistory(historyMaps);
     } catch (e) {
       debugPrint('Local chat save failed: $e');
@@ -193,12 +200,16 @@ class ChatNotifier extends Notifier<ChatState> {
 
   Future<void> _saveToHive() async {
     try {
-      final messagesJson = state.messages.map((m) => {
-        'id': m.id,
-        'text': m.text,
-        'isUser': m.isUser,
-        'timestamp': m.timestamp.toIso8601String(),
-      }).toList();
+      final messagesJson = state.messages
+          .map(
+            (m) => {
+              'id': m.id,
+              'text': m.text,
+              'isUser': m.isUser,
+              'timestamp': m.timestamp.toIso8601String(),
+            },
+          )
+          .toList();
 
       await DatabaseService.saveChatSession(state.sessionId, {
         'id': state.sessionId,

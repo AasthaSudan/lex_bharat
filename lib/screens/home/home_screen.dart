@@ -158,8 +158,7 @@ class _SosFab extends StatefulWidget {
   State<_SosFab> createState() => _SosFabState();
 }
 
-class _SosFabState extends State<_SosFab>
-    with SingleTickerProviderStateMixin {
+class _SosFabState extends State<_SosFab> with SingleTickerProviderStateMixin {
   late AnimationController _pulse;
   late Animation<double> _scale;
 
@@ -170,9 +169,10 @@ class _SosFabState extends State<_SosFab>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     )..repeat(reverse: true);
-    _scale = Tween<double>(begin: 1.0, end: 1.06).animate(
-      CurvedAnimation(parent: _pulse, curve: Curves.easeInOut),
-    );
+    _scale = Tween<double>(
+      begin: 1.0,
+      end: 1.06,
+    ).animate(CurvedAnimation(parent: _pulse, curve: Curves.easeInOut));
   }
 
   @override
@@ -202,9 +202,7 @@ class _SosFabState extends State<_SosFab>
             letterSpacing: 0.5,
           ),
         ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(100),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
       ),
     );
   }
@@ -334,9 +332,10 @@ class _EmergencyCardState extends State<_EmergencyCard>
       duration: const Duration(milliseconds: 900),
       vsync: this,
     )..repeat(reverse: true);
-    _dotPulse = Tween<double>(begin: 0.4, end: 1.0).animate(
-      CurvedAnimation(parent: _dot, curve: Curves.easeInOut),
-    );
+    _dotPulse = Tween<double>(
+      begin: 0.4,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _dot, curve: Curves.easeInOut));
   }
 
   @override
@@ -480,12 +479,15 @@ class _EmergencyCardState extends State<_EmergencyCard>
                     },
                     child: Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 7),
+                        horizontal: 14,
+                        vertical: 7,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.errorTint,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                            color: AppColors.error.withValues(alpha: 0.3)),
+                          color: AppColors.error.withValues(alpha: 0.3),
+                        ),
                       ),
                       child: Row(
                         children: [
@@ -498,8 +500,11 @@ class _EmergencyCardState extends State<_EmergencyCard>
                             ),
                           ),
                           const SizedBox(width: 6),
-                          const Icon(Icons.call_rounded,
-                              color: AppColors.error, size: 14),
+                          const Icon(
+                            Icons.call_rounded,
+                            color: AppColors.error,
+                            size: 14,
+                          ),
                         ],
                       ),
                     ),
@@ -525,8 +530,6 @@ class _EmergencyCardState extends State<_EmergencyCard>
     );
   }
 }
-
-// ── Section Header ────────────────────────────────────────────────────────────
 
 class _SectionHeader extends StatelessWidget {
   final String title;
@@ -584,8 +587,6 @@ class _SectionHeader extends StatelessWidget {
     );
   }
 }
-
-// ── Quick Actions Grid ────────────────────────────────────────────────────────
 
 class _QuickActionsGrid extends StatelessWidget {
   final AppLocalizations l10n;
@@ -737,9 +738,10 @@ class _QuickActionCardState extends State<_QuickActionCard>
       duration: const Duration(milliseconds: 120),
       vsync: this,
     );
-    _scale = Tween<double>(begin: 1.0, end: 0.95).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
+    _scale = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
   }
 
   @override
@@ -819,8 +821,6 @@ class _QuickActionCardState extends State<_QuickActionCard>
   }
 }
 
-// ── Legal Tools Row ───────────────────────────────────────────────────────────
-
 class _LegalToolsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -829,29 +829,39 @@ class _LegalToolsRow extends StatelessWidget {
         label: 'Bail Check',
         icon: Icons.gavel_rounded,
         color: AppColors.warning,
-        onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (_) => const BailEligibilityCheckerScreen())),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const BailEligibilityCheckerScreen(),
+          ),
+        ),
       ),
       _Tool(
         label: 'Case Status',
         icon: Icons.track_changes_rounded,
         color: AppColors.accent,
-        onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (_) => const CaseStatusTrackerScreen())),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CaseStatusTrackerScreen()),
+        ),
       ),
       _Tool(
         label: 'IPC/BNS',
         icon: Icons.compare_arrows_rounded,
         color: AppColors.error,
-        onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (_) => const IPCBNSConverterScreen())),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const IPCBNSConverterScreen()),
+        ),
       ),
       _Tool(
         label: 'Legal Quiz',
         icon: Icons.quiz_rounded,
         color: AppColors.categoryPink,
-        onTap: () => Navigator.push(context,
-            MaterialPageRoute(builder: (_) => const QuizScreen())),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const QuizScreen()),
+        ),
       ),
     ];
 
@@ -907,11 +917,12 @@ class _Tool {
   final IconData icon;
   final Color color;
   final VoidCallback onTap;
-  const _Tool(
-      {required this.label,
-      required this.icon,
-      required this.color,
-      required this.onTap});
+  const _Tool({
+    required this.label,
+    required this.icon,
+    required this.color,
+    required this.onTap,
+  });
 }
 
 // ── Daily Tip Card ────────────────────────────────────────────────────────────

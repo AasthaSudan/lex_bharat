@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../utils/colors.dart';
 import '../providers/app_provider.dart';
 import '../main.dart';
@@ -41,15 +41,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       vsync: this,
     )..repeat(reverse: true);
 
-    _logoFade = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _logoController, curve: Curves.easeOut),
-    );
+    _logoFade = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _logoController, curve: Curves.easeOut));
     _logoScale = Tween<double>(begin: 0.7, end: 1.0).animate(
       CurvedAnimation(parent: _logoController, curve: Curves.elasticOut),
     );
-    _textFade = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _textController, curve: Curves.easeOut),
-    );
+    _textFade = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _textController, curve: Curves.easeOut));
     _textSlide = Tween<Offset>(
       begin: const Offset(0, 0.3),
       end: Offset.zero,
@@ -73,7 +75,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       destination = const HomeNavigation();
     } else {
       try {
-        final _ = Supabase.instance.client.auth.currentUser;
+        final _ = FirebaseAuth.instance.currentUser;
         destination = const HomeNavigation();
       } catch (_) {
         destination = const HomeNavigation();
@@ -147,7 +149,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                               borderRadius: BorderRadius.circular(26),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.accent.withValues(alpha: 0.5),
+                                  color: AppColors.accent.withValues(
+                                    alpha: 0.5,
+                                  ),
                                   blurRadius: 30,
                                   offset: const Offset(0, 10),
                                 ),
@@ -201,10 +205,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                 const SizedBox(height: 80),
 
                 // ── Loader dots ─────────────────────────────────────────
-                FadeTransition(
-                  opacity: _textFade,
-                  child: const _PulsingDots(),
-                ),
+                FadeTransition(opacity: _textFade, child: const _PulsingDots()),
               ],
             ),
           ),
@@ -234,9 +235,10 @@ class _PulsingDotsState extends State<_PulsingDots>
         duration: const Duration(milliseconds: 600),
         vsync: this,
       );
-      final a = Tween<double>(begin: 0.3, end: 1.0).animate(
-        CurvedAnimation(parent: c, curve: Curves.easeInOut),
-      );
+      final a = Tween<double>(
+        begin: 0.3,
+        end: 1.0,
+      ).animate(CurvedAnimation(parent: c, curve: Curves.easeInOut));
       _controllers.add(c);
       _animations.add(a);
 

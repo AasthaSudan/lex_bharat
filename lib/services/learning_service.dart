@@ -7,10 +7,8 @@ class LearningService {
   static const String _assetsPath = 'assets/data/legal_content.json';
   static const String _cacheDuration = 'learning_content_cache';
 
-  // Load all categories
   static Future<List<Category>> getCategories() async {
     try {
-      // Try cache first
       final cached = await DatabaseService.getCachedContent('categories');
       if (cached != null) {
         final categories = (cached['data'] as List)
@@ -19,7 +17,6 @@ class LearningService {
         return categories;
       }
 
-      // Load from assets
       final jsonString = await rootBundle.loadString(_assetsPath);
       final jsonData = jsonDecode(jsonString);
 
@@ -27,7 +24,6 @@ class LearningService {
           .map((c) => Category.fromJson(c))
           .toList();
 
-      // Cache it
       await DatabaseService.cacheContent('categories', {
         'data': categories.map((c) => c.toJson()).toList(),
         'timestamp': DateTime.now().toIso8601String(),
@@ -40,7 +36,6 @@ class LearningService {
     }
   }
 
-  // Get topics by category
   static Future<List<Topic>> getTopicsByCategory(String categoryId) async {
     try {
       final jsonString = await rootBundle.loadString(_assetsPath);
@@ -58,7 +53,6 @@ class LearningService {
     }
   }
 
-  // Get lessons for a topic
   static Future<List<Lesson>> getLessonsByTopic(String topicId) async {
     try {
       final jsonString = await rootBundle.loadString(_assetsPath);
@@ -76,7 +70,6 @@ class LearningService {
     }
   }
 
-  // Get quiz for a topic
   static Future<Quiz?> getQuizByTopic(String topicId) async {
     try {
       final jsonString = await rootBundle.loadString(_assetsPath);
@@ -95,7 +88,6 @@ class LearningService {
     }
   }
 
-  // Search topics
   static Future<List<Topic>> searchTopics(String query) async {
     try {
       final jsonString = await rootBundle.loadString(_assetsPath);
@@ -117,7 +109,6 @@ class LearningService {
     }
   }
 
-  // Get all topics (for filtering/sorting)
   static Future<List<Topic>> getAllTopics() async {
     try {
       final jsonString = await rootBundle.loadString(_assetsPath);
@@ -134,13 +125,11 @@ class LearningService {
     }
   }
 
-  // Save learning progress
   static Future<void> saveLearningProgress(LearningProgress progress) async {
     final key = '${progress.userId}_${progress.topicId}';
     await DatabaseService.saveLearningProgress(key, progress.toJson());
   }
 
-  // Get user learning progress
   static Future<LearningProgress?> getUserLearningProgress(
     String userId,
     String topicId,
@@ -150,13 +139,13 @@ class LearningService {
     return data != null ? LearningProgress.fromJson(data) : null;
   }
 
-  // Get all user progress
-  static Future<List<LearningProgress>> getUserAllProgress(String userId) async {
+  static Future<List<LearningProgress>> getUserAllProgress(
+    String userId,
+  ) async {
     final data = await DatabaseService.getUserLearningProgress(userId);
     return data.map((d) => LearningProgress.fromJson(d)).toList();
   }
 
-  // Calculate learning stats
   static Future<Map<String, dynamic>> getLearningStats(String userId) async {
     final progress = await getUserAllProgress(userId);
 
@@ -164,20 +153,23 @@ class LearningService {
     final totalTopics = progress.length;
     final averageScore = progress.isNotEmpty
         ? progress
-                .where((p) => p.quizScore != null)
-                .fold<int>(0, (sum, p) => sum + (p.quizScore ?? 0)) /
-            progress.where((p) => p.quizScore != null).length
+                  .where((p) => p.quizScore != null)
+                  .fold<int>(0, (sum, p) => sum + (p.quizScore ?? 0)) /
+              progress.where((p) => p.quizScore != null).length
         : 0.0;
 
     return {
       'completedTopics': completedTopics,
       'totalTopics': totalTopics,
-      'completionPercentage': totalTopics > 0 ? (completedTopics / totalTopics * 100).toStringAsFixed(1) : '0',
+      'completionPercentage': totalTopics > 0
+          ? (completedTopics / totalTopics * 100).toStringAsFixed(1)
+          : '0',
       'averageQuizScore': averageScore.toStringAsFixed(1),
       'lastActivityDate': progress.isNotEmpty
-          ? progress.map((p) => p.lastAccessedAt).reduce((a, b) => a.isAfter(b) ? a : b)
+          ? progress
+                .map((p) => p.lastAccessedAt)
+                .reduce((a, b) => a.isAfter(b) ? a : b)
           : null,
     };
   }
 }
-

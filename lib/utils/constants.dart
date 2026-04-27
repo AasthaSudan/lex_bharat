@@ -91,8 +91,6 @@ class AppConstants {
   static const String appTagline = 'Your legal rights, in your language';
 
   static String get groqApiKey => dotenv.env['GROQ_API_KEY'] ?? '';
-  static String get supabaseUrl => dotenv.env['SUPABASE_URL'] ?? '';
-  static String get supabaseAnonKey => dotenv.env['SUPABASE_ANON_KEY'] ?? '';
 
   static const Map<String, String> emergencyNumbers = {
     'Police': '100',
