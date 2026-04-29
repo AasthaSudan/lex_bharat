@@ -98,7 +98,6 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ── AI Chat Banner ────────────────────────────────────
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 8, 20, 0),
                   child: _AiChatBanner(),
@@ -106,7 +105,6 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 16),
 
-                // ── Emergency Card ────────────────────────────────────
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: _EmergencyCard(l10n: l10n),
@@ -114,7 +112,6 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 28),
 
-                // ── Quick Actions ─────────────────────────────────────
                 _SectionHeader(
                   title: l10n.quickActions,
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
@@ -123,7 +120,6 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 28),
 
-                // ── Legal Tools ───────────────────────────────────────
                 _SectionHeader(
                   title: 'Legal Tools',
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 16),
@@ -132,7 +128,6 @@ class HomeScreen extends StatelessWidget {
 
                 const SizedBox(height: 28),
 
-                // ── Daily Tip ─────────────────────────────────────────
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: _DailyTipCard(),
@@ -147,8 +142,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-// ── SOS FAB ─────────────────────────────────────────────────────────────────
 
 class _SosFab extends StatefulWidget {
   final AppLocalizations l10n;
@@ -208,7 +201,6 @@ class _SosFabState extends State<_SosFab> with SingleTickerProviderStateMixin {
   }
 }
 
-// ── Icon Chip ────────────────────────────────────────────────────────────────
 
 class _IconChip extends StatelessWidget {
   final IconData icon;

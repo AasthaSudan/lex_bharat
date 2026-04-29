@@ -177,7 +177,6 @@ class CaseStatusTrackerService {
     }
   }
 
-  /// Add case to user's tracking list
   Future<void> addCaseToTrack({
     required String userId,
     required String cnrNumber,
