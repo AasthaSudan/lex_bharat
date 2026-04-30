@@ -115,8 +115,6 @@ class _HelpScreenState extends State<HelpScreen>
   }
 }
 
-// ── Legal Aid Tab ─────────────────────────────────────────────────────────────
-
 class _LegalAidTab extends StatelessWidget {
   final LegalResourcesService resourcesService;
   final TextEditingController searchController;
@@ -202,8 +200,6 @@ class _LegalAidTab extends StatelessWidget {
     );
   }
 }
-
-// ── Resource Card ─────────────────────────────────────────────────────────────
 
 class _ResourceCard extends StatelessWidget {
   final LegalResource resource;
@@ -428,8 +424,6 @@ class _ContactChip extends StatelessWidget {
   }
 }
 
-// ── Emergency Tab ─────────────────────────────────────────────────────────────
-
 class _EmergencyTab extends StatelessWidget {
   final LegalResourcesService resourcesService;
   const _EmergencyTab({required this.resourcesService});
@@ -594,8 +588,6 @@ class _EmergencyTile extends StatelessWidget {
     );
   }
 }
-
-// ── Schemes Tab ───────────────────────────────────────────────────────────────
 
 class _SchemesTab extends StatelessWidget {
   final LegalResourcesService resourcesService;
@@ -814,8 +806,6 @@ class _SchemeSection extends StatelessWidget {
     );
   }
 }
-
-// ── State widgets ─────────────────────────────────────────────────────────────
 
 class _ErrorState extends StatelessWidget {
   final String message;
