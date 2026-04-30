@@ -31,63 +31,86 @@ class LegalRightsApp extends StatelessWidget {
 
         textTheme: GoogleFonts.interTextTheme().copyWith(
           displayLarge: GoogleFonts.inter(
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
+            fontSize: 36,
+            fontWeight: FontWeight.w900,
             color: AppColors.textPrimary,
-            letterSpacing: -0.5,
+            letterSpacing: -0.8,
           ),
           displayMedium: GoogleFonts.inter(
-            fontSize: 28,
-            fontWeight: FontWeight.bold,
+            fontSize: 32,
+            fontWeight: FontWeight.w800,
             color: AppColors.textPrimary,
-            letterSpacing: -0.5,
+            letterSpacing: -0.6,
           ),
           displaySmall: GoogleFonts.inter(
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
+            fontSize: 28,
+            fontWeight: FontWeight.w700,
             color: AppColors.textPrimary,
-            letterSpacing: -0.3,
+            letterSpacing: -0.4,
           ),
           headlineMedium: GoogleFonts.inter(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
+            letterSpacing: -0.2,
+          ),
+          headlineSmall: GoogleFonts.inter(
             fontSize: 20,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
             color: AppColors.textPrimary,
           ),
           titleLarge: GoogleFonts.inter(
             fontSize: 18,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
             color: AppColors.textPrimary,
           ),
           titleMedium: GoogleFonts.inter(
             fontSize: 16,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+          titleSmall: GoogleFonts.inter(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
             color: AppColors.textPrimary,
           ),
           bodyLarge: GoogleFonts.inter(
             fontSize: 16,
             fontWeight: FontWeight.w400,
             color: AppColors.textPrimary,
-            height: 1.5,
+            height: 1.6,
           ),
           bodyMedium: GoogleFonts.inter(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: AppColors.textSecondary,
-            height: 1.5,
+            height: 1.6,
           ),
           bodySmall: GoogleFonts.inter(
             fontSize: 12,
             fontWeight: FontWeight.w400,
             color: AppColors.textHint,
+            height: 1.5,
+          ),
+          labelLarge: GoogleFonts.inter(
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textPrimary,
+          ),
+          labelMedium: GoogleFonts.inter(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: AppColors.textSecondary,
           ),
         ),
 
         appBarTheme: AppBarTheme(
           elevation: 0,
           centerTitle: false,
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.surface,
           foregroundColor: AppColors.textPrimary,
           surfaceTintColor: Colors.transparent,
+          scrolledUnderElevation: 0,
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
             statusBarIconBrightness: Brightness.dark,
@@ -95,9 +118,9 @@ class LegalRightsApp extends StatelessWidget {
           ),
           titleTextStyle: GoogleFonts.inter(
             color: AppColors.textPrimary,
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            letterSpacing: -0.3,
+            fontSize: 22,
+            fontWeight: FontWeight.w700,
+            letterSpacing: -0.4,
           ),
           iconTheme: const IconThemeData(
             color: AppColors.textPrimary,
@@ -107,7 +130,7 @@ class LegalRightsApp extends StatelessWidget {
 
         cardTheme: CardThemeData(
           elevation: 0,
-          color: Colors.white,
+          color: AppColors.surface,
           surfaceTintColor: Colors.transparent,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -122,18 +145,18 @@ class LegalRightsApp extends StatelessWidget {
 
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
+            backgroundColor: AppColors.cta,
             foregroundColor: Colors.white,
             elevation: 0,
             shadowColor: Colors.transparent,
-            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 16),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),
             textStyle: GoogleFonts.inter(
               fontSize: 16,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.1,
             ),
           ),
         ),
@@ -151,26 +174,26 @@ class LegalRightsApp extends StatelessWidget {
             ),
             textStyle: GoogleFonts.inter(
               fontSize: 16,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.1,
             ),
           ),
         ),
 
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: AppColors.primary,
+            foregroundColor: AppColors.cta,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             textStyle: GoogleFonts.inter(
               fontSize: 14,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w700,
             ),
           ),
         ),
 
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
-          fillColor: AppColors.gray50,
+          fillColor: AppColors.gray100,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(color: AppColors.gray300, width: 1),
@@ -192,7 +215,7 @@ class LegalRightsApp extends StatelessWidget {
             borderSide: const BorderSide(color: AppColors.error, width: 2),
           ),
           contentPadding:
-          const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           hintStyle: GoogleFonts.inter(
             color: AppColors.textHint,
             fontSize: 14,
@@ -201,17 +224,19 @@ class LegalRightsApp extends StatelessWidget {
           labelStyle: GoogleFonts.inter(
             color: AppColors.textSecondary,
             fontSize: 14,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          isDense: false,
         ),
 
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          backgroundColor: Colors.white,
+          backgroundColor: AppColors.surface,
           selectedItemColor: AppColors.primary,
           unselectedItemColor: AppColors.textHint,
           selectedLabelStyle: GoogleFonts.inter(
             fontSize: 12,
-            fontWeight: FontWeight.w600,
+            fontWeight: FontWeight.w700,
           ),
           unselectedLabelStyle: GoogleFonts.inter(
             fontSize: 12,
@@ -219,18 +244,20 @@ class LegalRightsApp extends StatelessWidget {
           ),
           type: BottomNavigationBarType.fixed,
           elevation: 8,
+          showUnselectedLabels: true,
         ),
 
         chipTheme: ChipThemeData(
           backgroundColor: AppColors.gray100,
-          selectedColor: AppColors.primaryLighter,
+          selectedColor: AppColors.ctaLight,
           labelStyle: GoogleFonts.inter(
             fontSize: 13,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(color: AppColors.gray200),
           ),
         ),
 
@@ -241,11 +268,11 @@ class LegalRightsApp extends StatelessWidget {
         ),
 
         progressIndicatorTheme: const ProgressIndicatorThemeData(
-          color: AppColors.primary,
+          color: AppColors.cta,
         ),
 
         floatingActionButtonTheme: FloatingActionButtonThemeData(
-          backgroundColor: AppColors.primary,
+          backgroundColor: AppColors.cta,
           foregroundColor: Colors.white,
           elevation: 4,
           shape: RoundedRectangleBorder(

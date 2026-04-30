@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../utils/colors.dart';
 import '../../main.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -15,7 +16,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   late AnimationController _heroController;
   late AnimationController _cardController;
   late Animation<double> _heroFade;
-  late Animation<double> _cardSlide;
+  late Animation<Offset> _cardSlide;
+  
+  final TextEditingController _phoneController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -25,18 +29,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
       vsync: this,
     )..forward();
     _cardController = AnimationController(
-      duration: const Duration(milliseconds: 700),
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     );
 
     _heroFade = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _heroController, curve: Curves.easeOut),
     );
-    _cardSlide = Tween<double>(begin: 60.0, end: 0.0).animate(
-      CurvedAnimation(parent: _cardController, curve: Curves.easeOutCubic),
-    );
+    _cardSlide = Tween<Offset>(
+      begin: const Offset(0, 0.4),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _cardController, curve: Curves.easeOutCubic));
 
-    Future.delayed(const Duration(milliseconds: 400), () {
+    Future.delayed(const Duration(milliseconds: 500), () {
       if (mounted) _cardController.forward();
     });
   }
@@ -45,6 +50,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
   void dispose() {
     _heroController.dispose();
     _cardController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
 
@@ -54,9 +60,18 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
         pageBuilder: (_, __, ___) => const HomeNavigation(),
         transitionsBuilder: (_, animation, __, child) =>
             FadeTransition(opacity: animation, child: child),
-        transitionDuration: const Duration(milliseconds: 400),
+        transitionDuration: const Duration(milliseconds: 600),
       ),
     );
+  }
+
+  void _handleLogin() {
+    setState(() => _isLoading = true);
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      if (mounted) {
+        _navigateToHome();
+      }
+    });
   }
 
   @override
@@ -64,390 +79,300 @@ class _LoginScreenState extends ConsumerState<LoginScreen>
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      body: Stack(
-        children: [
-          // ── Dark hero background ─────────────────────────────────────
-          Container(
-            height: size.height * 0.55,
-            decoration: const BoxDecoration(
-              gradient: AppColors.heroGradient,
-            ),
-          ),
-
-          // ── Decorative circles ───────────────────────────────────────
-          Positioned(
-            top: -60,
-            right: -40,
-            child: Container(
-              width: 220,
-              height: 220,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.accent.withValues(alpha: 0.1),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            // ── Hero Background ──────────────────────────────────────
+            Container(
+              height: size.height * 0.5,
+              decoration: const BoxDecoration(
+                gradient: AppColors.heroGradient,
               ),
-            ),
-          ),
-          Positioned(
-            top: 30,
-            left: -80,
-            child: Container(
-              width: 180,
-              height: 180,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withValues(alpha: 0.04),
-              ),
-            ),
-          ),
-
-          SafeArea(
-            child: Column(
-              children: [
-                // ── Hero section ──────────────────────────────────────
-                FadeTransition(
-                  opacity: _heroFade,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(28, 44, 28, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Logo
-                        Container(
-                          width: 72,
-                          height: 72,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFF3B82F6), Color(0xFF1D4ED8)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(22),
-                            boxShadow: AppColors.accentShadow,
-                          ),
-                          child: const Icon(
-                            Icons.gavel_rounded,
-                            color: Colors.white,
-                            size: 36,
-                          ),
-                        ),
-
-                        const SizedBox(height: 28),
-
-                        const Text(
-                          'Know Your\nRights.',
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
-                            letterSpacing: -1.5,
-                            height: 1.1,
-                          ),
-                        ),
-                        const SizedBox(height: 12),
-                        Text(
-                          'Lex Bharat — legal guidance\nfor every Indian citizen.',
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white.withValues(alpha: 0.65),
-                            height: 1.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-
-                const Spacer(),
-
-                // ── Bottom card ───────────────────────────────────────
-                AnimatedBuilder(
-                  animation: _cardSlide,
-                  builder: (context, child) => Transform.translate(
-                    offset: Offset(0, _cardSlide.value),
-                    child: child,
-                  ),
-                  child: Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(36),
-                        topRight: Radius.circular(36),
+              child: Stack(
+                children: [
+                  // Decorative circles
+                  Positioned(
+                    top: -80,
+                    right: -40,
+                    child: Container(
+                      width: 240,
+                      height: 240,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.white.withValues(alpha: 0.08),
                       ),
                     ),
-                    padding: const EdgeInsets.fromLTRB(28, 36, 28, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Get started',
-                          style: TextStyle(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.textPrimary,
-                            letterSpacing: -0.8,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        const Text(
-                          'Free access to AI-powered legal guidance.',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
+                  ),
+                  Positioned(
+                    bottom: -60,
+                    left: -60,
+                    child: Container(
+                      width: 200,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppColors.accent.withValues(alpha: 0.08),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
 
-                        const SizedBox(height: 28),
+            SafeArea(
+              child: Column(
+                children: [
+                  // ── Hero Content ────────────────────────────────────
+                  FadeTransition(
+                    opacity: _heroFade,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(28, 40, 28, 60),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Logo
+                          Container(
+                            width: 64,
+                            height: 64,
+                            decoration: BoxDecoration(
+                              gradient: AppColors.ctaGradient,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.cta.withValues(alpha: 0.3),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: const Icon(
+                              Icons.gavel_rounded,
+                              color: Colors.white,
+                              size: 32,
+                            ),
+                          ),
 
-                        // Feature pills row
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 10,
-                          children: const [
-                            _FeaturePill(
-                              icon: Icons.mic_rounded,
-                              label: 'Voice-first',
-                              color: AppColors.accent,
+                          const SizedBox(height: 32),
+
+                          const Text(
+                            'Know Your\nRights.',
+                            style: TextStyle(
+                              fontSize: 44,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.white,
+                              letterSpacing: -1.2,
+                              height: 1.1,
                             ),
-                            _FeaturePill(
-                              icon: Icons.gavel_rounded,
-                              label: 'Legal Q&A',
-                              color: AppColors.primary,
+                          ),
+                          const SizedBox(height: 14),
+                          Text(
+                            'Legal guidance for every\nIndian citizen.',
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white.withValues(alpha: 0.85),
+                              height: 1.6,
                             ),
-                            _FeaturePill(
-                              icon: Icons.description_rounded,
-                              label: 'Fill Forms',
-                              color: AppColors.warning,
-                            ),
-                            _FeaturePill(
-                              icon: Icons.location_on_rounded,
-                              label: 'Find Aid',
-                              color: AppColors.success,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  // ── Card Section ──────────────────────────────────────
+                  SlideTransition(
+                    position: _cardSlide,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Container(
+                        padding: const EdgeInsets.all(28),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(24),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withValues(alpha: 0.1),
+                              blurRadius: 32,
+                              offset: const Offset(0, 12),
                             ),
                           ],
                         ),
-
-                        const SizedBox(height: 32),
-
-                        // CTA button
-                        _GradientButton(
-                          label: 'Enter Lex Bharat',
-                          icon: Icons.arrow_forward_rounded,
-                          onTap: _navigateToHome,
-                          gradient: AppColors.primaryGradient,
-                        ),
-                        const SizedBox(height: 14),
-
-                        // Google (disabled)
-                        SizedBox(
-                          width: double.infinity,
-                          height: 54,
-                          child: OutlinedButton(
-                            onPressed: null,
-                            style: OutlinedButton.styleFrom(
-                              side: const BorderSide(
-                                  color: AppColors.border, width: 1.5),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Header
+                            const Text(
+                              'Get Started',
+                              style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w900,
+                                color: AppColors.textPrimary,
+                                letterSpacing: -0.4,
                               ),
-                              backgroundColor: AppColors.gray50,
-                              disabledForegroundColor: AppColors.textHint,
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                            const SizedBox(height: 8),
+                            Text(
+                              'Enter your phone number to continue',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+
+                            const SizedBox(height: 24),
+
+                            // Phone Input
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Container(
-                                  width: 22,
-                                  height: 22,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.gray300,
-                                    borderRadius: BorderRadius.circular(4),
+                                Text(
+                                  'Phone Number',
+                                  style: GoogleFonts.inter(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.textPrimary,
                                   ),
-                                  alignment: Alignment.center,
-                                  child: const Text(
-                                    'G',
-                                    style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
+                                ),
+                                const SizedBox(height: 8),
+                                TextField(
+                                  controller: _phoneController,
+                                  keyboardType: TextInputType.phone,
+                                  decoration: InputDecoration(
+                                    prefixIcon: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 16,
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          '+91',
+                                          style: GoogleFonts.inter(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.textPrimary,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                                const SizedBox(width: 12),
-                                const Text(
-                                  'Continue with Google',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.textHint,
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 3),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.gray200,
-                                    borderRadius: BorderRadius.circular(6),
-                                  ),
-                                  child: const Text(
-                                    'Coming soon',
-                                    style: TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w600,
+                                    hintText: '98765 43210',
+                                    hintStyle: GoogleFonts.inter(
+                                      fontSize: 14,
                                       color: AppColors.textHint,
                                     ),
+                                    filled: true,
+                                    fillColor: AppColors.gray100,
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(
+                                        color: AppColors.border,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(
+                                        color: AppColors.border,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(
+                                        color: AppColors.primary,
+                                        width: 2,
+                                      ),
+                                    ),
+                                    contentPadding:
+                                        const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                      vertical: 14,
+                                    ),
+                                  ),
+                                  style: GoogleFonts.inter(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
-                        ),
 
-                        const SizedBox(height: 24),
+                            const SizedBox(height: 28),
 
-                        const Center(
-                          child: Text(
-                            'Legal information only — not legal advice.\nAlways consult a qualified lawyer.',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 11,
-                              color: AppColors.textHint,
-                              height: 1.6,
+                            // Submit Button
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _isLoading ? null : _handleLogin,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.cta,
+                                  disabledBackgroundColor:
+                                      AppColors.cta.withValues(alpha: 0.5),
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  elevation: 0,
+                                ),
+                                child: _isLoading
+                                    ? SizedBox(
+                                        height: 20,
+                                        width: 20,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            Colors.white.withValues(alpha: 0.7),
+                                          ),
+                                          strokeWidth: 2.5,
+                                        ),
+                                      )
+                                    : const Text(
+                                        'Send OTP',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                              ),
                             ),
-                          ),
+
+                            const SizedBox(height: 16),
+
+                            // Terms text
+                            Center(
+                              child: Text.rich(
+                                TextSpan(
+                                  text: 'By continuing, you agree to our\n',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.textHint,
+                                  ),
+                                  children: [
+                                    TextSpan(
+                                      text: 'Terms & Privacy Policy',
+                                      style: const TextStyle(
+                                        color: AppColors.cta,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 32),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
-// ── Reusable widgets ─────────────────────────────────────────────────────────
-
-class _FeaturePill extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final Color color;
-
-  const _FeaturePill({
-    required this.icon,
-    required this.label,
-    required this.color,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.08),
-        borderRadius: BorderRadius.circular(100),
-        border: Border.all(color: color.withValues(alpha: 0.2), width: 1),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: 15, color: color),
-          const SizedBox(width: 6),
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 13,
-              fontWeight: FontWeight.w600,
-              color: color,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _GradientButton extends StatefulWidget {
-  final String label;
-  final IconData icon;
-  final VoidCallback onTap;
-  final LinearGradient gradient;
-
-  const _GradientButton({
-    required this.label,
-    required this.icon,
-    required this.onTap,
-    required this.gradient,
-  });
-
-  @override
-  State<_GradientButton> createState() => _GradientButtonState();
-}
-
-class _GradientButtonState extends State<_GradientButton>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _scale;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 100),
-      vsync: this,
-    );
-    _scale = Tween<double>(begin: 1.0, end: 0.96).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ScaleTransition(
-      scale: _scale,
-      child: GestureDetector(
-        onTapDown: (_) => _controller.forward(),
-        onTapUp: (_) {
-          _controller.reverse();
-          widget.onTap();
-        },
-        onTapCancel: () => _controller.reverse(),
-        child: Container(
-          width: double.infinity,
-          height: 56,
-          decoration: BoxDecoration(
-            gradient: widget.gradient,
-            borderRadius: BorderRadius.circular(14),
-            boxShadow: AppColors.elevatedShadow,
-          ),
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                widget.label,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
-                  letterSpacing: 0.2,
-                ),
+                  const SizedBox(height: 40),
+                ],
               ),
-              const SizedBox(width: 8),
-              Icon(widget.icon, color: Colors.white, size: 20),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

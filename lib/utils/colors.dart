@@ -1,39 +1,40 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // ── Primary Palette ─────────────────────────────────────────────────────
-  static const Color primary        = Color(0xFF1E3A5F);  // Deep navy blue
-  static const Color primaryDark    = Color(0xFF0F2241);  // Darker navy
-  static const Color primaryLight   = Color(0xFF2D5F94);  // Lighter navy
-  static const Color primaryLighter = Color(0xFFEBF4FF);  // Very light blue tint
+  // ── Primary Palette (Modern Deep Teal/Blue) ─────────────────────────────
+  static const Color primary        = Color(0xFF0D6B7F);  // Modern teal
+  static const Color primaryDark    = Color(0xFF045662);  // Darker teal
+  static const Color primaryLight   = Color(0xFF2D8BA0);  // Lighter teal
+  static const Color primaryLighter = Color(0xFFE0F7FB);  // Very light teal
 
-  // ── Accent ──────────────────────────────────────────────────────────────
-  static const Color accent         = Color(0xFF3B82F6);  // Electric blue
-  static const Color accentDark     = Color(0xFF2563EB);  // Darker electric blue
-  static const Color accentLight    = Color(0xFFDBEAFE);  // Light blue tint
+  // ── Accent (Vibrant Cyan) ──────────────────────────────────────────────
+  static const Color accent         = Color(0xFF00BCD4);  // Vibrant cyan
+  static const Color accentDark     = Color(0xFF0097A7);  // Darker cyan
+  static const Color accentLight    = Color(0xFFB2EBF2);  // Light cyan
 
-  // ── Amber / Gold (CTA + Highlight) ──────────────────────────────────────
-  static const Color gold           = Color(0xFFF59E0B);  // Amber gold
-  static const Color goldLight      = Color(0xFFFEF3C7);  // Light amber
+  // ── Primary CTA (Modern Purple) ────────────────────────────────────────
+  static const Color cta            = Color(0xFF7C3AED);  // Modern purple
+  static const Color ctaDark        = Color(0xFF6D28D9);  // Darker purple
+  static const Color ctaLight       = Color(0xFFEDE9FE);  // Light purple
 
   // ── Backgrounds ─────────────────────────────────────────────────────────
-  static const Color background     = Color(0xFFF8FAFC);  // Off-white
-  static const Color surface        = Color(0xFFFFFFFF);  // White
-  static const Color surfaceDim     = Color(0xFFF1F5F9);  // Muted surface
+  static const Color background     = Color(0xFFFAFAFC);  // Almost white
+  static const Color surface        = Color(0xFFFFFFFF);  // Pure white
+  static const Color surfaceDim     = Color(0xFFF3F4F6);  // Subtle gray
   static const Color surfaceCard    = Color(0xFFFFFFFF);  // Card white
 
   // ── Text ────────────────────────────────────────────────────────────────
-  static const Color textPrimary    = Color(0xFF0F172A);  // Near-black
-  static const Color textSecondary  = Color(0xFF475569);  // Slate gray
-  static const Color textHint       = Color(0xFF94A3B8);  // Light slate
+  static const Color textPrimary    = Color(0xFF111827);  // Dark gray/black
+  static const Color textSecondary  = Color(0xFF6B7280);  // Medium gray
+  static const Color textHint       = Color(0xFF9CA3AF);  // Light gray
   static const Color textOnDark     = Color(0xFFFFFFFF);  // White text
 
   // ── Borders ─────────────────────────────────────────────────────────────
-  static const Color border         = Color(0xFFE2E8F0);  // Soft border
-  static const Color borderMid      = Color(0xFFCBD5E1);  // Medium border
+  static const Color border         = Color(0xFFE5E7EB);  // Soft border
+  static const Color borderMid      = Color(0xFFD1D5DB);  // Medium border
 
   // ── Semantic ────────────────────────────────────────────────────────────
-  static const Color success        = Color(0xFF10B981);  // Emerald green
+  static const Color success        = Color(0xFF059669);  // Emerald green
   static const Color successLight   = Color(0xFFD1FAE5);  // Light green
   static const Color successTint    = Color(0xFFECFDF5);
 
@@ -41,7 +42,7 @@ class AppColors {
   static const Color warningLight   = Color(0xFFFEF3C7);  // Light amber
   static const Color warningTint    = Color(0xFFFFFBEB);
 
-  static const Color error          = Color(0xFFEF4444);  // Red
+  static const Color error          = Color(0xFFDC2626);  // Deep red
   static const Color errorLight     = Color(0xFFFEE2E2);  // Light red
   static const Color errorTint      = Color(0xFFFFF1F2);
 
@@ -50,49 +51,49 @@ class AppColors {
   static const Color infoTint       = Color(0xFFEFF6FF);
 
   // ── Category Colors ──────────────────────────────────────────────────────
-  static const Color categoryBlue   = Color(0xFF3B82F6);
+  static const Color categoryBlue   = Color(0xFF0EA5E9);
   static const Color categoryGreen  = Color(0xFF10B981);
-  static const Color categoryOrange = Color(0xFFF59E0B);
+  static const Color categoryOrange = Color(0xFFF97316);
   static const Color categoryPink   = Color(0xFFEC4899);
   static const Color categoryPurple = Color(0xFF8B5CF6);
   static const Color categoryRed    = Color(0xFFEF4444);
   static const Color categoryTeal   = Color(0xFF14B8A6);
   static const Color categoryIndigo = Color(0xFF6366F1);
 
-  // ── Grays ────────────────────────────────────────────────────────────────
-  static const Color gray50   = Color(0xFFF8FAFC);
-  static const Color gray100  = Color(0xFFF1F5F9);
-  static const Color gray200  = Color(0xFFE2E8F0);
-  static const Color gray300  = Color(0xFFCBD5E1);
-  static const Color gray400  = Color(0xFF94A3B8);
-  static const Color gray500  = Color(0xFF64748B);
-  static const Color gray600  = Color(0xFF475569);
-  static const Color gray700  = Color(0xFF334155);
-  static const Color gray800  = Color(0xFF1E293B);
-  static const Color gray900  = Color(0xFF0F172A);
+  // ── Grays (Modern neutral palette) ──────────────────────────────────────
+  static const Color gray50   = Color(0xFFFAFAFC);
+  static const Color gray100  = Color(0xFFF3F4F6);
+  static const Color gray200  = Color(0xFFE5E7EB);
+  static const Color gray300  = Color(0xFFD1D5DB);
+  static const Color gray400  = Color(0xFF9CA3AF);
+  static const Color gray500  = Color(0xFF6B7280);
+  static const Color gray600  = Color(0xFF4B5563);
+  static const Color gray700  = Color(0xFF374151);
+  static const Color gray800  = Color(0xFF1F2937);
+  static const Color gray900  = Color(0xFF111827);
 
-  // ── Gradients ────────────────────────────────────────────────────────────
+  // ── Modern Gradients ────────────────────────────────────────────────────
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFF1E3A5F), Color(0xFF2D5F94)],
+    colors: [Color(0xFF0D6B7F), Color(0xFF2D8BA0)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
   static const LinearGradient heroGradient = LinearGradient(
-    colors: [Color(0xFF0F172A), Color(0xFF1E3A5F), Color(0xFF1D4ED8)],
+    colors: [Color(0xFF0D6B7F), Color(0xFF00BCD4), Color(0xFF7C3AED)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     stops: [0.0, 0.5, 1.0],
   );
 
   static const LinearGradient accentGradient = LinearGradient(
-    colors: [Color(0xFF3B82F6), Color(0xFF2563EB)],
+    colors: [Color(0xFF00BCD4), Color(0xFF0097A7)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
-  static const LinearGradient goldGradient = LinearGradient(
-    colors: [Color(0xFFF59E0B), Color(0xFFD97706)],
+  static const LinearGradient ctaGradient = LinearGradient(
+    colors: [Color(0xFF7C3AED), Color(0xFF6D28D9)],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );

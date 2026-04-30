@@ -1,4 +1,4 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import "package:flutter/foundation.dart" as foundation;import 'package:hive_flutter/hive_flutter.dart';
 
 class DatabaseService {
   static const String chatSessionsBox = 'chat_sessions';
@@ -20,9 +20,9 @@ class DatabaseService {
       await Hive.openBox(userPreferencesBox);
       await Hive.openBox(offlineCacheBox);
 
-      print('✓ Hive database initialized successfully');
+      foundation.debugPrint('✓ Hive database initialized successfully');
     } catch (e) {
-      print('✗ Error initializing Hive: $e');
+      foundation.debugPrint('✗ Error initializing Hive: $e');
       rethrow;
     }
   }

@@ -1,0 +1,42 @@
+Analyzing lex_bharat...                                         
+
+   info • Unnecessary use of multiple underscores • lib/screens/auth/login_screen.dart:60:26 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores • lib/screens/auth/login_screen.dart:60:30 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores • lib/screens/auth/login_screen.dart:61:44 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores • lib/screens/auth/login_screen_old.dart:54:26 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores • lib/screens/auth/login_screen_old.dart:54:30 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores • lib/screens/auth/login_screen_old.dart:55:44 • unnecessary_underscores
+  error • The method 'verifyOtp' isn't defined for the type 'AuthNotifier' • lib/screens/auth/otp_screen.dart:93:45 • undefined_method
+  error • The method 'sendOtp' isn't defined for the type 'AuthNotifier' • lib/screens/auth/otp_screen.dart:120:45 • undefined_method
+warning • The value of the local variable 'size' isn't used • lib/screens/auth/otp_screen.dart:131:11 • unused_local_variable
+   info • Statements in a for should be enclosed in a block • lib/screens/chat/chat_screen.dart:603:35 • curly_braces_in_flow_control_structures
+   info • Unnecessary use of multiple underscores • lib/screens/chat/chat_screen.dart:643:32 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores • lib/screens/help/help_screen.dart:194:39 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores • lib/screens/help/help_screen.dart:626:33 • unnecessary_underscores
+   info • Unnecessary use of multiple underscores • lib/screens/home/home_screen.dart:412:28 • unnecessary_underscores
+  error • Expected to find ')' • lib/screens/home/home_screen.dart:582:18 • expected_token
+warning • A value for optional parameter 'actionLabel' isn't ever given • lib/screens/home/home_screen.dart:615:10 • unused_element_parameter
+warning • A value for optional parameter 'onAction' isn't ever given • lib/screens/home/home_screen.dart:616:10 • unused_element_parameter
+  error • The getter 'formsExplained' isn't defined for the type 'AppLocalizations' • lib/screens/home/home_screen.dart:688:24 • undefined_getter
+  error • The getter 'resources' isn't defined for the type 'AppLocalizations' • lib/screens/home/home_screen.dart:715:21 • undefined_getter
+  error • The name 'IpcBnsConverterScreen' isn't a class • lib/screens/home/home_screen.dart:876:51 • creation_with_non_type
+   info • Unnecessary use of multiple underscores • lib/screens/home/home_screen_old.dart:358:28 • unnecessary_underscores
+warning • A value for optional parameter 'actionLabel' isn't ever given • lib/screens/home/home_screen_old.dart:535:10 • unused_element_parameter
+warning • A value for optional parameter 'onAction' isn't ever given • lib/screens/home/home_screen_old.dart:536:10 • unused_element_parameter
+  error • The getter 'goldGradient' isn't defined for the type 'AppColors' • lib/screens/home/home_screen_old.dart:955:35 • undefined_getter
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre • lib/screens/profile/profile_screen.dart:214:29 • deprecated_member_use
+   info • 'activeColor' is deprecated and shouldn't be used. Use activeThumbColor instead. This feature was deprecated after v3.31.0-2.0.pre • lib/screens/profile/profile_screen.dart:230:29 • deprecated_member_use
+warning • The value of the field '_caseDetailEndpoint' isn't used • lib/services/case_status_tracker_service.dart:12:23 • unused_field
+   info • Don't invoke 'print' in production code • lib/services/case_status_tracker_service.dart:103:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/case_status_tracker_service.dart:116:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/case_status_tracker_service.dart:166:11 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service.dart:23:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/database_service.dart:25:7 • avoid_print
+warning • The value of the field '_cacheDuration' isn't used • lib/services/learning_service.dart:8:23 • unused_field
+   info • Don't invoke 'print' in production code • lib/services/learning_service.dart:34:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/learning_service.dart:51:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/learning_service.dart:68:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/learning_service.dart:86:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/learning_service.dart:107:7 • avoid_print
+   info • Don't invoke 'print' in production code • lib/services/learning_service.dart:123:7 • avoid_print
+

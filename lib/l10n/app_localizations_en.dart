@@ -90,6 +90,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get firRtiLegalAid => 'FIR, RTI, Legal Aid';
 
   @override
+  String get formsExplained => 'Step-by-step assistance';
+
+  @override
+  String get resources => 'Resources';
+
+  @override
   String get legalAid => 'Legal Aid';
 
   @override

@@ -60,4 +60,37 @@ class AuthNotifier extends Notifier<User?> {
     if (name == 'Guest User') return 'G';
     return name.isNotEmpty ? name[0].toUpperCase() : 'G';
   }
+
+  String? _verificationId;
+
+  Future<void> sendOtp(String phoneNumber) async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) async {
+        final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+        state = userCredential.user;
+      },
+      verificationFailed: (FirebaseAuthException e) {
+        throw e;
+      },
+      codeSent: (String verificationId, int? resendToken) {
+        _verificationId = verificationId;
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {
+        _verificationId = verificationId;
+      },
+    );
+  }
+
+  Future<void> verifyOtp(String phoneNumber, String otp) async {
+    if (_verificationId == null) {
+      throw Exception('Verification ID not found');
+    }
+    final credential = PhoneAuthProvider.credential(
+      verificationId: _verificationId!,
+      smsCode: otp,
+    );
+    final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+    state = userCredential.user;
+  }
 }

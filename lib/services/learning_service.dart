@@ -1,11 +1,10 @@
-import 'dart:convert';
+import "package:flutter/foundation.dart" as foundation;import 'dart:convert';
 import 'package:flutter/services.dart';
 import '../models/learning_models.dart';
 import 'database_service.dart';
 
 class LearningService {
   static const String _assetsPath = 'assets/data/legal_content.json';
-  static const String _cacheDuration = 'learning_content_cache';
 
   static Future<List<Category>> getCategories() async {
     try {
@@ -31,7 +30,7 @@ class LearningService {
 
       return categories;
     } catch (e) {
-      print('Error loading categories: $e');
+      foundation.debugPrint('Error loading categories: $e');
       return [];
     }
   }
@@ -48,7 +47,7 @@ class LearningService {
 
       return topics;
     } catch (e) {
-      print('Error loading topics: $e');
+      foundation.debugPrint('Error loading topics: $e');
       return [];
     }
   }
@@ -65,7 +64,7 @@ class LearningService {
 
       return lessons;
     } catch (e) {
-      print('Error loading lessons: $e');
+      foundation.debugPrint('Error loading lessons: $e');
       return [];
     }
   }
@@ -83,7 +82,7 @@ class LearningService {
 
       return quiz != null ? Quiz.fromJson(quiz) : null;
     } catch (e) {
-      print('Error loading quiz: $e');
+      foundation.debugPrint('Error loading quiz: $e');
       return null;
     }
   }
@@ -104,7 +103,7 @@ class LearningService {
             topic.keywords.any((k) => k.toLowerCase().contains(lowerQuery));
       }).toList();
     } catch (e) {
-      print('Error searching topics: $e');
+      foundation.debugPrint('Error searching topics: $e');
       return [];
     }
   }
@@ -120,7 +119,7 @@ class LearningService {
 
       return topics;
     } catch (e) {
-      print('Error loading all topics: $e');
+      foundation.debugPrint('Error loading all topics: $e');
       return [];
     }
   }

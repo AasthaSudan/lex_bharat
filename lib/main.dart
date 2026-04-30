@@ -9,7 +9,7 @@ import 'screens/home/home_screen.dart';
 import 'screens/learn/categories_screen.dart';
 import 'screens/chat/chat_screen.dart';
 import 'screens/forms/form_list_screen.dart';
-import 'screens/profile/profile_screen.dart';
+import 'screens/help/help_screen.dart';
 import 'providers/app_provider.dart';
 import 'utils/colors.dart';
 import 'l10n/app_localizations.dart';
@@ -455,7 +455,7 @@ class _HomeNavigationState extends State<HomeNavigation>
     CategoriesScreen(),
     ChatScreen(),
     FormListScreen(),
-    ProfileScreen(),
+    HelpScreen(),
   ];
 
   void _onTabSelected(int index) {

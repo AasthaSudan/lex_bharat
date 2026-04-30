@@ -1,4 +1,4 @@
-import 'dart:convert';
+import "package:flutter/foundation.dart" as foundation;import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -9,7 +9,6 @@ class CaseStatusTrackerService {
   // eCourts APIs
   static const String _eCourtsAPIBaseUrl = 'https://api.ecourts.gov.in/api/s';
   static const String _caseLookupEndpoint = '/CaseList';
-  static const String _caseDetailEndpoint = '/CaseDetail';
 
   /// Track case status using CNR (Case Number Registration)
   /// Real integration with eCourts India API
@@ -100,7 +99,7 @@ class CaseStatusTrackerService {
       if (!doc.exists) return null;
       return CaseStatus.fromJson(doc.data()!);
     } catch (e) {
-      print('Cache retrieval error: $e');
+      foundation.debugPrint('Cache retrieval error: $e');
       return null;
     }
   }
@@ -113,7 +112,7 @@ class CaseStatusTrackerService {
           .doc(caseStatus.cnrNumber)
           .set(caseStatus.toJson());
     } catch (e) {
-      print('Cache storage error: $e');
+      foundation.debugPrint('Cache storage error: $e');
     }
   }
 
@@ -163,7 +162,7 @@ class CaseStatusTrackerService {
           final caseStatus = await trackCase(cnrNumber: cnr);
           cases.add(caseStatus);
         } catch (e) {
-          print('Error fetching case $cnr: $e');
+          foundation.debugPrint('Error fetching case $cnr: $e');
           continue;
         }
       }

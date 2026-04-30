@@ -211,7 +211,7 @@ class ProfileScreen extends ConsumerWidget {
                           scale: 0.85,
                           child: Switch(
                             value: isDarkMode,
-                            activeColor: AppColors.accent,
+                            activeThumbColor: AppColors.accent,
                             onChanged: (_) => ref
                                 .read(themeProvider.notifier)
                                 .toggleTheme(),
@@ -227,7 +227,7 @@ class ProfileScreen extends ConsumerWidget {
                           scale: 0.85,
                           child: Switch(
                             value: isSecurityLocked,
-                            activeColor: AppColors.accent,
+                            activeThumbColor: AppColors.accent,
                             onChanged: (_) => ref
                                 .read(securityLockProvider.notifier)
                                 .toggleSecurityLock(),

@@ -256,6 +256,18 @@ abstract class AppLocalizations {
   /// **'FIR, RTI, Legal Aid'**
   String get firRtiLegalAid;
 
+  /// No description provided for @formsExplained.
+  ///
+  /// In en, this message translates to:
+  /// **'Step-by-step assistance'**
+  String get formsExplained;
+
+  /// No description provided for @resources.
+  ///
+  /// In en, this message translates to:
+  /// **'Resources'**
+  String get resources;
+
   /// No description provided for @legalAid.
   ///
   /// In en, this message translates to:
